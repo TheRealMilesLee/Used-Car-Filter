@@ -7,11 +7,19 @@ document.querySelector('.nav-bar').innerHTML = `
 `;
 
 document.querySelector('#MainBody').innerHTML = `
-  <div class="main-body">
-    <h1>Welcome to my website!</h1>
-    <p>Here you can find a lot of interesting information about me and my projects.</p>
+  <div class="grid-container">
+    <div class="row1 fade-in">
+      ${ Graph1_OverallView() }
+    </div>
+    <div class="row2-left fade-in">
+      ${ Graph2_DetailView() }
+    </div>
+    <div class="row2-right fade-in">
+      ${ Graph3_DetailView() }
+    </div>
   </div>
 `;
+
 
 document.querySelector('.footer').innerHTML = `
   <footer class="footer">
