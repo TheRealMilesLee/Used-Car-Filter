@@ -17,10 +17,10 @@ const onResize = (targets) =>
     const graphMap = {
       'Sankey-Graph1': {
         selector: '#Graph1',
-        redraw: Graph1_Overall
+        redraw: SankeyDiagram
       },
-      'LineChart-Graph2': { selector: '#Graph2', redraw: Graph2_Detail },
-      'ScatterPlot-Graph3': { selector: '#Graph3', redraw: Graph3_Detail }
+      'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart },
+      'ScatterPlot-Graph3': { selector: '#Graph3', redraw: ScatterPlot }
     };
     d3.select(graphMap[targetId].selector).selectAll('*').remove();
     graphMap[targetId].redraw();
