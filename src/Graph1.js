@@ -9,7 +9,7 @@ import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
  * Also, by watching which range has the thicker line, we can know which range would be the most popular.
  * hence, more recommand for people to buy a used car.
  */
-export function Graph1_Overall()
+export function SankeyDiagram_Overview()
 {
   const margin = { top: 20, right: 10, bottom: 30, left: 10 };
   const width = size.width - margin.left - margin.right;

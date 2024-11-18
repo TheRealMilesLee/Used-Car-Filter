@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 import { isEmpty, debounce } from 'lodash';
-import { Graph1 } from './Graph1';
-import { Graph2 } from './Graph2';
-import { Graph3 } from './Graph3';
+import { SankeyDiagram_Overview } from './Graph1';
+import { LineChart_AgePriceCorrelation } from './Graph2';
+import { ScatterPlot_MileagePriceCorrelation } from './Graph3';
 
 export let size = { width: 0, height: 0 };
 
