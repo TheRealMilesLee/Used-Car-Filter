@@ -11,7 +11,7 @@ document.querySelector("#MainBody").innerHTML = `
   <section class="SankeyOverview">
     <div>
       <h2> Used Car Market Correlation</h2>
-      ${ SankeyDiagram() }
+      <!-- ${ SankeyDiagram() }-->
     </div>
   </section>
 
@@ -32,13 +32,13 @@ document.querySelector("#MainBody").innerHTML = `
   <section class="LineChart">
     <div>
       <h2>Relationship between Age and Price</h2>
-      ${ LineChart() }
+    <!--   ${ LineChart() }-->
     </div>
   </section>
   <section class="ScatterPlot">
     <div>
       <h2>Relationship between Mileage and Price </h2>
-      ${ ScatterPlot() }
+  <!--    ${ ScatterPlot() } -->
     </div>
   </section>
 `;

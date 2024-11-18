@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-export let column_from_csv = await d3.csv('../data/car_prices.csv', (d) =>
+export let column_from_csv = await d3.csv('../Resources/car_data.csv', (d) =>
 {
   return {
     year: isNaN(+d.year) ? null : +d.year,
