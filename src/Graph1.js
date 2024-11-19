@@ -202,12 +202,11 @@ export function SankeyDiagram_Overview()
     { category: 'age', color: colorTransitions["age"][0] },
     { category: 'price', color: colorTransitions["price"][0] }
   ];
-
   const legendItem = legend.selectAll("g")
     .data(legendData)
     .enter()
     .append("g")
-    .attr("transform", (d, i) => `translate(${ i * 100 }, 0)`);
+    .attr("transform", (d, i) => `translate(${ i * 130 }, 0)`);
 
   legendItem.append("rect")
     .attr("width", 20)
@@ -219,7 +218,9 @@ export function SankeyDiagram_Overview()
     .attr("y", 10)
     .attr("dy", "0.35em")
     .style("font", "12px sans-serif")
-    .text(d => d.category);
+    .style("font-weight", "bold")
+    .text(d => d.category.charAt(0).toUpperCase() + d.category.slice(1));
+
   // Add filter functionality
   nodeRects.on("click", function (event, d)
   {
