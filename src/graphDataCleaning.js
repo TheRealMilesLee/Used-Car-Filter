@@ -5,6 +5,39 @@ import * as d3 from 'd3';
 import { column_from_csv } from './csvReadIn.js';
 
 /**
+ * @brief Categorizes a car make into a region.
+ *
+ * This function takes a car make as input and returns the region (Japanese, European, American, Korean, or Other)
+ * that the make belongs to. The comparison is case-insensitive.
+ *
+ * @param {string} make - The car make to categorize.
+ * @return {string} The region of the car make.
+ */
+function categoriesMake(make)
+{
+  make = make.toLowerCase();
+
+  const carBrands = new Map([
+    ['Japanese', ['toyota', 'isuzu', 'honda', 'nissan', 'subaru', 'mazda', 'mitsubishi', 'suzuki', 'daihatsu', 'lexus', 'infiniti', 'acura', 'scion']],
+    ['European', ['volkswagen', 'geo', 'rolls-royce', 'fisker', 'audi', 'bmw', 'mercedes-benz', 'porsche', 'volvo', 'saab', 'fiat', 'alfa', 'jaguar', 'land rover', 'mini', 'smart', 'bentley', 'aston martin', 'lotus', 'maserati', 'lamborghini', 'ferrari']],
+    ['American', ['ford', 'ram', 'chevrolet', 'dodge', 'jeep', 'chrysler', 'cadillac', 'lincoln', 'buick', 'gmc', 'plymouth', 'saturn', 'pontiac', 'oldsmobile', 'mercury', 'hummer', 'tesla', 'rivian', 'lucid']],
+    ['Korean', ['hyundai', 'kia', 'genesis', 'daewoo', 'ssangyong']],
+    ['Chinese', ['byd', 'geely', 'great wall', 'chery', 'jac', 'lifan', 'roewe', 'haval', 'dongfeng', 'zotye', 'changan', 'foton', 'brilliance', 'saic', 'haima']],
+    ['Indian', ['tata', 'mahindra']],
+    ['Russian', ['lada', 'gaz']],
+  ]);
+
+  for (const [region, brands] of carBrands.entries())
+  {
+    if (brands.includes(make)) return region;
+  }
+
+  return 'Other';
+
+}
+
+
+/**
  * Categorizes the given odometer reading into predefined mileage ranges.
  *
  * @param {string|number} odometer - The odometer reading to categorize. Can be a string or number.
@@ -54,16 +87,31 @@ function categoriesOdometer(odometer)
 function categoriesPrice(price)
 {
   const priceRanges = [
-    { start: 0, end: 1000, label: '$0-$1000' },
-    { start: 1001, end: 5000, label: '$1001-$5000' },
-    { start: 5001, end: 10000, label: '$5001-$10000' },
-    { start: 10001, end: 20000, label: '$10001-$20000' },
-    { start: 20001, end: 30000, label: '$20001-$30000' },
-    { start: 30001, end: 40000, label: '$30001-$40000' },
-    { start: 40001, end: 50000, label: '$40001-$50000' },
-    { start: 50001, end: 60000, label: '$50001-$60000' },
+    { start: 0, end: 5000, label: '0-5000 RUB' },
+    { start: 5001, end: 10000, label: '5001-10000 RUB' },
+    { start: 10001, end: 20000, label: '10001-20000 RUB' },
+    { start: 20001, end: 30000, label: '20001-30000 RUB' },
+    { start: 30001, end: 40000, label: '30001-40000 RUB' },
+    { start: 40001, end: 50000, label: '40001-50000 RUB' },
+    { start: 50001, end: 60000, label: '50001-60000 RUB' },
+    { start: 60001, end: 70000, label: '60001-70000 RUB' },
+    { start: 70001, end: 80000, label: '70001-80000 RUB' },
+    { start: 80001, end: 90000, label: '80001-90000 RUB' },
+    { start: 90001, end: 100000, label: '90001-100000 RUB' },
+    { start: 100001, end: 150000, label: '100001-150000 RUB' },
+    { start: 150001, end: 200000, label: '150001-200000 RUB' },
+    { start: 200001, end: 250000, label: '200001-250000 RUB' },
+    { start: 250001, end: 300000, label: '250001-300000 RUB' },
+    { start: 300001, end: 350000, label: '300001-350000 RUB' },
+    { start: 350001, end: 400000, label: '350001-400000 RUB' },
+    { start: 400001, end: 450000, label: '400001-450000 RUB' },
+    { start: 450001, end: 500000, label: '450001-500000 RUB' },
+    { start: 500001, end: 600000, label: '500001-600000 RUB' },
+    { start: 600001, end: 700000, label: '600001-700000 RUB' },
+    { start: 700001, end: 800000, label: '700001-800000 RUB' },
+    { start: 800001, end: 900000, label: '800001-900000 RUB' },
+    { start: 900001, end: 1000000, label: '900001-1000000 RUB' },
   ];
-
   if (!price) return 'Unknown';
   const priceNum = parseInt(price);
   if (isNaN(priceNum))
@@ -87,20 +135,18 @@ export function graph1_data_cleaning()
   const uniqueEntries = new Set();
   return column_from_csv.map(d =>
   {
-    const brand = d['brand'];
-    const model = d['model'];
+    const brand = categoriesMake(d['brand']);
     const transmission = d['transmission'];
     const engine_capacity = d['engine_capacity'];
     const mileage = categoriesOdometer(d['mileage']);
     const age = d['age'];
     const price = categoriesPrice(d['price']);
-    const uniqueKey = `${ brand }-${ model }-${ transmission }-${ engine_capacity }-${ mileage }-${ age }-${ price }`;
+    const uniqueKey = `${ brand }-${ price }`;
     if (!uniqueEntries.has(uniqueKey))
     {
       uniqueEntries.add(uniqueKey);
       return {
         brand: brand,
-        model: model,
         transmission: transmission,
         engine_capacity: engine_capacity,
         mileage: mileage,
@@ -109,7 +155,7 @@ export function graph1_data_cleaning()
       };
     }
     return null;
-  }).filter(d => d !== null);  // Filter out null entries
+  }).filter(d => d !== null || d != undefined);  // Filter out null entries
 }
 
 export const Graph2_data_cleaning = () =>

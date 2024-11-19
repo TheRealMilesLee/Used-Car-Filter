@@ -7,17 +7,17 @@ export function SankeyDiagram_Overview()
 {
   const margin = { top: 20, right: 10, bottom: 30, left: 10 };
   const width = size.width - margin.left - margin.right;
-  const height = 250 - margin.top - margin.bottom;
+  const height = 600 - margin.top - margin.bottom;
   const afterCleanData_Graph1 = graph1_data_cleaning();
-  console.log(afterCleanData_Graph1);
+  d3.sort(afterCleanData_Graph1, d => d.age);
 
   // Initialize nodes and links and prepare the categories for the sankey diagram
   const nodes = [];
   const links = [];
-  const categories = ['brand', 'model', 'transmission', 'engine_capacity', 'mileage', 'age', 'price'];
+  const categories = ['brand', 'transmission', 'engine_capacity', 'mileage', 'age', 'price'];
   const nodeMap = new Map();
 
-  // Create nodes for 'brand', 'model', 'transmission', 'engine_capacity', 'mileage', 'age', 'price'
+  // Create nodes for 'brand', 'transmission', 'engine_capacity', 'mileage', 'age', 'price'
   categories.forEach((category, i) =>
   {
     const categoryNodes = Array.from(new Set(afterCleanData_Graph1.map(d => d[category]))).sort();
@@ -93,7 +93,6 @@ export function SankeyDiagram_Overview()
   // 修改颜色过渡方案
   const colorTransitions = {
     "brand": ["#2d85c4", "#ae1aed"],
-    "model": ["#ae1aed", "#1ae843"],
     "transmission": ["#1ae843", "#ff8800"],
     "engine_capacity": ["#ff8800", "#de0b5f"],
     "mileage": ["#de0b5f", "#ff8800"],
@@ -190,7 +189,7 @@ export function SankeyDiagram_Overview()
         return d.name.split('-')[1];
       }
     })
-    .attr("stroke", "#000");
+    .attr("stroke", "#fff");
   // Add color legend
   const legend = svg.append("g")
     .attr("transform", `translate(0, ${ height + 10 })`);
@@ -198,7 +197,6 @@ export function SankeyDiagram_Overview()
   // 修改图例数据
   const legendData = [
     { category: 'brand', color: colorTransitions["brand"][0] },
-    { category: 'model', color: colorTransitions["model"][0] },
     { category: 'transmission', color: colorTransitions["transmission"][0] },
     { category: 'engine_capacity', color: colorTransitions["engine_capacity"][0] },
     { category: 'mileage', color: colorTransitions["mileage"][0] },
