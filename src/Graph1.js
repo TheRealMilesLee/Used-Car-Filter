@@ -3,27 +3,21 @@ import { size } from './Diagrams.js';
 import { graph1_data_cleaning } from './graphDataCleaning.js';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 
-/**
- * For this diagram, we decide to use Sankey as a overall view diagram. We have columns like
- * year, make, body, odometer, and price. This would show the overall distribution of the data.
- * Also, by watching which range has the thicker line, we can know which range would be the most popular.
- * hence, more recommand for people to buy a used car.
- */
 export function SankeyDiagram_Overview()
 {
   const margin = { top: 20, right: 10, bottom: 30, left: 10 };
   const width = size.width - margin.left - margin.right;
   const height = 250 - margin.top - margin.bottom;
   const afterCleanData_Graph1 = graph1_data_cleaning();
-  d3.sort(afterCleanData_Graph1, d => d.year);
+  console.log(afterCleanData_Graph1);
 
   // Initialize nodes and links and prepare the categories for the sankey diagram
   const nodes = [];
   const links = [];
-  const categories = ['brand', 'model', 'city_sold', 'trasmission', 'engine_capacity', 'mileage', 'age', 'price'];
+  const categories = ['brand', 'model', 'transmission', 'engine_capacity', 'mileage', 'age', 'price'];
   const nodeMap = new Map();
 
-  // Create nodes for year, region, body, odometer, and price
+  // Create nodes for 'brand', 'model', 'transmission', 'engine_capacity', 'mileage', 'age', 'price'
   categories.forEach((category, i) =>
   {
     const categoryNodes = Array.from(new Set(afterCleanData_Graph1.map(d => d[category]))).sort();
@@ -96,12 +90,17 @@ export function SankeyDiagram_Overview()
     .attr("transform", `translate(${ margin.left },${ margin.top })`);
 
   // 定义颜色过渡方案
+  // 修改颜色过渡方案
   const colorTransitions = {
-    "year": ["#2d85c4", "#ae1aed"],
-    "region": ["#ae1aed", "#1ae843"],
-    "body": ["#1ae843", "#ff8800"],
-    "odometer": ["#ff8800", "#de0b5f"],
+    "brand": ["#2d85c4", "#ae1aed"],
+    "model": ["#ae1aed", "#1ae843"],
+    "transmission": ["#1ae843", "#ff8800"],
+    "engine_capacity": ["#ff8800", "#de0b5f"],
+    "mileage": ["#de0b5f", "#ff8800"],
+    "age": ["#ff8800", "#de0b5f"],
+    "price": ["#de0b5f", "#ff8800"]
   };
+
 
 
 
@@ -196,12 +195,15 @@ export function SankeyDiagram_Overview()
   const legend = svg.append("g")
     .attr("transform", `translate(0, ${ height + 10 })`);
 
+  // 修改图例数据
   const legendData = [
-    { category: 'year', color: colorTransitions["year"][0] },
-    { category: 'region', color: colorTransitions["region"][0] },
-    { category: 'body', color: colorTransitions["body"][0] },
-    { category: 'odometer', color: colorTransitions["odometer"][0] },
-    { category: 'price', color: colorTransitions["odometer"][1] }
+    { category: 'brand', color: colorTransitions["brand"][0] },
+    { category: 'model', color: colorTransitions["model"][0] },
+    { category: 'transmission', color: colorTransitions["transmission"][0] },
+    { category: 'engine_capacity', color: colorTransitions["engine_capacity"][0] },
+    { category: 'mileage', color: colorTransitions["mileage"][0] },
+    { category: 'age', color: colorTransitions["age"][0] },
+    { category: 'price', color: colorTransitions["price"][0] }
   ];
 
   const legendItem = legend.selectAll("g")
