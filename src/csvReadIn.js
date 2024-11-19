@@ -13,12 +13,12 @@ export let column_from_csv = await d3.csv('../Resources/car_data.csv', (d) =>
   return {
     brand: d.car_brand.trim(),
     model: d.car_model.trim(),
-    price: +d.car_price, // Convert price to number
     city_sold: d.car_city.trim(),
-    transmissio: d.car_transmission.trim(),
-    mileage: +d.car_mileage, // Convert mileage to number
+    transmission: d.car_transmission.trim(),
     engine_capacity: +d.car_engine_capacity, // Convert engine capacity to number
-    age: +d.car_age // Convert age to number
+    mileage: +d.car_mileage, // Convert mileage to number
+    age: +d.car_age, // Convert age to number
+    price: +d.car_price // Convert price to number
   };
 }).then(data =>
 {

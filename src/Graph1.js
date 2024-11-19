@@ -20,7 +20,7 @@ export function SankeyDiagram_Overview()
   // Initialize nodes and links and prepare the categories for the sankey diagram
   const nodes = [];
   const links = [];
-  const categories = ['year', 'region', 'body', 'odometer', 'price'];
+  const categories = ['brand', 'model', 'city_sold', 'trasmission', 'engine_capacity', 'mileage', 'age', 'price'];
   const nodeMap = new Map();
 
   // Create nodes for year, region, body, odometer, and price
