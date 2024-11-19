@@ -25,7 +25,7 @@ document.querySelector("#MainBody").innerHTML = `
   <section id="SankeyOverview">
     <div>
       <h2> Used Car Market Trend</h2>
-      <!-- ${ SankeyDiagram() }-->
+       ${ SankeyDiagram() }
     </div>
   </section>
 
@@ -34,11 +34,7 @@ document.querySelector("#MainBody").innerHTML = `
       <h2>Get Started</h2>
       <p> Let's start by price range. </p>
       <p> My budget is under
-        <input type="number"
-               id="BudgetInputBox"
-               min="0"
-               max="100"
-               step="any">
+        <input type="number" id="BudgetInputBox">
         <button id="StartButton">Start Filtering</button>
       </p>
     </div>
@@ -46,13 +42,13 @@ document.querySelector("#MainBody").innerHTML = `
   <section id="LineChart">
     <div>
       <h2>Relationship between Age and Price</h2>
-    <!--   ${ LineChart() }-->
+     ${ LineChart() }
     </div>
   </section>
   <section id="ScatterPlot">
     <div>
       <h2>Relationship between Mileage and Price </h2>
-  <!--    ${ ScatterPlot() } -->
+      ${ ScatterPlot() }
     </div>
   </section>
 `;
