@@ -1,4 +1,5 @@
 import { SankeyDiagram, LineChart, ScatterPlot, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
+import { column_from_csv } from "./src/csvReadIn";
 import "./style.css";
 
 document.querySelector("#Header").innerHTML = `
@@ -38,21 +39,51 @@ document.querySelector("#MainBody").innerHTML = `
       </p>
     </div>
   </section>
-  <section id="LineChart">
+  <section id="LineChart" style="display: none;">
     <div>
-      <h2>Relationship between Age and Price</h2>
-     ${ LineChart() }
     </div>
   </section>
-  <section id="ScatterPlot">
+  <section id="ScatterPlot" style="display: none;">
     <div>
-      <h2>Relationship between Mileage and Price </h2>
-      ${ ScatterPlot() }
     </div>
   </section>
 `;
-
-
 mountSankey();
-mountLineChart();
-mountScatter();
+
+// Get input button and input box
+const budgetInputBox = document.getElementById("BudgetInputBox");
+const startButton = document.getElementById("StartButton");
+
+startButton.onclick = () =>
+{
+  const budget = budgetInputBox.value;
+  if (budget && !isNaN(budget))
+  {
+    document.querySelector("#LineChart").style.display = "block";
+    document.querySelector("#LineChart").innerHTML = `
+      <div>
+      ${ LineChart(budget) }
+      </div>
+    `;
+    mountLineChart();
+    document.querySelector("#ScatterPlot").style.display = "block";
+    document.querySelector("#ScatterPlot").innerHTML = `
+      <div>
+      ${ ScatterPlot(budget) }
+      </div>
+    `;
+    mountScatter();
+
+    // Scroll to the LineChart section
+    document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+budgetInputBox.oninput = () =>
+{
+  if (budgetInputBox.value === "")
+  {
+    document.querySelector("#LineChart").style.display = "none";
+    document.querySelector("#ScatterPlot").style.display = "none";
+  }
+};
