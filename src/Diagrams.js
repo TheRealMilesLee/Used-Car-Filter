@@ -28,6 +28,7 @@ const onResize = (targets) =>
 
 export const SankeyDiagram = () => (
   `<div id='Sankey-Graph1'>
+        <h3 class="SankeyTitle"> Used Car Market Trend</h3>
         <svg id='Graph1'></svg>
         <i>  <b> Graph 1. </b> Overall View of used car sold situation. </i>
     </div>`

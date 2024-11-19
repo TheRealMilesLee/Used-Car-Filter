@@ -7,6 +7,10 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   background: linear-gradient(45deg, #1a1a1a, #3a3a3a, #5a5a5a);
+  background-image: url('./Resources/Background/Warp.png');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 @keyframes fadeIn {
@@ -34,7 +38,6 @@
   background-color: antiquewhite;
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.5);
-  background-image: url('./Resources/Background/Warp.png');
   animation-delay: 0s;
 }
 
@@ -45,7 +48,6 @@
   align-items: center;
   height: 100vh;
   color: white;
-  background-image: url('./Resources/Background/Warp.png');
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -53,14 +55,21 @@
   animation-delay: 1s;
 }
 
-#SankeyOverview {
+#Sankey-Graph1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  color: white;
+  color: #1C1C1E;
   animation-delay: 2s;
+  background-color: rgba(249, 250, 251, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+}
+
+.SanketTitle {
+  color: #1C1C1E;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #GetStarted {

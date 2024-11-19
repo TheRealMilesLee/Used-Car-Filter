@@ -9,7 +9,6 @@ export function SankeyDiagram_Overview()
   const width = size.width - margin.left - margin.right;
   const height = 600 - margin.top - margin.bottom;
   const afterCleanData_Graph1 = graph1_data_cleaning();
-  d3.sort(afterCleanData_Graph1, d => d.age);
 
   // Initialize nodes and links and prepare the categories for the sankey diagram
   const nodes = [];
@@ -165,7 +164,7 @@ export function SankeyDiagram_Overview()
     .attr("height", d => d.y1 - d.y0)
     .attr("width", d => d.x1 - d.x0)
     .attr("fill", d => d3.scaleOrdinal(d3.schemeCategory10)(d.name))
-    .attr("stroke", "#000");
+    .attr("stroke", "#E0E0E5");
 
   // Add node labels
   nodeGroup.append("g")
@@ -189,7 +188,7 @@ export function SankeyDiagram_Overview()
         return d.name.split('-')[1];
       }
     })
-    .attr("stroke", "#fff");
+    .attr("stroke", "#E0E0E5");
   // Add color legend
   const legend = svg.append("g")
     .attr("transform", `translate(0, ${ height + 10 })`);

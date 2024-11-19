@@ -24,7 +24,6 @@ document.querySelector("#MainBody").innerHTML = `
 
   <section id="SankeyOverview">
     <div>
-      <h2> Used Car Market Trend</h2>
        ${ SankeyDiagram() }
     </div>
   </section>
