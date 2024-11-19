@@ -111,6 +111,11 @@ function categoriesPrice(price)
     { start: 700001, end: 800000, label: '700001-800000 RUB' },
     { start: 800001, end: 900000, label: '800001-900000 RUB' },
     { start: 900001, end: 1000000, label: '900001-1000000 RUB' },
+    { start: 1000001, end: 1500000, label: '1000001-1500000 RUB' },
+    { start: 1500001, end: 2000000, label: '1500001-2000000 RUB' },
+    { start: 2000001, end: 2500000, label: '2000001-2500000 RUB' },
+    { start: 2500001, end: Infinity, label: '2500000 RUB above' },
+
   ];
   if (!price) return 'Unknown';
   const priceNum = parseInt(price);

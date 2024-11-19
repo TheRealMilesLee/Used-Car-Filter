@@ -27,4 +27,4 @@ export let column_from_csv = await d3.csv('../Resources/car_data.csv', (d) =>
 });
 
 // Sort the data by car_price
-column_from_csv.sort((a, b) => a.car_price - b.car_price);
+column_from_csv.sort((a, b) => a.age - b.age);
