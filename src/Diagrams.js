@@ -1,9 +1,9 @@
 import * as d3 from 'd3';
 import { isEmpty, debounce } from 'lodash';
-import { SankeyDiagram_Overview } from './Graph1';
-import { LineChart_AgePriceCorrelation } from './Graph2';
-import { ScatterPlot_MileagePriceCorrelation } from './Graph3';
-import { column_from_csv } from './csvReadIn';
+import { SankeyDiagram_Overview } from './Graph1.js';
+import { LineChart_AgePriceCorrelation } from './Graph2.js';
+import { ScatterPlot_MileagePriceCorrelation } from './Graph3.js';
+import { column_from_csv } from './csvReadIn.js';
 
 export let size = { width: 0, height: 0 };
 
