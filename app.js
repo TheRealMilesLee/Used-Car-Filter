@@ -1,6 +1,20 @@
 import { SankeyDiagram, LineChart, ScatterPlot, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
 import "./style.css";
 
+document.querySelector("#Header").innerHTML = `
+  <header>
+    <nav class="navigationbar">
+      <ul>
+        <li><a href="#MainBody">Home</a></li>
+        <li><a href="#SankeyOverview">Overview</a></li>
+        <li><a href="#GetStarted">Get Started</a></li>
+        <li><a href="#LineChart">Age & Price Trend</a></li>
+        <li><a href="#ScatterPlot">Mileage & Price Trend</a></li>
+      </ul>
+    </nav>
+  </header>
+`;
+
 document.querySelector("#MainBody").innerHTML = `
   <section class="GreetingPage">
     <div>
@@ -8,34 +22,34 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-  <section class="SankeyOverview">
+  <section id="SankeyOverview">
     <div>
-      <h2> Used Car Market Correlation</h2>
+      <h2> Used Car Market Trend</h2>
       <!-- ${ SankeyDiagram() }-->
     </div>
   </section>
 
-  <section class="GetStarted">
+  <section id="GetStarted">
     <div>
       <h2>Get Started</h2>
       <p> Let's start by price range. </p>
       <p> My budget is under
         <input type="number"
-               id="BudgetInputBpx"
+               id="BudgetInputBox"
                min="0"
                max="100"
                step="any">
-        <button>Start Filtering</button>
+        <button id="StartButton">Start Filtering</button>
       </p>
     </div>
   </section>
-  <section class="LineChart">
+  <section id="LineChart">
     <div>
       <h2>Relationship between Age and Price</h2>
     <!--   ${ LineChart() }-->
     </div>
   </section>
-  <section class="ScatterPlot">
+  <section id="ScatterPlot">
     <div>
       <h2>Relationship between Mileage and Price </h2>
   <!--    ${ ScatterPlot() } -->
