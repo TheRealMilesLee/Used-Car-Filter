@@ -91,22 +91,20 @@
   border-radius: 25px;
 }
 
-#LineChart {
+#LineChart-Graph2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh;;
   color: white;
-  animation-delay: 4s;
 }
 
-#ScatterPlot {
+#ScatterPlot-Graph3 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   color: white;
-  animation-delay: 5s;
+  height: 100vh;
 }

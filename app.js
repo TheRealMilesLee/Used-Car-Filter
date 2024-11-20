@@ -1,6 +1,8 @@
 import { SankeyDiagram, LineChart, ScatterPlot, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
-import { column_from_csv } from "./src/csvReadIn";
+import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataCleaning";
 import "./style.css";
+
+export let getGraph2Data;
 
 document.querySelector("#Header").innerHTML = `
   <header>
@@ -32,7 +34,7 @@ document.querySelector("#MainBody").innerHTML = `
   <section id="GetStarted">
     <div>
       <h2>Get Started</h2>
-      <p> Let's start by price range. </p>
+      <p> Let's start by price range. Our data price ranges from 30000 all the way to the 100k+ </p>
       <p> My budget is under
         <input type="number" id="BudgetInputBox">
         <button id="StartButton">Start Filtering</button>
@@ -40,12 +42,8 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
   <section id="LineChart" style="display: none;">
-    <div>
-    </div>
   </section>
   <section id="ScatterPlot" style="display: none;">
-    <div>
-    </div>
   </section>
 `;
 mountSankey();
@@ -53,31 +51,42 @@ mountSankey();
 // Get input button and input box
 const budgetInputBox = document.getElementById("BudgetInputBox");
 const startButton = document.getElementById("StartButton");
-
 startButton.onclick = () =>
 {
   const budget = budgetInputBox.value;
-  if (budget && !isNaN(budget))
+  if (budget < 30000)
   {
-    document.querySelector("#LineChart").style.display = "block";
-    document.querySelector("#LineChart").innerHTML = `
+    alert("We don't have a car that matches your needs.");
+    budgetInputBox.value = "";
+    return;
+  }
+  else
+  {
+    getGraph2Data = Graph2_data_cleaning(budget);
+    if (budget && !isNaN(budget))
+    {
+      document.querySelector("#LineChart").style.display = "block";
+      document.querySelector("#LineChart").innerHTML = `
       <div>
-      ${ LineChart(budget) }
+      ${ LineChart() }
       </div>
     `;
-    mountLineChart();
-    document.querySelector("#ScatterPlot").style.display = "block";
-    document.querySelector("#ScatterPlot").innerHTML = `
+      mountLineChart();
+      document.querySelector("#ScatterPlot").style.display = "block";
+      Graph3_data_cleaning(budget);
+      document.querySelector("#ScatterPlot").innerHTML = `
       <div>
-      ${ ScatterPlot(budget) }
+      ${ ScatterPlot() }
       </div>
     `;
-    mountScatter();
+      mountScatter();
 
-    // Scroll to the LineChart section
-    document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
+      // Scroll to the LineChart section
+      document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
+    }
   }
 };
+
 
 budgetInputBox.oninput = () =>
 {

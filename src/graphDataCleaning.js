@@ -135,6 +135,10 @@ function categoriesPrice(price)
   }
 }
 
+/**
+ *
+ * @returns The brand, transmission, engine capacity, mileage, age, and price of the car
+ */
 export function graph1_data_cleaning()
 {
   const uniqueEntries = new Set();
@@ -163,27 +167,23 @@ export function graph1_data_cleaning()
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
 }
 
+/**
+ *
+ * @param {number} budget is the incoming user budget
+ * @returns the age and price of the car
+ */
 export const Graph2_data_cleaning = (budget) =>
 {
   const uniqueEntries = new Set();
   return column_from_csv.map(d =>
   {
-    const brand = categoriesMake(d['brand']);
-    const transmission = d['transmission'];
-    const engine_capacity = d['engine_capacity'];
-    const mileage = categoriesOdometer(d['mileage']);
-    const age = d['age'];
-    const price = categoriesPrice(d['price']);
-    const priceNum = parseInt(d['price']);
-    const uniqueKey = `${ brand }-${ price }`;
-    if (!uniqueEntries.has(uniqueKey) && priceNum <= budget)
+    const age = parseInt(d['age']);
+    const price = parseInt(d['price']);
+    const uniqueKey = `${ age }`;
+    if (!uniqueEntries.has(uniqueKey) && price <= budget && price >= 1000)
     {
       uniqueEntries.add(uniqueKey);
       return {
-        brand: brand,
-        transmission: transmission,
-        engine_capacity: engine_capacity,
-        mileage: mileage,
         age: age,
         price: price
       };
@@ -191,6 +191,7 @@ export const Graph2_data_cleaning = (budget) =>
     return null;
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
 };
+
 
 export const Graph3_data_cleaning = (budget) =>
 {
