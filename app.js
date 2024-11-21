@@ -3,6 +3,7 @@ import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataClean
 import "./style.css";
 
 export let getGraph2Data;
+export let getGraph3Data;
 
 document.querySelector("#Header").innerHTML = `
   <header>
@@ -73,7 +74,7 @@ startButton.onclick = () =>
     `;
       mountLineChart();
       document.querySelector("#ScatterPlot").style.display = "block";
-      Graph3_data_cleaning(budget);
+      getGraph3Data = Graph3_data_cleaning(budget);
       document.querySelector("#ScatterPlot").innerHTML = `
       <div>
       ${ ScatterPlot() }
