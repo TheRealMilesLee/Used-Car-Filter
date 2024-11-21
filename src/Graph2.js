@@ -2,6 +2,8 @@ import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph2Data } from '../app.js';
 
+export let SelectedAge;
+
 /**
  * For this graph, we would like to show the correlation under the user's budget betweenn the age of the car and the price of the car.
  * We will use a line chart to show the correlation between the age of the car and the price of the car.
@@ -131,6 +133,15 @@ export function LineChart_AgePriceCorrelation()
       d3.select(this)
         .attr("r", 5);
       tooltipGroup.style("display", "none");
+    })
+    .on("click", function (event, d)
+    {
+      SelectedAge = d.age;
+      console.log("Selected Age:", SelectedAge);
+      alert(`You have selected the age of ${ SelectedAge } years. Scroll down to see the next graph.`);
+      // Scroll to the BarChart section
+      document.querySelector("#BarChart").scrollIntoView({ behavior: "smooth" });
+
     });
 
   // Add a group for the tooltip and dashed line

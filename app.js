@@ -1,5 +1,6 @@
 import { SankeyDiagram, LineChart, BarChart, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
 import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataCleaning";
+
 import "./style.css";
 
 export let getGraph2Data;

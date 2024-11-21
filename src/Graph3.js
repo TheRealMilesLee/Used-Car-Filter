@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { Graph3_data_cleaning } from './graphDataCleaning.js';
 import { getGraph3Data } from '../app.js';
 
+export let MileageSelected;
 export function BarChart_MileagePriceCorrelation()
 {
   // Set up the margin for the chart
@@ -109,6 +109,12 @@ export function BarChart_MileagePriceCorrelation()
       d3.select(this)
         .attr("r", 5);
       tooltipGroup.style("display", "none");
+    })
+    .on("click", function (event, d)
+    {
+      MileageSelected = d.mileage;
+      console.log("Mileage Selected:", MileageSelected);
+      alert("You have selected the mileage of " + MileageSelected + " miles. Now we will take you to the Gearbox section.");
     });
   // Add a group for the tooltip and dashed line
   const tooltipGroup = chartContainer_graph3.append("g")
