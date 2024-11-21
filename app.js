@@ -3,6 +3,7 @@ import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataClean
 
 import "./style.css";
 
+export let budget;
 export let getGraph2Data;
 export let getGraph3Data;
 
@@ -55,7 +56,7 @@ const budgetInputBox = document.getElementById("BudgetInputBox");
 const startButton = document.getElementById("StartButton");
 startButton.onclick = () =>
 {
-  const budget = budgetInputBox.value;
+  budget = budgetInputBox.value;
   if (budget < 30000)
   {
     alert("We don't have a car that matches your needs.");

@@ -1,7 +1,6 @@
 /**
  * @brief This file is to perform the data cleaning for each graph.
  */
-import * as d3 from 'd3';
 import { column_from_csv } from './csvReadIn.js';
 
 /**
