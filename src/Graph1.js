@@ -19,7 +19,15 @@ export function SankeyDiagram_Overview()
   // Create nodes for 'brand', 'transmission', 'engine_capacity', 'mileage', 'age', 'price'
   categories.forEach((category, i) =>
   {
-    const categoryNodes = Array.from(new Set(afterCleanData_Graph1.map(d => d[category]))).sort();
+    let categoryNodes = Array.from(new Set(afterCleanData_Graph1.map(d => category === 'age' ? +d[category] : d[category])));
+    if (category === 'engine_capacity' || category === 'age')
+    {
+      categoryNodes = categoryNodes.sort((a, b) => a - b); // Sort age and engine_capacity nodes numerically
+    }
+    else
+    {
+      categoryNodes = categoryNodes.sort();
+    }
     categoryNodes.forEach((name, j) =>
     {
       const nodeName = `${ category }-${ name }`;
@@ -36,23 +44,18 @@ export function SankeyDiagram_Overview()
     });
   });
 
-
   // Create links between nodes
   afterCleanData_Graph1.forEach(d =>
   {
     for (let i = 0; i < categories.length - 1; i++)
     {
-      const sourceName = `${ categories[i] }-${ d[categories[i]] }`;
-      const targetName = `${ categories[i + 1] }-${ d[categories[i + 1]] }`;
-
-      const sourceIndex = nodeMap.get(sourceName);
-      const targetIndex = nodeMap.get(targetName);
-
-      if (sourceIndex !== undefined && targetIndex !== undefined)
+      const sourceNode = nodeMap.get(`${ categories[i] }-${ d[categories[i]] }`);
+      const targetNode = nodeMap.get(`${ categories[i + 1] }-${ d[categories[i + 1]] }`);
+      if (sourceNode !== undefined && targetNode !== undefined)
       {
         links.push({
-          source: sourceIndex,
-          target: targetIndex,
+          source: sourceNode,
+          target: targetNode,
           value: 1
         });
       }
@@ -67,10 +70,15 @@ export function SankeyDiagram_Overview()
     .extent([[1, 1], [width - 1, height - 5]])
     .nodeSort((a, b) =>
     {
-
-      if (a.layer === 1 || a.layer === 4 || a.layer === 5)
+      if (a.layer === 0 || a.layer === 1 || a.layer === 3 || a.layer === 5)
       {
         return d3.ascending(a.value, b.value);
+      }
+      if (a.layer === 2 || a.layer === 4)
+      {
+        const ageA = parseInt(a.name.split('-')[1]);
+        const ageB = parseInt(b.name.split('-')[1]);
+        return d3.ascending(ageA, ageB);
       }
       return null;
     });

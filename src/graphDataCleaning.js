@@ -142,13 +142,13 @@ function categoriesPrice(price)
 export function graph1_data_cleaning()
 {
   const uniqueEntries = new Set();
-  return column_from_csv.map(d =>
+  let cleaned_data = column_from_csv.map(d =>
   {
     const brand = categoriesMake(d['brand']);
     const transmission = d['transmission'];
     const engine_capacity = d['engine_capacity'];
     const mileage = categoriesOdometer(d['mileage']);
-    const age = d['age'];
+    const age = parseInt(d['age']);
     const price = categoriesPrice(d['price']);
     const uniqueKey = `${ brand }-${ price }`;
     if (!uniqueEntries.has(uniqueKey))
@@ -165,6 +165,9 @@ export function graph1_data_cleaning()
     }
     return null;
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
+
+  cleaned_data.sort((a, b) => a.age - b.age);
+  return cleaned_data;
 }
 
 /**
