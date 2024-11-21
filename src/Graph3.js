@@ -3,7 +3,7 @@ import { size } from "./Diagrams.js";
 import { Graph3_data_cleaning } from './graphDataCleaning.js';
 import { getGraph3Data } from '../app.js';
 
-export function ScatterPlot_MileagePriceCorrelation()
+export function BarChart_MileagePriceCorrelation()
 {
   // Set up the margin for the chart
   const margin = { top: 25, right: 55, bottom: 25, left: 105 }; // Increased left margin to move the chart to the right
@@ -47,14 +47,15 @@ export function ScatterPlot_MileagePriceCorrelation()
   chartContainer_graph3.append("g")
     .call(yAxis);
 
-  // Draw the circles
-  chartContainer_graph3.selectAll("circle")
+  // Draw the bars
+  chartContainer_graph3.selectAll("rect")
     .data(Graph3_data_cleaning_result)
     .enter()
-    .append("circle")
-    .attr("cx", d => xScale(d.mileage) + xScale.bandwidth() / 2)
-    .attr("cy", d => yScale(d.price))
-    .attr("r", 5)
+    .append("rect")
+    .attr("x", d => xScale(d.mileage))
+    .attr("y", d => yScale(d.price))
+    .attr("width", xScale.bandwidth())
+    .attr("height", d => height - yScale(d.price))
     .attr("fill", "#E5F9FF");
 
   // Draw the labels
@@ -63,8 +64,9 @@ export function ScatterPlot_MileagePriceCorrelation()
     .enter()
     .append("text")
     .text(d => d.Make)
-    .attr("x", d => xScale(d.mileage) + xScale.bandwidth() / 2 + 10)
-    .attr("y", d => yScale(d.price) + 5)
+    .attr("x", d => xScale(d.mileage) + xScale.bandwidth() / 2)
+    .attr("y", d => yScale(d.price) - 5)
+    .attr("text-anchor", "middle")
     .attr("font-size", "10px")
     .attr("fill", "lightgray");
 
@@ -86,4 +88,37 @@ export function ScatterPlot_MileagePriceCorrelation()
     .attr("font-size", "15px")
     .text("Price")
     .attr("fill", "white");
+
+  // Make on hover effect
+  chartContainer_graph3.selectAll("rect")
+    .on("mouseover", function (event, d)
+    {
+      d3.select(this)
+        .attr("r", 7);
+
+      // Show the tooltip
+      tooltipGroup.style("display", null)
+        .attr("transform", `translate(${ xScale(d.mileage) + 65 }, ${ yScale(d.price) - 20 })`);
+
+      // Update the tooltip text
+      tooltipGroup.select(".tooltip-text")
+        .text(`$${ d.price.toFixed(2) }`);
+    })
+    .on("mouseout", function (event, d)
+    {
+      d3.select(this)
+        .attr("r", 5);
+      tooltipGroup.style("display", "none");
+    });
+  // Add a group for the tooltip and dashed line
+  const tooltipGroup = chartContainer_graph3.append("g")
+    .attr("class", "tooltip-group")
+    .style("display", "none");
+
+  tooltipGroup.append("text")
+    .attr("class", "tooltip-text")
+    .attr("text-anchor", "middle")
+    .attr("font-size", "12px")
+    .attr("fill", "white")
+    .style("font-weight", "bold");
 }

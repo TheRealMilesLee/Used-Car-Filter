@@ -1,4 +1,4 @@
-import { SankeyDiagram, LineChart, ScatterPlot, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
+import { SankeyDiagram, LineChart, BarChart, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
 import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataCleaning";
 import "./style.css";
 
@@ -13,7 +13,7 @@ document.querySelector("#Header").innerHTML = `
         <li><a href="#SankeyOverview">Overview</a></li>
         <li><a href="#GetStarted">Get Started</a></li>
         <li><a href="#LineChart">Age & Price Trend</a></li>
-        <li><a href="#ScatterPlot">Mileage & Price Trend</a></li>
+        <li><a href="#BarChart">Mileage & Price Trend</a></li>
       </ul>
     </nav>
   </header>
@@ -44,7 +44,7 @@ document.querySelector("#MainBody").innerHTML = `
   </section>
   <section id="LineChart" style="display: none;">
   </section>
-  <section id="ScatterPlot" style="display: none;">
+  <section id="BarChart" style="display: none;">
   </section>
 `;
 mountSankey();
@@ -73,11 +73,11 @@ startButton.onclick = () =>
       </div>
     `;
       mountLineChart();
-      document.querySelector("#ScatterPlot").style.display = "block";
+      document.querySelector("#BarChart").style.display = "block";
       getGraph3Data = Graph3_data_cleaning(budget);
-      document.querySelector("#ScatterPlot").innerHTML = `
+      document.querySelector("#BarChart").innerHTML = `
       <div>
-      ${ ScatterPlot() }
+      ${ BarChart() }
       </div>
     `;
       mountScatter();
@@ -94,6 +94,6 @@ budgetInputBox.oninput = () =>
   if (budgetInputBox.value === "")
   {
     document.querySelector("#LineChart").style.display = "none";
-    document.querySelector("#ScatterPlot").style.display = "none";
+    document.querySelector("#BarChart").style.display = "none";
   }
 };
