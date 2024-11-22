@@ -1,5 +1,6 @@
 import { SankeyDiagram, LineChart, BarChart, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
 import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataCleaning";
+import { Step1CarFilter } from "./src/CarFilter";
 
 import "./style.css";
 
@@ -43,9 +44,14 @@ document.querySelector("#MainBody").innerHTML = `
         <button id="StartButton">Start Filtering</button>
       </p>
     </div>
+    <div id="FilterTable1" style="display: none;">
+      <!-- Create a table to show after filtered data -->
+    </div>
   </section>
+
   <section id="LineChart" style="display: none;">
   </section>
+
   <section id="BarChart" style="display: none;">
   </section>
 `;
@@ -65,6 +71,43 @@ startButton.onclick = () =>
   }
   else
   {
+    document.querySelector("#FilterTable1").style.display = "block";
+    let filteredData = Step1CarFilter();
+    console.log(filteredData);
+    // Create a table to show after filtered data
+    const table = document.createElement('table'); // 创建表格
+    const thead = document.createElement('thead'); // 表头
+    const tbody = document.createElement('tbody'); // 表体
+    // 创建表头行
+    const headerRow = document.createElement('tr');
+    ["Brand", "Transmission", "Engine capacity", "Mileage", "Age", "Price"].forEach(text =>
+    {
+      const th = document.createElement('th');
+      th.textContent = text;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    // 创建表体行
+    filteredData.forEach(rowData =>
+    {
+      const row = document.createElement('tr');
+      ["brand", "transmission", "engine_capacity", "mileage", "age", "price"].forEach(key =>
+      {
+        const td = document.createElement('td');
+        td.textContent = rowData[key];
+        row.appendChild(td);
+      });
+      tbody.appendChild(row);
+    });
+
+    // 将thead和tbody添加到表格
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    // 将表格添加到FilterTable1 div
+    document.querySelector("#FilterTable1").appendChild(table);
+
     getGraph2Data = Graph2_data_cleaning(budget);
     if (budget && !isNaN(budget))
     {
@@ -99,3 +142,7 @@ budgetInputBox.oninput = () =>
     document.querySelector("#BarChart").style.display = "none";
   }
 };
+
+
+
+

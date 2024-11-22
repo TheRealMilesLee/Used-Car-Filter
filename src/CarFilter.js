@@ -3,7 +3,7 @@ import { budget } from '../app.js';
 import { SelectedAge } from './Graph2.js';
 import { MileageSelected } from './Graph3.js';
 
-function Step1CarFilter()
+export function Step1CarFilter()
 {
   if (budget < 30000)
   {
@@ -14,11 +14,12 @@ function Step1CarFilter()
   {
     // Filter out the data that is above the selected budget
     const filteredData = column_from_csv.filter(d => parseInt(d['price']) <= budget && parseInt(d['price']) >= 1000);
+    filteredData.sort((a, b) => a.price - b.price);
     return filteredData;
   }
 }
 
-function Step2CarFilter()
+export function Step2CarFilter()
 {
   let currentData = Step1CarFilter();
   if (SelectedAge)
@@ -29,7 +30,7 @@ function Step2CarFilter()
   }
 }
 
-function Step3CarFilter()
+export function Step3CarFilter()
 {
   let currentData = Step2CarFilter();
   if (MileageSelected)

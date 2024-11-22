@@ -108,3 +108,57 @@
   color: white;
   height: 100vh;
 }
+
+#FilterTable1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 100vh;
+  width: 100%;
+  overflow: auto;
+  border: 2px solid white;
+  box-sizing: border-box;
+}
+
+#FilterTable1 table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+#FilterTable1 table td,
+#FilterTable1 table th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid white;
+}
+
+#FilterTable1 table tbody {
+  display: block;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#FilterTable1 table tbody::-webkit-scrollbar {
+  width: 12px;
+}
+
+#FilterTable1 table tbody::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+#FilterTable1 table tbody::-webkit-scrollbar-thumb {
+  background-color: #3a3a3a;
+  border-radius: 6px;
+  border: 3px solid #1a1a1a;
+}
+
+#FilterTable1 table thead,
+#FilterTable1 table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
