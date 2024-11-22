@@ -1,7 +1,8 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph2Data } from '../app.js';
-
+import { Step2CarFilter } from './CarFilter.js';
+import { createFilteredTable } from './ChartMaker.js';
 export let SelectedAge;
 
 /**
@@ -28,7 +29,6 @@ export function LineChart_AgePriceCorrelation()
 
   // Clean the data and get the grouped data
   const data_cleaned = getGraph2Data;
-  console.log("Data cleaned for Graph2:", data_cleaned);
 
   // Set up the x and y axis
   const x = d3.scaleLinear()
@@ -39,7 +39,6 @@ export function LineChart_AgePriceCorrelation()
     .domain([0, d3.max(data_cleaned, d => d.price)]) // Start y-axis from 0
     .range([height, 0]);
 
-  console.log(y.domain());
 
   const xAxis = d3.axisBottom(x)
     .ticks(data_cleaned.length / 2)
@@ -137,11 +136,19 @@ export function LineChart_AgePriceCorrelation()
     .on("click", function (event, d)
     {
       SelectedAge = d.age;
-      console.log("Selected Age:", SelectedAge);
-      alert(`You have selected the age of ${ SelectedAge } years. Scroll down to see the next graph.`);
+      alert(`You have selected the age of ${ SelectedAge } years. Here's what we found for you.`);
+      document.querySelector("#AfterAgePrompt").style.display = "block";
+      document.querySelector("#FilterTable2").style.display = "block";
+      // Clear previous table if exists
+      const filterTable2 = document.querySelector("#FilterTable2");
+      filterTable2.innerHTML = "";
+      let filteredData = Step2CarFilter();
+
+      // Call the function to create and display the table
+      createFilteredTable(filterTable2, filteredData);
+
       // Scroll to the BarChart section
       document.querySelector("#BarChart").scrollIntoView({ behavior: "smooth" });
-
     });
 
   // Add a group for the tooltip and dashed line

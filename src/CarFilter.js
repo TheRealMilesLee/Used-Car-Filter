@@ -15,7 +15,8 @@ export function Step1CarFilter()
     // Filter out the data that is above the selected budget
     const filteredData = column_from_csv.filter(d => parseInt(d['price']) <= budget && parseInt(d['price']) >= 1000);
     filteredData.sort((a, b) => a.price - b.price);
-    return filteredData;
+    // Only return the first 30 entries for performance reasons
+    return filteredData.slice(0, 30);
   }
 }
 
@@ -26,7 +27,8 @@ export function Step2CarFilter()
   {
     // Filter out the data that is above the selected age
     const filteredData = currentData.filter(d => parseInt(d['age']) <= SelectedAge);
-    return filteredData;
+    // Only return the first 30 entries for performance reasons
+    return filteredData.slice(0, 30);
   }
 }
 
@@ -37,7 +39,13 @@ export function Step3CarFilter()
   {
     // Filter out the data that is above the selected mileage
     const filteredData = currentData.filter(d => parseInt(d['mileage']) <= MileageSelected);
-    return filteredData;
+    // Only return the first 30 entries for performance reasons
+    if (filteredData.length === 0)
+    {
+      alert("We don't have a car that matches your needs. Please try again.");
+      return;
+    }
+    return filteredData.slice(0, 30);
   }
 }
 

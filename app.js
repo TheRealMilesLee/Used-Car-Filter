@@ -1,7 +1,7 @@
 import { SankeyDiagram, LineChart, BarChart, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
 import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataCleaning";
 import { Step1CarFilter } from "./src/CarFilter";
-
+import { createFilteredTable } from "./src/ChartMaker";
 import "./style.css";
 
 export let budget;
@@ -44,12 +44,14 @@ document.querySelector("#MainBody").innerHTML = `
         <button id="StartButton">Start Filtering</button>
       </p>
     </div>
+    <p id="AfterBudgetPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
     <div id="FilterTable1" style="display: none;">
       <!-- Create a table to show after filtered data -->
     </div>
   </section>
 
   <section id="LineChart" style="display: none;">
+
   </section>
 
   <section id="BarChart" style="display: none;">
@@ -71,42 +73,18 @@ startButton.onclick = () =>
   }
   else
   {
+    document.querySelector("#AfterBudgetPrompt").style.display = "block";
     document.querySelector("#FilterTable1").style.display = "block";
     let filteredData = Step1CarFilter();
-    console.log(filteredData);
-    // Create a table to show after filtered data
-    const table = document.createElement('table'); // 创建表格
-    const thead = document.createElement('thead'); // 表头
-    const tbody = document.createElement('tbody'); // 表体
-    // 创建表头行
-    const headerRow = document.createElement('tr');
-    ["Brand", "Transmission", "Engine capacity", "Mileage", "Age", "Price"].forEach(text =>
-    {
-      const th = document.createElement('th');
-      th.textContent = text;
-      headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
 
-    // 创建表体行
-    filteredData.forEach(rowData =>
-    {
-      const row = document.createElement('tr');
-      ["brand", "transmission", "engine_capacity", "mileage", "age", "price"].forEach(key =>
-      {
-        const td = document.createElement('td');
-        td.textContent = rowData[key];
-        row.appendChild(td);
-      });
-      tbody.appendChild(row);
-    });
+    // Clear previous table if exists
+    const filterTableDiv = document.querySelector("#FilterTable1");
+    filterTableDiv.innerHTML = "";
 
-    // 将thead和tbody添加到表格
-    table.appendChild(thead);
-    table.appendChild(tbody);
+    createFilteredTable(filterTableDiv, filteredData);
 
-    // 将表格添加到FilterTable1 div
-    document.querySelector("#FilterTable1").appendChild(table);
+    // Scroll to the LineChart section
+    document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
 
     getGraph2Data = Graph2_data_cleaning(budget);
     if (budget && !isNaN(budget))
@@ -115,20 +93,25 @@ startButton.onclick = () =>
       document.querySelector("#LineChart").innerHTML = `
       <div>
       ${ LineChart() }
+        <p id="AfterAgePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+        <div id="FilterTable2" style="display: none;">
+          <!-- Create a table to show after filtered data -->
+        </div>
       </div>
     `;
       mountLineChart();
       document.querySelector("#BarChart").style.display = "block";
       getGraph3Data = Graph3_data_cleaning(budget);
       document.querySelector("#BarChart").innerHTML = `
-      <div>
-      ${ BarChart() }
-      </div>
-    `;
+        <div>
+          ${ BarChart() }
+          <p id="AfterMileagePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+          <div id="FilterTable3" style="display: none;">
+            <!-- Create a table to show after filtered data -->
+          </div>
+        </div>
+      `;
       mountScatter();
-
-      // Scroll to the LineChart section
-      document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
     }
   }
 };

@@ -36,8 +36,8 @@ export const SankeyDiagram = () => (
 
 export const LineChart = () => (
   `<div id='LineChart-Graph2'>
-        <svg id='Graph2'></svg>
-        <i>  <b> Graph 2. </b> Relationship between Age and Price. Select the data point on the chart to Continue. </i>
+      <svg id='Graph2'></svg>
+      <i>  <b> Graph 2. </b> Relationship between Age and Price. Select the data point on the chart to Continue. </i>
     </div>`
 );
 
@@ -77,6 +77,3 @@ export function mountScatter()
     chartObserver.observe(Graph3Container);
   }
 }
-
-
-

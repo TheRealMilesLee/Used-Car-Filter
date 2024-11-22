@@ -1,6 +1,8 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph3Data } from '../app.js';
+import { Step3CarFilter } from './CarFilter.js';
+import { createFilteredTable } from './ChartMaker.js';
 
 export let MileageSelected;
 export function BarChart_MileagePriceCorrelation()
@@ -23,7 +25,6 @@ export function BarChart_MileagePriceCorrelation()
 
   // Clean the data and get the grouped data
   const Graph3_data_cleaning_result = getGraph3Data;
-  console.log("Data cleaned for Graph3:", Graph3_data_cleaning_result);
 
   // Set up the scales
   const xScale = d3.scaleBand()
@@ -113,8 +114,18 @@ export function BarChart_MileagePriceCorrelation()
     .on("click", function (event, d)
     {
       MileageSelected = d.mileage;
-      console.log("Mileage Selected:", MileageSelected);
-      alert("You have selected the mileage of " + MileageSelected + " miles. Now we will take you to the Gearbox section.");
+
+      alert("You have selected the mileage of " + MileageSelected + " miles. Here's what we found for you.");
+
+      document.querySelector("#AfterMileagePrompt").style.display = "block";
+      document.querySelector("#FilterTable3").style.display = "block";
+      // Clear previous table if exists
+      const filterTable3 = document.querySelector("#FilterTable3");
+      filterTable3.innerHTML = "";
+      let filteredData = Step3CarFilter();
+      // Call the function to create and display the table
+      createFilteredTable(filterTable3, filteredData);
+
     });
   // Add a group for the tooltip and dashed line
   const tooltipGroup = chartContainer_graph3.append("g")

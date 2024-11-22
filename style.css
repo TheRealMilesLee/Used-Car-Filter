@@ -6,20 +6,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  background: linear-gradient(45deg, #1a1a1a, #3a3a3a, #5a5a5a);
-  background-image: url('./Resources/Background/Warp.png');
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
+  background: url('./Resources/Background/Warp.png') center/cover fixed;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .navigationbar,
@@ -35,36 +27,34 @@
   position: sticky;
   top: 0;
   overflow: hidden;
-  background-color: antiquewhite;
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.5);
   animation-delay: 0s;
 }
 
-.GreetingPage {
+.GreetingPage,
+#GetStarted,
+#LineChart-Graph2,
+#BarChart-Graph3,
+#FilterTable1{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   color: white;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-position: center;
+}
+
+.GreetingPage {
   animation-delay: 1s;
 }
 
 #Sankey-Graph1 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   color: #1C1C1E;
-  animation-delay: 2s;
-  background-color: rgba(249, 250, 251, 0.5);
+  background: rgba(249, 250, 251, 0.5);
   backdrop-filter: blur(10px);
   border-radius: 25px;
+  animation-delay: 2s;
 }
 
 .SanketTitle {
@@ -73,11 +63,6 @@
 }
 
 #GetStarted {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   color: #cccac6;
   animation-delay: 3s;
 }
@@ -91,74 +76,82 @@
   border-radius: 25px;
 }
 
-#LineChart-Graph2 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;;
-  color: white;
-}
-
-#BarChart-Graph3 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  height: 100vh;
-}
-
-#FilterTable1 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  height: 100vh;
+#FilterTable1,
+#FilterTable2,
+#FilterTable3 {
   width: 100%;
   overflow: auto;
   border: 2px solid white;
   box-sizing: border-box;
+  margin-top: 20px; /* Adjust the margin value as needed */
 }
 
-#FilterTable1 table {
+#FilterTable1 table,
+#FilterTable2 table,
+#FilterTable3 table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
 }
 
 #FilterTable1 table td,
-#FilterTable1 table th {
+#FilterTable1 table th,
+#FilterTable2 table td,
+#FilterTable2 table th,
+#FilterTable3 table td,
+#FilterTable3 table th {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   border: 1px solid white;
+  color: white; /* Set text color to white */
 }
 
-#FilterTable1 table tbody {
+#FilterTable1 table tbody,
+#FilterTable2 table tbody,
+#FilterTable3 table tbody {
   display: block;
   max-height: 80vh;
   overflow-y: auto;
 }
 
-#FilterTable1 table tbody::-webkit-scrollbar {
+#FilterTable1 table tbody::-webkit-scrollbar,
+#FilterTable2 table tbody::-webkit-scrollbar,
+#FilterTable3 table tbody::-webkit-scrollbar {
   width: 12px;
 }
 
-#FilterTable1 table tbody::-webkit-scrollbar-track {
-  background: #1a1a1a;
+#FilterTable1 table tbody::-webkit-scrollbar-track,
+#FilterTable2 table tbody::-webkit-scrollbar-track,
+#FilterTable3 table tbody::-webkit-scrollbar-track {
+  background: white;
 }
 
-#FilterTable1 table tbody::-webkit-scrollbar-thumb {
-  background-color: #3a3a3a;
+#FilterTable1 table tbody::-webkit-scrollbar-thumb,
+#FilterTable2 table tbody::-webkit-scrollbar-thumb,
+#FilterTable3 table tbody::-webkit-scrollbar-thumb  {
+  background: white;
   border-radius: 6px;
-  border: 3px solid #1a1a1a;
+  border: 3px solid #cccac6;
 }
 
 #FilterTable1 table thead,
-#FilterTable1 table tbody tr {
+#FilterTable1 table tbody tr,
+#FilterTable2 table thead,
+#FilterTable2 table tbody tr,
+#FilterTable3 table thead,
+#FilterTable3 table tbody tr {
   display: table;
   width: 100%;
   table-layout: fixed;
+}
+
+#AfterAgePrompt,
+#AfterMileagePrompt
+{
+  color: #cccac6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }

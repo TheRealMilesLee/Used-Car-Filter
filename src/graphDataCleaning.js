@@ -204,7 +204,6 @@ export const Graph3_data_cleaning = (budget) =>
   const uniqueEntries = new Set();
   return column_from_csv.map(d =>
   {
-
     const mileage = categoriesOdometer(d['mileage']);
     const price = parseInt(d['price']);
     const uniqueKey = `${ mileage }`;
