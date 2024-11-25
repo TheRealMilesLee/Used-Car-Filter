@@ -2,6 +2,10 @@
  * @brief This file is to perform the data cleaning for each graph.
  */
 import { column_from_csv } from './csvReadIn.js';
+import { budget } from './Behavior.js';
+import { SelectedAge } from './Graph2.js';
+import { MileageSelected } from './Graph3.js';
+
 
 /**
  * @brief Categorizes a car make into a region.
@@ -186,6 +190,10 @@ export const Graph2_data_cleaning = (budget) =>
     {
       uniqueEntries.add(uniqueKey);
       return {
+        brand: d['brand'],
+        transmission: d['transmission'],
+        engine_capacity: d['engine_capacity'],
+        mileage: categoriesOdometer(d['mileage']),
         age: age,
         price: price
       };
@@ -197,24 +205,94 @@ export const Graph2_data_cleaning = (budget) =>
 /**
  *
  * @param {number} budget is the budget of the user
+ * @param {number} SelectedAge is the age of the car selected by the user
  * @returns the mileage and price of the car
  */
-export const Graph3_data_cleaning = (budget) =>
+export const Graph3_data_cleaning = (budget, SelectedAge) =>
 {
   const uniqueEntries = new Set();
-  return column_from_csv.map(d =>
+  let returnValue = column_from_csv.map(d =>
   {
     const mileage = categoriesOdometer(d['mileage']);
     const price = parseInt(d['price']);
     const uniqueKey = `${ mileage }`;
-    if (!uniqueEntries.has(uniqueKey) && price <= budget)
+    if (!uniqueEntries.has(uniqueKey) && price <= budget && SelectedAge <= parseInt(d['age']))
     {
       uniqueEntries.add(uniqueKey);
       return {
+        brand: d['brand'],
+        transmission: d['transmission'],
+        engine_capacity: d['engine_capacity'],
         mileage: mileage,
+        age: parseInt(d['age']),
         price: price
       };
     }
     return null;
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
+  returnValue.sort((a, b) => a.mileage - b.mileage);
+  return returnValue;
 };
+
+
+export function Step1CarFilter()
+{
+  if (budget < 30000)
+  {
+    alert("We don't have a car that matches your needs.");
+    return;
+  }
+  else
+  {
+    // Filter out the data that is above the selected budget
+    const filteredData = column_from_csv.filter(d => parseInt(d['price']) <= budget && parseInt(d['price']) >= 1000);
+    filteredData.sort((a, b) => a.price - b.price);
+    // Only return the first 30 entries for performance reasons
+    return filteredData.slice(0, 30);
+  }
+}
+
+export function Step2CarFilter()
+{
+  let currentData = Graph2_data_cleaning(budget);
+  if (SelectedAge)
+  {
+    // Filter out the data that is above the selected age
+    const filteredData = currentData.filter(d => parseInt(d['age']) <= SelectedAge);
+    // Only return the first 30 entries for performance reasons
+    return filteredData;
+  }
+}
+
+export function Step3CarFilter()
+{
+  let currentData = Step2CarFilter();
+  if (MileageSelected)
+  {
+    let mileageRange = MileageSelected.split("-");
+    let lowBound = parseInt(mileageRange[0]);
+    let highBound;
+    if (mileageRange[1])
+    {
+      highBound = parseInt(mileageRange[1]);
+    }
+    else
+    {
+      highBound = Infinity;
+    }
+    if (MileageSelected.includes("+"))
+    {
+      highBound = Infinity;
+    }
+    console.log(lowBound, highBound);
+    // Filter out the data that is above the selected mileage
+    const filteredData = currentData.filter(d => parseInt(d['mileage']) <= highBound && parseInt(d['mileage']) >= lowBound);
+    // Only return the first 30 entries for performance reasons
+    if (filteredData.length === 0)
+    {
+      alert("We don't have a car that matches your needs. Please try again.");
+      return;
+    }
+    return filteredData;
+  }
+}

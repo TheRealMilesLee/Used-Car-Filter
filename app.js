@@ -1,12 +1,6 @@
 import { SankeyDiagram, LineChart, BarChart, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
-import { Graph2_data_cleaning, Graph3_data_cleaning } from "./src/graphDataCleaning";
-import { Step1CarFilter } from "./src/CarFilter";
-import { createFilteredTable } from "./src/ChartMaker";
+import './src/Behavior.js';
 import "./style.css";
-
-export let budget;
-export let getGraph2Data;
-export let getGraph3Data;
 
 document.querySelector("#Header").innerHTML = `
   <header>
@@ -51,81 +45,28 @@ document.querySelector("#MainBody").innerHTML = `
   </section>
 
   <section id="LineChart" style="display: none;">
-
+    <div>
+    ${ LineChart() }
+      <p id="AfterAgePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+      <div id="FilterTable2" style="display: none;">
+        <!-- Create a table to show after filtered data -->
+      </div>
+    </div>
   </section>
 
   <section id="BarChart" style="display: none;">
+    <div>
+      ${ BarChart() }
+      <p id="AfterMileagePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+      <div id="FilterTable3" style="display: none;">
+        <!-- Create a table to show after filtered data -->
+      </div>
+    </div>
   </section>
 `;
 mountSankey();
-
-// Get input button and input box
-const budgetInputBox = document.getElementById("BudgetInputBox");
-const startButton = document.getElementById("StartButton");
-startButton.onclick = () =>
-{
-  budget = budgetInputBox.value;
-  if (budget < 30000)
-  {
-    alert("We don't have a car that matches your needs.");
-    budgetInputBox.value = "";
-    return;
-  }
-  else
-  {
-    document.querySelector("#AfterBudgetPrompt").style.display = "block";
-    document.querySelector("#FilterTable1").style.display = "block";
-    let filteredData = Step1CarFilter();
-
-    // Clear previous table if exists
-    const filterTableDiv = document.querySelector("#FilterTable1");
-    filterTableDiv.innerHTML = "";
-
-    createFilteredTable(filterTableDiv, filteredData);
-
-    // Scroll to the LineChart section
-    document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
-
-    getGraph2Data = Graph2_data_cleaning(budget);
-    if (budget && !isNaN(budget))
-    {
-      document.querySelector("#LineChart").style.display = "block";
-      document.querySelector("#LineChart").innerHTML = `
-      <div>
-      ${ LineChart() }
-        <p id="AfterAgePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-        <div id="FilterTable2" style="display: none;">
-          <!-- Create a table to show after filtered data -->
-        </div>
-      </div>
-    `;
-      mountLineChart();
-      document.querySelector("#BarChart").style.display = "block";
-      getGraph3Data = Graph3_data_cleaning(budget);
-      document.querySelector("#BarChart").innerHTML = `
-        <div>
-          ${ BarChart() }
-          <p id="AfterMileagePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-          <div id="FilterTable3" style="display: none;">
-            <!-- Create a table to show after filtered data -->
-          </div>
-        </div>
-      `;
-      mountScatter();
-    }
-  }
-};
-
-
-budgetInputBox.oninput = () =>
-{
-  if (budgetInputBox.value === "")
-  {
-    document.querySelector("#LineChart").style.display = "none";
-    document.querySelector("#BarChart").style.display = "none";
-  }
-};
-
+mountLineChart();
+mountScatter();
 
 
 

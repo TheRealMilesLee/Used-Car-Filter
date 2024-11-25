@@ -1,14 +1,14 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { getGraph3Data } from '../app.js';
-import { Step3CarFilter } from './CarFilter.js';
+import { getGraph3Data } from './Graph2.js';
+import { Step3CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 
 export let MileageSelected;
 export function BarChart_MileagePriceCorrelation()
 {
   // Set up the margin for the chart
-  const margin = { top: 25, right: 55, bottom: 25, left: 105 }; // Increased left margin to move the chart to the right
+  const margin = { top: 50, right: 55, bottom: 25, left: 105 }; // Increased left margin to move the chart to the right
   const width = size.width - margin.left - margin.right - 40;
   const height = size.height - margin.top - margin.bottom - 60;
 
@@ -30,7 +30,7 @@ export function BarChart_MileagePriceCorrelation()
   const xScale = d3.scaleBand()
     .domain(Graph3_data_cleaning_result.map(d => d.mileage))
     .range([0, width])
-    .padding(0.1);
+    .padding(0.3); // Increased padding to make rectangles thinner
 
   const yScale = d3.scaleLinear()
     .domain([0, d3.max(Graph3_data_cleaning_result, d => d.price)])
@@ -56,7 +56,7 @@ export function BarChart_MileagePriceCorrelation()
     .attr("x", d => xScale(d.mileage))
     .attr("y", d => yScale(d.price))
     .attr("width", xScale.bandwidth())
-    .attr("height", d => height - yScale(d.price))
+    .attr("height", d => height - yScale(d.price) - 10) // Reduced height to make rectangles smaller
     .attr("fill", "#E5F9FF");
 
   // Draw the labels
@@ -99,7 +99,7 @@ export function BarChart_MileagePriceCorrelation()
 
       // Show the tooltip
       tooltipGroup.style("display", null)
-        .attr("transform", `translate(${ xScale(d.mileage) + 65 }, ${ yScale(d.price) - 20 })`);
+        .attr("transform", `translate(${ xScale(d.mileage) + xScale.bandwidth() / 2 }, ${ yScale(d.price) - 20 })`); // Centered tooltip
 
       // Update the tooltip text
       tooltipGroup.select(".tooltip-text")

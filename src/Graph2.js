@@ -1,12 +1,13 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { getGraph2Data } from '../app.js';
-import { Step2CarFilter } from './CarFilter.js';
+import { getGraph2Data, budget } from './Behavior.js';
+import { Step2CarFilter, Graph3_data_cleaning } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 export let SelectedAge;
+export let getGraph3Data;
 
 /**
- * For this graph, we would like to show the correlation under the user's budget betweenn the age of the car and the price of the car.
+ * For this graph, we would like to show the correlation under the user's budget between the age of the car and the price of the car.
  * We will use a line chart to show the correlation between the age of the car and the price of the car.
  */
 export function LineChart_AgePriceCorrelation()
@@ -146,7 +147,11 @@ export function LineChart_AgePriceCorrelation()
 
       // Call the function to create and display the table
       createFilteredTable(filterTable2, filteredData);
-
+      if (SelectedAge && !isNaN(SelectedAge))
+      {
+        getGraph3Data = Graph3_data_cleaning(budget, SelectedAge);
+        document.querySelector("#BarChart").style.display = "block";
+      }
       // Scroll to the BarChart section
       document.querySelector("#BarChart").scrollIntoView({ behavior: "smooth" });
     });
