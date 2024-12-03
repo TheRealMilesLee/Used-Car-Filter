@@ -129,13 +129,13 @@ export function BarChart_MileagePriceCorrelation()
       let filteredData = Step3CarFilter();
       // Call the function to create and display the table
       createFilteredTable(filterTable3, filteredData);
-      if (MileageSelected)
+      if (MileageSelected !== null)
       {
         getGraph4Data = Graph4_data_cleaning(budget, SelectedAge, MileageSelected);
-        document.querySelector("#BarChart2").style.display = "block";
+        document.querySelector("#TransmissionBarChart").style.display = "block";
       }
       // Scroll to the BarChart section
-      document.querySelector("#BarChart2").scrollIntoView({ behavior: "smooth" });
+      document.querySelector("#TransmissionBarChart").scrollIntoView({ behavior: "smooth" });
     });
   // Add a group for the tooltip and dashed line
   const tooltipGroup = chartContainer_graph3.append("g")
