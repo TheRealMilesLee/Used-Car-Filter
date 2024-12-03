@@ -1,4 +1,4 @@
-import { SankeyDiagram, LineChart, BarChart, BarChart2, 
+import { SankeyDiagram, LineChart, BarChart, TransmissionBarChart, 
   mountSankey, mountLineChart, mountScatter, mountTransmissionChart } from "./src/Diagrams";
 import { CityBrandChart, mountCityBrandChart } from "./src/Diagrams.js"
 import { ModelSalesChart, mountModelSalesChart } from "./src/Diagrams.js"
@@ -72,7 +72,7 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-  <section id="BarChart2" style="display: none;">
+  <section id="TransmissionBarChart" style="display: none;">
   <div>
     ${ TransmissionBarChart() }
     <p id="AfterTransmissionPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>

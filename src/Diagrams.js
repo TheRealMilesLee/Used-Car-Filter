@@ -2,13 +2,12 @@ import * as d3 from 'd3';
 import { isEmpty, debounce } from 'lodash';
 import { SankeyDiagram_Overview } from './Graph1.js';
 import { LineChart_AgePriceCorrelation } from './Graph2.js';
-import { BarChart_TransmissionDistribution } from './Graph4.js';
 import { BarChart_MileagePriceCorrelation } from './Graph3.js';
+import { BarChart_TransmissionDistribution } from './Graph4.js';
 import { HorizontalBarChart_CityBrandDistribution } from './Graph5.js';
 import { ModelSalesChart_Distribution } from './Graph6.js';
 import { EngineCategoryDistribution } from './Graph7.js';
 
->>>>>>> shu
 import { column_from_csv } from './csvReadIn.js';
 
 export let size = { width: 0, height: 0 };
@@ -18,7 +17,7 @@ const onResize = (targets) =>
   targets.forEach(target =>
   {
     const targetId = target.target.getAttribute('id');
-    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionChart',
+    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4',
          'CityBrandChart-Graph5', 'ModelSalesChart-Graph6', 'EngineCategoryChart-Graph7'].includes(targetId)) return;
     size = { width: target.contentRect.width, height: target.contentRect.height };
     if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
@@ -26,7 +25,7 @@ const onResize = (targets) =>
       'Sankey-Graph1': { selector: '#Graph1', redraw: SankeyDiagram_Overview },
       'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
       'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
-      'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: TransmissionChart },
+      'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
       'CityBrandChart-Graph5': { selector: '#Graph5', redraw: HorizontalBarChart_CityBrandDistribution },
       'ModelSalesChart-Graph6': { selector: '#Graph6', redraw: ModelSalesChart_Distribution },
       'EngineCategoryChart-Graph7': { selector: '#Graph7', redraw: EngineCategoryDistribution }
