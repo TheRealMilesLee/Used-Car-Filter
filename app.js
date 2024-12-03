@@ -1,5 +1,8 @@
-import { SankeyDiagram, LineChart, BarChart, BarChart2, 
-  mountSankey, mountLineChart, mountScatter, mountTransmissionChart } from "./src/Diagrams";
+import
+{
+  SankeyDiagram, LineChart, BarChart, TransmissionBarChart,
+  mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart
+} from "./src/Diagrams";
 import './src/Behavior.js';
 import "./style.css";
 
@@ -68,7 +71,7 @@ document.querySelector("#MainBody").innerHTML = `
 
   <section id="BarChart2" style="display: none;">
     <div>
-      ${ BarChart2() }
+      ${ TransmissionBarChart() }
       <p id="AfterTransmissionPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
       <div id="FilterTable4" style="display: none;">
         <!-- Create a table to show after filtered data -->
@@ -79,7 +82,7 @@ document.querySelector("#MainBody").innerHTML = `
 mountSankey();
 mountLineChart();
 mountScatter();
-mountTransmissionChart();
+mountTransmissionBarChart();
 
 
 
