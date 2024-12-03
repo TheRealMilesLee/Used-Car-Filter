@@ -8,8 +8,8 @@ export function BarChart_TransmissionDistribution()
   d3.select("#Graph4").selectAll("*").remove();
   // Set up the margin for the chart
   const margin = { top: 25, right: 55, bottom: 25, left: 85 };
-  const width = size.width - margin.left - margin.right - 40;
-  const height = size.height - margin.top - margin.bottom - 60;
+  const width = size.width - margin.left - margin.right;
+  const height = size.height - margin.top - margin.bottom;
   // Set up the SVG container
   const chartContainer_graph4 = d3.select("#Graph4")
     .attr("width", "100%")
@@ -28,7 +28,8 @@ export function BarChart_TransmissionDistribution()
 
   const yScale = d3.scaleLinear()
     .domain([0, d3.max(Graph4_data_cleaning_result, d => d.count)])
-    .range([height, 0]);
+    .range([height, 0])
+    .nice();
 
   // Set up the axis
   const xAxis = d3.axisBottom(xScale);
@@ -97,7 +98,7 @@ export function BarChart_TransmissionDistribution()
 
       // Update the tooltip text
       tooltipGroup.select(".tooltip-text")
-        .text(`$${ d.price.toFixed(2) }`);
+        .text(`${ d.count.toFixed(2) }`);
     })
     .on("mouseout", function (event, d)
     {
