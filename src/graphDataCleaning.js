@@ -234,6 +234,46 @@ export const Graph3_data_cleaning = (budget, SelectedAge) =>
   return returnValue;
 };
 
+export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
+{
+  let MileageSelected_lowBound = parseInt(MileageSelected.split("-")[0]);
+  let MileageSelected_highBound = parseInt(MileageSelected.split("-")[1]) || Infinity;
+  let returnValue = column_from_csv.map(d =>
+  {
+    const mileage = d['mileage'];
+    const price = parseInt(d['price']);
+    if (price <= budget && SelectedAge <= parseInt(d['age']) && mileage >= MileageSelected_lowBound && mileage <= MileageSelected_highBound)
+    {
+      return {
+        transmission: d['transmission'],
+      };
+    }
+    return null;
+  }).filter(d => d !== null || d != undefined);  // Filter out null entries
+  returnValue.sort((a, b) => a.mileage - b.mileage);
+  // Count the number of cars in each transmission type
+  let transmissionCounts = {};
+  returnValue.forEach(d =>
+  {
+    if (transmissionCounts[d.transmission])
+    {
+      transmissionCounts[d.transmission]++;
+    }
+    else
+    {
+      transmissionCounts[d.transmission] = 1;
+    }
+  });
+
+  // Convert to key-value pair array
+  let transmissionCountsArray = Object.keys(transmissionCounts).map(key =>
+  {
+    return { transmission: key, count: transmissionCounts[key] };
+  });
+
+  return transmissionCountsArray;
+};
+
 
 export function Step1CarFilter()
 {
@@ -284,7 +324,6 @@ export function Step3CarFilter()
     {
       highBound = Infinity;
     }
-    console.log(lowBound, highBound);
     // Filter out the data that is above the selected mileage
     const filteredData = currentData.filter(d => parseInt(d['mileage']) <= highBound && parseInt(d['mileage']) >= lowBound);
     // Only return the first 30 entries for performance reasons
@@ -296,17 +335,3 @@ export function Step3CarFilter()
     return filteredData;
   }
 }
-
-export function getTransmissionData(budget, selectedAge, selectedMileage) {
-  return column_from_csv.filter(d => {
-    const price = parseInt(d.car_price);
-    const age = parseInt(d.car_age);
-    const mileage = parseInt(d.car_mileage);
-    return price <= budget && age <= selectedAge && mileage <= parseInt(selectedMileage);
-  }).reduce((acc, car) => {
-    const transmission = car.car_transmission;
-    acc[transmission] = (acc[transmission] || 0) + 1;
-    return acc;
-  }, {});
-}
-

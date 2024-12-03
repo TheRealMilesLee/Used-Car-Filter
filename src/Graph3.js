@@ -1,10 +1,14 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { getGraph3Data} from './Graph2.js';
-import { Step3CarFilter} from './graphDataCleaning.js';
+import { getGraph3Data } from './Graph2.js';
+import { Step3CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
-import { BarChart_TransmissionDistribution } from './Graph4.js';
+import { Graph4_data_cleaning } from './graphDataCleaning.js';
+import { SelectedAge } from './Graph2.js';
+import { budget } from './Behavior.js';
+
 export let MileageSelected;
+export let getGraph4Data;
 export function BarChart_MileagePriceCorrelation()
 {
   // Set up the margin for the chart
@@ -125,14 +129,13 @@ export function BarChart_MileagePriceCorrelation()
       let filteredData = Step3CarFilter();
       // Call the function to create and display the table
       createFilteredTable(filterTable3, filteredData);
-      
-
-      // Show and update the TransmissionBarChart
-      document.querySelector("#TransmissionBarChart").style.display = "block";
-      BarChart_TransmissionDistribution();
-
-      // Scroll to the TransmissionBarChart section
-      document.querySelector("#TransmissionBarChart").scrollIntoView({ behavior: "smooth" });
+      if (MileageSelected)
+      {
+        getGraph4Data = Graph4_data_cleaning(budget, SelectedAge, MileageSelected);
+        document.querySelector("#BarChart2").style.display = "block";
+      }
+      // Scroll to the BarChart section
+      document.querySelector("#BarChart2").scrollIntoView({ behavior: "smooth" });
     });
   // Add a group for the tooltip and dashed line
   const tooltipGroup = chartContainer_graph3.append("g")

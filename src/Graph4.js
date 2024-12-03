@@ -1,11 +1,8 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { budget } from './Behavior.js';
-import { SelectedAge } from './Graph2.js';
-import { MileageSelected } from './Graph3.js';
-import { column_from_csv } from './csvReadIn.js';
-
-export function BarChart_TransmissionDistribution() {
+import { getGraph4Data } from './Graph3.js';
+export function BarChart_TransmissionDistribution()
+{
   // Set up the margin for the chart
   const margin = { top: 50, right: 55, bottom: 25, left: 105 };
   const width = size.width - margin.left - margin.right - 40;
@@ -20,17 +17,12 @@ export function BarChart_TransmissionDistribution() {
     .attr("height", "100%")
     .attr("preserveAspectRatio", "xMidYMid meet")
     .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    .attr("transform", `translate(${ margin.left }, ${ margin.top })`);
 
-  // Filter and process the data
-  const filteredData = column_from_csv.filter(d => 
-    d.price <= budget && 
-    d.age >= SelectedAge &&
-    (MileageSelected ? d.mileage >= parseInt(MileageSelected.split('-')[0]) && d.mileage <= parseInt(MileageSelected.split('-')[1] || Infinity) : true)
-  );
+  // Get the data from cleaning
+  const data = getGraph4Data;
 
-  const transmissionCounts = d3.rollup(filteredData, v => v.length, d => d.transmission);
-  const data = Array.from(transmissionCounts, ([transmission, count]) => ({transmission, count}));
+  console.log(data);
 
   // Set up the scales
   const xScale = d3.scaleBand()
@@ -48,7 +40,7 @@ export function BarChart_TransmissionDistribution() {
 
   // Draw the axis
   chartContainer_graph4.append("g")
-    .attr("transform", `translate(0, ${height})`)
+    .attr("transform", `translate(0, ${ height })`)
     .call(xAxis);
 
   chartContainer_graph4.append("g")
