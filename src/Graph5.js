@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph5Data } from './Graph4.js';
-import { Step4CarFilter } from './graphDataCleaning.js';
+/*import { Step4CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 import { Graph6_data_cleaning } from './graphDataCleaning.js';
 import { budget } from './Behavior.js';
@@ -10,7 +10,7 @@ import { MileageSelected } from './Graph3.js';
 import { TransmissionSelected} from './Graph4.js';
 
 export let BrandSelected;
-export let getGraph6Data;
+export let getGraph6Data;*/
 
 // Static data for demonstration
 const cityData = {
@@ -77,13 +77,16 @@ export function HorizontalBarChart_CityBrandDistribution() {
     const svg = d3.select("#Graph5 g");
     svg.selectAll("*").remove();
 
+    // Get the data from cleaning
+    const Graph5_data_cleaning_result = getGraph5Data;
+
     // Set up the scales
     const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.count)])
+        .domain([0, d3.max(Graph5_data_cleaning_result, d => d.count)])
         .range([0, width]);
 
     const yScale = d3.scaleBand()
-        .domain(data.map(d => d.brand))
+        .domain(Graph5_data_cleaning_result.map(d => d.brand))
         .range([0, height])
         .padding(0.1);
 
@@ -106,7 +109,7 @@ export function HorizontalBarChart_CityBrandDistribution() {
 
     // Draw the bars
     const bars = svg.selectAll(".bar")
-        .data(data);
+        .data(Graph5_data_cleaning_result);
 
     bars.enter()
         .append("rect")
@@ -124,7 +127,7 @@ export function HorizontalBarChart_CityBrandDistribution() {
 
     // Draw the labels
     const labels = svg.selectAll(".bar-label")
-        .data(data);
+        .data(Graph5_data_cleaning_result);
 
     labels.enter()
         .append("text")

@@ -6,6 +6,7 @@ import { createFilteredTable } from './ChartMaker.js';
 import { Graph5_data_cleaning } from './graphDataCleaning.js';
 import { SelectedAge } from './Graph2.js';
 import { budget } from './Behavior.js';
+import { MileageSelected } from './Graph3.js';
 
 export let TransmissionSelected;
 export let getGraph5Data;

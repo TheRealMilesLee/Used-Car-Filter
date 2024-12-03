@@ -1,13 +1,13 @@
 import * as d3 from 'd3';
 import { size } from './Diagrams.js';
-import { getGraph6Data } from './Graph5.js';
+/*import { getGraph6Data } from './Graph5.js';
 import { Step5CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 import { Graph6_data_cleaning } from './graphDataCleaning.js';
 import { budget } from './Behavior.js';
 import { SelectedAge } from './Graph2.js';
 import { MileageSelected } from './Graph3.js';
-import { TransmissionSelected} from './Graph4.js';
+import { TransmissionSelected} from './Graph4.js';*/
 
 const data = [
   { model: "Sedan X", sold: 4000 },
