@@ -5,7 +5,7 @@ import { column_from_csv } from './csvReadIn.js';
 import { budget } from './Behavior.js';
 import { SelectedAge } from './Graph2.js';
 import { MileageSelected } from './Graph3.js';
-import { SelectedTransmission } from './Graph4.js';
+import { TransmissionSelected } from './Graph4.js';
 
 
 /**
@@ -275,7 +275,7 @@ export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
   return transmissionCountsArray;
 };
 
-export const Graph5_data_cleaning = (budget, SelectedAge, MileageSelected, SelectedTransmission) =>
+export const Graph5_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected) =>
 {
 };
 

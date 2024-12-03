@@ -39,7 +39,8 @@ export function BarChart_TransmissionDistribution()
 
   const yScale = d3.scaleLinear()
     .domain([0, d3.max(Graph4_data_cleaning_result, d => d.count)])
-    .range([height, 0]);
+    .range([height, 0])
+    .nice();
 
   // Set up the axis
   const xAxis = d3.axisBottom(xScale);
@@ -48,10 +49,14 @@ export function BarChart_TransmissionDistribution()
   // Draw the axis
   chartContainer_graph4.append("g")
     .attr("transform", `translate(0, ${ height })`)
-    .call(xAxis);
+    .call(xAxis)
+    .selectAll("text")
+    .attr("fill", "white");
 
   chartContainer_graph4.append("g")
-    .call(yAxis);
+    .call(yAxis)
+    .selectAll("text")
+    .attr("fill", "white");
 
   // Draw the bars
   chartContainer_graph4.selectAll("rect")
@@ -61,20 +66,21 @@ export function BarChart_TransmissionDistribution()
     .attr("x", d => xScale(d.transmission))
     .attr("y", d => yScale(d.count))
     .attr("width", xScale.bandwidth())
-    .attr("height", d => height - yScale(d.count) - 10) // Reduced height to make rectangles smaller
+    .attr("height", d => height - yScale(d.count))
     .attr("fill", "#E5F9FF");
 
   // Draw the labels
-  chartContainer_graph4.selectAll("text")
+  chartContainer_graph4.selectAll(".bar-label")
     .data(Graph4_data_cleaning_result)
     .enter()
     .append("text")
-    .text(d => d.Make)
+    .attr("class", "bar-label")
+    .text(d => d.count)
     .attr("x", d => xScale(d.transmission) + xScale.bandwidth() / 2)
     .attr("y", d => yScale(d.count) - 5)
     .attr("text-anchor", "middle")
     .attr("font-size", "10px")
-    .attr("fill", "lightgray");
+    .attr("fill", "white");
 
   // Draw the x-axis label
   chartContainer_graph4.append("text")
@@ -97,10 +103,10 @@ export function BarChart_TransmissionDistribution()
 
   // Make on hover effect
   chartContainer_graph4.selectAll("rect")
-    .on("mouseover", function (d)
+    .on("mouseover", function (event, d)
     {
       d3.select(this)
-        .attr("r", 7);
+        .attr("fill", "#B0E0E6");
 
       // Show the tooltip
       tooltipGroup.style("display", null)
@@ -110,13 +116,13 @@ export function BarChart_TransmissionDistribution()
       tooltipGroup.select(".tooltip-text")
         .text(`${ d.count }`);
     })
-    .on("mouseout", function (d)
+    .on("mouseout", function (event, d)
     {
       d3.select(this)
-        .attr("r", 5);
+        .attr("fill", "#E5F9FF");
       tooltipGroup.style("display", "none");
     })
-    .on("click", function (d)
+    .on("click", function (event, d)
     {
       TransmissionSelected = d.transmission;
       alert(`You have selected ${ TransmissionSelected } transmission`);

@@ -39,6 +39,10 @@
 #GetStarted,
 #LineChart-Graph2,
 #BarChart-Graph3,
+#TransmissionBarChart-Graph4,
+#CityBrandChart-Graph5,
+#ModelSalesChart-Graph6,
+#EngineCategoryChart-Graph7
 #FilterTable1{
   display: flex;
   flex-direction: column;
