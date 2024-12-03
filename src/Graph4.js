@@ -2,14 +2,25 @@ import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph4Data } from './Graph3.js';
 import { Step4CarFilter } from './graphDataCleaning.js';
+import { createFilteredTable } from './ChartMaker.js';
+import { Graph5_data_cleaning } from './graphDataCleaning.js';
+import { SelectedTransmission } from './Graph3.js';
+import { SelectedAge } from './Graph2.js';
+import { budget } from './Behavior.js';
+
+export let TransmissionSelected;
+export let getGraph5Data;
+
 export function BarChart_TransmissionDistribution()
 {
+  // Set up the margin for the chart
+  const margin = { top: 50, right: 55, bottom: 25, left: 105 }; // Increased left margin to move the chart to the right
+  const width = size.width - margin.left - margin.right - 40;
+  const height = size.height - margin.top - margin.bottom - 60;
+
   // Clear previous chart
   d3.select("#Graph4").selectAll("*").remove();
-  // Set up the margin for the chart
-  const margin = { top: 25, right: 55, bottom: 25, left: 85 };
-  const width = size.width - margin.left - margin.right;
-  const height = size.height - margin.top - margin.bottom;
+
   // Set up the SVG container
   const chartContainer_graph4 = d3.select("#Graph4")
     .attr("width", "100%")
@@ -20,16 +31,16 @@ export function BarChart_TransmissionDistribution()
 
   // Get the data from cleaning
   const Graph4_data_cleaning_result = getGraph4Data;
+
   // Set up the scales
   const xScale = d3.scaleBand()
     .domain(Graph4_data_cleaning_result.map(d => d.transmission))
     .range([0, width])
-    .padding(0.3);
+    .padding(0.3); // Increased padding to make rectangles thinner
 
   const yScale = d3.scaleLinear()
     .domain([0, d3.max(Graph4_data_cleaning_result, d => d.count)])
-    .range([height, 0])
-    .nice();
+    .range([height, 0]);
 
   // Set up the axis
   const xAxis = d3.axisBottom(xScale);
@@ -51,7 +62,7 @@ export function BarChart_TransmissionDistribution()
     .attr("x", d => xScale(d.transmission))
     .attr("y", d => yScale(d.count))
     .attr("width", xScale.bandwidth())
-    .attr("height", d => height - yScale(d.count)) // Reduced height to make rectangles smaller
+    .attr("height", d => height - yScale(d.count) - 10) // Reduced height to make rectangles smaller
     .attr("fill", "#E5F9FF");
 
   // Draw the labels
@@ -59,7 +70,7 @@ export function BarChart_TransmissionDistribution()
     .data(Graph4_data_cleaning_result)
     .enter()
     .append("text")
-    .text(d => d.transmission)
+    .text(d => d.Make)
     .attr("x", d => xScale(d.transmission) + xScale.bandwidth() / 2)
     .attr("y", d => yScale(d.count) - 5)
     .attr("text-anchor", "middle")
@@ -72,8 +83,8 @@ export function BarChart_TransmissionDistribution()
     .attr("y", height + 35)
     .attr("text-anchor", "middle")
     .attr("font-size", "15px")
-    .attr("fill", "white")
-    .text("Transmission");
+    .text("Transmission")
+    .attr("fill", "white");
 
   // Draw the y-axis label
   chartContainer_graph4.append("text")
@@ -82,12 +93,12 @@ export function BarChart_TransmissionDistribution()
     .attr("y", -75)
     .attr("text-anchor", "middle")
     .attr("font-size", "15px")
-    .attr("fill", "white")
-    .text("Number of Cars");
+    .text("Count")
+    .attr("fill", "white");
 
   // Make on hover effect
   chartContainer_graph4.selectAll("rect")
-    .on("mouseover", function (event, d)
+    .on("mouseover", function (d)
     {
       d3.select(this)
         .attr("r", 7);
@@ -98,23 +109,22 @@ export function BarChart_TransmissionDistribution()
 
       // Update the tooltip text
       tooltipGroup.select(".tooltip-text")
-        .text(`${ d.count.toFixed(2) }`);
+        .text(`${ d.count }`);
     })
-    .on("mouseout", function (event, d)
+    .on("mouseout", function (d)
     {
       d3.select(this)
         .attr("r", 5);
       tooltipGroup.style("display", "none");
     })
-    .on("click", function (event, d)
+    .on("click", function (d)
     {
-      SelectedTransmission = d.transmission;
+      TransmissionSelected = d.transmission;
+      alert(`You have selected ${ TransmissionSelected } transmission`);
+      document.getElementById("AfterTransmissionPrompt").style.display = "block";
+      document.getElementById("FilterTable4").style.display = "block";
 
-      alert("You have selected the " + SelectedTransmission + " Transmission. Here's what we found for you.");
-
-      document.querySelector("#AfterTransmissionPrompt").style.display = "block";
-      document.querySelector("#FilterTable4").style.display = "block";
-      // Clear previous table if exists
+      // Clear Previous Table if exists
       const filterTable4 = document.querySelector("#FilterTable4");
       filterTable4.innerHTML = "";
       let filteredData = Step4CarFilter();
@@ -122,12 +132,13 @@ export function BarChart_TransmissionDistribution()
       createFilteredTable(filterTable4, filteredData);
       if (MileageSelected !== null)
       {
-        getGraph5Data = Graph5_data_cleaning(budget, SelectedAge, MileageSelected, SelectedTransmission);
+        getGraph5Data = Graph5_data_cleaning(budget, SelectedAge, MileageSelected);
         document.querySelector("#CityBrandChart").style.display = "block";
       }
       // Scroll to the BarChart section
       document.querySelector("#CityBrandChart").scrollIntoView({ behavior: "smooth" });
     });
+
   // Add a group for the tooltip and dashed line
   const tooltipGroup = chartContainer_graph4.append("g")
     .attr("class", "tooltip-group")
@@ -140,4 +151,3 @@ export function BarChart_TransmissionDistribution()
     .attr("fill", "white")
     .style("font-weight", "bold");
 }
-
