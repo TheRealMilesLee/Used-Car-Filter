@@ -36,7 +36,7 @@ export function EngineCategoryDistribution() {
 
   arcs.append('path')
     .attr('d', arc)
-    .attr('class', 'donut-slice animate-in')
+    .attr('class', 'donut-slice')
     .attr('fill', (d, i) => COLORS[i % COLORS.length]);
 
   const labelArc = d3.arc().innerRadius(radius * 0.9).outerRadius(radius * 0.9);
@@ -45,8 +45,8 @@ export function EngineCategoryDistribution() {
     .attr('transform', d => `translate(${labelArc.centroid(d)})`)
     .attr('text-anchor', 'middle')
     .text(d => d.data.capacity)
+    .attr('class', 'donut-label')
     .style('font-size', '12px')
-    .style('fill', 'white')
     .style('font-weight', 'bold');
 
   const legend = svg.append('g')
@@ -63,15 +63,14 @@ export function EngineCategoryDistribution() {
   legendItems.append('rect')
     .attr('width', 18)
     .attr('height', 18)
-    .attr('class', 'animate-in')
     .style('fill', (d, i) => COLORS[i % COLORS.length]);
 
   legendItems.append('text')
     .attr('x', 24)
     .attr('y', 9)
     .attr('dy', '.35em')
+    .attr('class', 'legend-text')
     .style('font-size', '12px')
-    .style('fill', 'white')
     .text(d => `${d.capacity}: ${d.count}`);
 
   svg.append('text')
@@ -80,7 +79,6 @@ export function EngineCategoryDistribution() {
     .attr('y', -height / 2 - 10)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .style('fill', 'white')
     .text('Engine Capacity Distribution');
 
   function resize() {
