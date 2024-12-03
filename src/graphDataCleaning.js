@@ -250,7 +250,6 @@ export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
     }
     return null;
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
-  returnValue.sort((a, b) => a.mileage - b.mileage);
   // Count the number of cars in each transmission type
   let transmissionCounts = {};
   returnValue.forEach(d =>
@@ -326,6 +325,23 @@ export function Step3CarFilter()
     }
     // Filter out the data that is above the selected mileage
     const filteredData = currentData.filter(d => parseInt(d['mileage']) <= highBound && parseInt(d['mileage']) >= lowBound);
+    // Only return the first 30 entries for performance reasons
+    if (filteredData.length === 0)
+    {
+      alert("We don't have a car that matches your needs. Please try again.");
+      return;
+    }
+    return filteredData;
+  }
+}
+
+export function Step4CarFilter()
+{
+  let currentData = Step3CarFilter();
+  if (SelectedTransmission)
+  {
+    // Filter out the data that is above the selected transmission
+    const filteredData = currentData.filter(d => d['transmission'] === SelectedTransmission);
     // Only return the first 30 entries for performance reasons
     if (filteredData.length === 0)
     {
