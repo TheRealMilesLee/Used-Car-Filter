@@ -131,7 +131,7 @@ export function BarChart_TransmissionDistribution()
       createFilteredTable(filterTable4, filteredData);
       if (MileageSelected !== null)
       {
-        getGraph5Data = Graph5_data_cleaning(budget, SelectedAge, MileageSelected, SelectedTransmission);
+        getGraph5Data = Graph5_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
         document.querySelector("#CityBrandChart").style.display = "block";
       }
       // Scroll to the BarChart section
