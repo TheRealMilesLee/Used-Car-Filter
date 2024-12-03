@@ -7,7 +7,6 @@ import { BarChart_TransmissionDistribution } from './Graph4.js';
 import { HorizontalBarChart_CityBrandDistribution } from './Graph5.js';
 import { ModelSalesChart_Distribution } from './Graph6.js';
 import { EngineCategoryDistribution } from './Graph7.js';
-
 import { column_from_csv } from './csvReadIn.js';
 
 export let size = { width: 0, height: 0 };
@@ -17,7 +16,7 @@ const onResize = (targets) =>
   targets.forEach(target =>
   {
     const targetId = target.target.getAttribute('id');
-    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4',
+    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'BarChart_TransmissionDistribution',
          'CityBrandChart-Graph5', 'ModelSalesChart-Graph6', 'EngineCategoryChart-Graph7'].includes(targetId)) return;
     size = { width: target.contentRect.width, height: target.contentRect.height };
     if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
