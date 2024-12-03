@@ -76,13 +76,13 @@ document.querySelector("#MainBody").innerHTML = `
   </section>
 
   <section id="TransmissionBarChart" style="display: none;">
-  <div>
-    ${ TransmissionBarChart() }
-    <p id="AfterTransmissionPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-    <div id="FilterTable4" style="display: none;">
-      <!-- Create a table to show after filtered data -->
+    <div>
+      ${ TransmissionBarChart() }
+      <p id="AfterTransmissionPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+      <div id="FilterTable3" style="display: none;">
+        <!-- Create a table to show after filtered data -->
+      </div>
     </div>
-  </div>
   </section>
 
   </section>

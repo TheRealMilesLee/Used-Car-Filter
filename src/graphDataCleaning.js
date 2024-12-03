@@ -234,6 +234,7 @@ export const Graph3_data_cleaning = (budget, SelectedAge) =>
   return returnValue;
 };
 
+
 export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
 {
   let MileageSelected_lowBound = parseInt(MileageSelected.split("-")[0]);

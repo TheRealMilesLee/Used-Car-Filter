@@ -88,7 +88,8 @@
 
 #FilterTable1,
 #FilterTable2,
-#FilterTable3 {
+#FilterTable3,
+#FilterTable4 {
   width: 100%;
   overflow: auto;
   border: 2px solid white;
@@ -98,7 +99,8 @@
 
 #FilterTable1 table,
 #FilterTable2 table,
-#FilterTable3 table {
+#FilterTable3 table,
+#FilterTable4 table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -109,7 +111,9 @@
 #FilterTable2 table td,
 #FilterTable2 table th,
 #FilterTable3 table td,
-#FilterTable3 table th {
+#FilterTable3 table th,
+#FilterTable4 table td,
+#FilterTable4 table th {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -119,7 +123,8 @@
 
 #FilterTable1 table tbody,
 #FilterTable2 table tbody,
-#FilterTable3 table tbody {
+#FilterTable3 table tbody,
+#FilterTable4 table tbody {
   display: block;
   max-height: 80vh;
   overflow-y: auto;
@@ -127,19 +132,23 @@
 
 #FilterTable1 table tbody::-webkit-scrollbar,
 #FilterTable2 table tbody::-webkit-scrollbar,
-#FilterTable3 table tbody::-webkit-scrollbar {
+#FilterTable3 table tbody::-webkit-scrollbar,
+#FilterTable4 table tbody::-webkit-scrollbar {
   width: 12px;
 }
 
 #FilterTable1 table tbody::-webkit-scrollbar-track,
 #FilterTable2 table tbody::-webkit-scrollbar-track,
-#FilterTable3 table tbody::-webkit-scrollbar-track {
+#FilterTable3 table tbody::-webkit-scrollbar-track,
+#FilterTable4 table tbody::-webkit-scrollbar-track  {
   background: white;
 }
 
 #FilterTable1 table tbody::-webkit-scrollbar-thumb,
 #FilterTable2 table tbody::-webkit-scrollbar-thumb,
-#FilterTable3 table tbody::-webkit-scrollbar-thumb  {
+#FilterTable3 table tbody::-webkit-scrollbar-thumb
+#FilterTable4 table tbody::-webkit-scrollbar-thumb
+{
   background: white;
   border-radius: 6px;
   border: 3px solid #cccac6;
@@ -150,14 +159,18 @@
 #FilterTable2 table thead,
 #FilterTable2 table tbody tr,
 #FilterTable3 table thead,
-#FilterTable3 table tbody tr {
+#FilterTable3 table tbody tr,
+#FilterTable4 table thead,
+#FilterTable4 table tbody tr
+{
   display: table;
   width: 100%;
   table-layout: fixed;
 }
 
 #AfterAgePrompt,
-#AfterMileagePrompt
+#AfterMileagePrompt,
+#AfterTransmissionPrompt
 {
   color: #cccac6;
   display: flex;
