@@ -1,9 +1,9 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { getGraph3Data } from './Graph2.js';
-import { Step3CarFilter } from './graphDataCleaning.js';
+import { getGraph3Data} from './Graph2.js';
+import { Step3CarFilter} from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
-
+import { BarChart_TransmissionDistribution } from './Graph4.js';
 export let MileageSelected;
 export function BarChart_MileagePriceCorrelation()
 {
@@ -125,7 +125,14 @@ export function BarChart_MileagePriceCorrelation()
       let filteredData = Step3CarFilter();
       // Call the function to create and display the table
       createFilteredTable(filterTable3, filteredData);
+      
 
+      // Show and update the TransmissionBarChart
+      document.querySelector("#TransmissionBarChart").style.display = "block";
+      BarChart_TransmissionDistribution();
+
+      // Scroll to the TransmissionBarChart section
+      document.querySelector("#TransmissionBarChart").scrollIntoView({ behavior: "smooth" });
     });
   // Add a group for the tooltip and dashed line
   const tooltipGroup = chartContainer_graph3.append("g")

@@ -1,4 +1,5 @@
-import { SankeyDiagram, LineChart, BarChart, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
+import { SankeyDiagram, LineChart, BarChart, BarChart2, 
+  mountSankey, mountLineChart, mountScatter, mountTransmissionChart } from "./src/Diagrams";
 import './src/Behavior.js';
 import "./style.css";
 
@@ -11,6 +12,7 @@ document.querySelector("#Header").innerHTML = `
         <li><a href="#GetStarted">Get Started</a></li>
         <li><a href="#LineChart">Age & Price Trend</a></li>
         <li><a href="#BarChart">Mileage & Price Trend</a></li>
+        <li><a href="#TransmissionChart">Transmission Distribution</a></li>
       </ul>
     </nav>
   </header>
@@ -63,10 +65,21 @@ document.querySelector("#MainBody").innerHTML = `
       </div>
     </div>
   </section>
+
+  <section id="BarChart2" style="display: none;">
+    <div>
+      ${ BarChart2() }
+      <p id="AfterTransmissionPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+      <div id="FilterTable4" style="display: none;">
+        <!-- Create a table to show after filtered data -->
+      </div>
+    </div>
+  </section>
 `;
 mountSankey();
 mountLineChart();
 mountScatter();
+mountTransmissionChart();
 
 
 

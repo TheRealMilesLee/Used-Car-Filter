@@ -46,6 +46,7 @@ window.onload = () =>
     {
       document.querySelector("#LineChart").style.display = "none";
       document.querySelector("#BarChart").style.display = "none";
+      document.querySelector("#BarChart2").style.display = "none";
     }
   };
 };

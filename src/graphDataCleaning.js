@@ -296,3 +296,17 @@ export function Step3CarFilter()
     return filteredData;
   }
 }
+
+export function getTransmissionData(budget, selectedAge, selectedMileage) {
+  return column_from_csv.filter(d => {
+    const price = parseInt(d.car_price);
+    const age = parseInt(d.car_age);
+    const mileage = parseInt(d.car_mileage);
+    return price <= budget && age <= selectedAge && mileage <= parseInt(selectedMileage);
+  }).reduce((acc, car) => {
+    const transmission = car.car_transmission;
+    acc[transmission] = (acc[transmission] || 0) + 1;
+    return acc;
+  }, {});
+}
+
