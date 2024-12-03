@@ -4,7 +4,6 @@ import { getGraph4Data } from './Graph3.js';
 import { Step4CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 import { Graph5_data_cleaning } from './graphDataCleaning.js';
-import { SelectedTransmission } from './Graph3.js';
 import { SelectedAge } from './Graph2.js';
 import { budget } from './Behavior.js';
 
