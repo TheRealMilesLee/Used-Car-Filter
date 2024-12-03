@@ -2,10 +2,7 @@ import * as d3 from 'd3';
 import { isEmpty, debounce } from 'lodash';
 import { SankeyDiagram_Overview } from './Graph1.js';
 import { LineChart_AgePriceCorrelation } from './Graph2.js';
-<<<<<<< HEAD
-import { BarChart_MileagePriceCorrelation } from './Graph3.js'
 import { BarChart_TransmissionDistribution } from './Graph4.js';
-=======
 import { BarChart_MileagePriceCorrelation } from './Graph3.js';
 import { HorizontalBarChart_CityBrandDistribution } from './Graph5.js';
 import { ModelSalesChart_Distribution } from './Graph6.js';
@@ -21,25 +18,18 @@ const onResize = (targets) =>
   targets.forEach(target =>
   {
     const targetId = target.target.getAttribute('id');
-<<<<<<< HEAD
-    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionChart'].includes(targetId)) return;
-=======
-    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3',
+    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionChart',
          'CityBrandChart-Graph5', 'ModelSalesChart-Graph6', 'EngineCategoryChart-Graph7'].includes(targetId)) return;
->>>>>>> shu
     size = { width: target.contentRect.width, height: target.contentRect.height };
     if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
     const graphMap = {
       'Sankey-Graph1': { selector: '#Graph1', redraw: SankeyDiagram_Overview },
       'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
       'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
-<<<<<<< HEAD
-      'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: TransmissionChart }
-=======
+      'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: TransmissionChart },
       'CityBrandChart-Graph5': { selector: '#Graph5', redraw: HorizontalBarChart_CityBrandDistribution },
       'ModelSalesChart-Graph6': { selector: '#Graph6', redraw: ModelSalesChart_Distribution },
       'EngineCategoryChart-Graph7': { selector: '#Graph7', redraw: EngineCategoryDistribution }
->>>>>>> shu
     };
     d3.select(graphMap[targetId].selector).selectAll('*').remove();
     graphMap[targetId].redraw();
@@ -130,14 +120,14 @@ export function mountScatter()
   }
 }
 
-<<<<<<< HEAD
-export function mountTransmissionBarChart() {
+export function mountTransmissionBarChart()
+{
   let Graph4Container = document.querySelector('#TransmissionBarChart-Graph4');
-  if (Graph4Container) {
+  if (Graph4Container)
+  {
     chartObserver.observe(Graph4Container);
   }
 }
-=======
 export function mountCityBrandChart() {
   let Graph5Container = document.querySelector('#CityBrandChart-Graph5');
   if (Graph5Container) {
@@ -158,4 +148,3 @@ export function mountEngineCategoryChart() {
     chartObserver.observe(Graph7Container);
   }
 }
->>>>>>> shu

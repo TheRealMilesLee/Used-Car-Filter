@@ -62,9 +62,19 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
+  <section id="BarChart" style="display: none;">
+    <div>
+      ${ BarChart() }
+      <p id="AfterMileagePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+      <div id="FilterTable3" style="display: none;">
+        <!-- Create a table to show after filtered data -->
+      </div>
+    </div>
+  </section>
+
   <section id="BarChart2" style="display: none;">
   <div>
-    ${ BarChart2() }
+    ${ TransmissionBarChart() }
     <p id="AfterTransmissionPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
     <div id="FilterTable4" style="display: none;">
       <!-- Create a table to show after filtered data -->
