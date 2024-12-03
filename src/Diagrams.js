@@ -17,7 +17,7 @@ const onResize = (targets) =>
   {
     const targetId = target.target.getAttribute('id');
     if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'BarChart_TransmissionDistribution',
-         'CityBrandChart-Graph5', 'ModelSalesChart-Graph6', 'EngineCategoryChart-Graph7'].includes(targetId)) return;
+      'CityBrandChart-Graph5', 'ModelSalesChart-Graph6', 'EngineCategoryChart-Graph7'].includes(targetId)) return;
     size = { width: target.contentRect.width, height: target.contentRect.height };
     if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
     const graphMap = {
@@ -126,23 +126,29 @@ export function mountTransmissionBarChart()
     chartObserver.observe(Graph4Container);
   }
 }
-export function mountCityBrandChart() {
+export function mountCityBrandChart()
+{
   let Graph5Container = document.querySelector('#CityBrandChart-Graph5');
-  if (Graph5Container) {
+  if (Graph5Container)
+  {
     chartObserver.observe(Graph5Container);
   }
 }
 
-export function mountModelSalesChart() {
+export function mountModelSalesChart()
+{
   let Graph6Container = document.querySelector('#ModelSalesChart-Graph6');
-  if (Graph6Container) {
+  if (Graph6Container)
+  {
     chartObserver.observe(Graph6Container);
   }
 }
 
-export function mountEngineCategoryChart() {
+export function mountEngineCategoryChart()
+{
   let Graph7Container = document.querySelector('#EngineCategoryChart-Graph7');
-  if (Graph7Container) {
+  if (Graph7Container)
+  {
     chartObserver.observe(Graph7Container);
   }
 }

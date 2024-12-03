@@ -1,8 +1,11 @@
-import { SankeyDiagram, LineChart, BarChart, TransmissionBarChart, 
-  mountSankey, mountLineChart, mountScatter, mountTransmissionChart } from "./src/Diagrams";
-import { CityBrandChart, mountCityBrandChart } from "./src/Diagrams.js"
-import { ModelSalesChart, mountModelSalesChart } from "./src/Diagrams.js"
-import { EngineCategoryChart, mountEngineCategoryChart } from "./src/Diagrams.js"
+import
+{
+  SankeyDiagram, LineChart, BarChart, TransmissionBarChart,
+  mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart
+} from "./src/Diagrams";
+import { CityBrandChart, mountCityBrandChart } from "./src/Diagrams.js";
+import { ModelSalesChart, mountModelSalesChart } from "./src/Diagrams.js";
+import { EngineCategoryChart, mountEngineCategoryChart } from "./src/Diagrams.js";
 import './src/Behavior.js';
 import "./style.css";
 
@@ -85,24 +88,24 @@ document.querySelector("#MainBody").innerHTML = `
   </section>
   <section id="CityBrandChart" >
     <div>
-      ${CityBrandChart()}
+      ${ CityBrandChart() }
     </div>
   </section>
   <section id="ModelSalesChart">
     <div>
-      ${ModelSalesChart()}
+      ${ ModelSalesChart() }
     </div>
   </section>
   <section id="EngineCategoryChart">
     <div>
-      ${EngineCategoryChart()}
+      ${ EngineCategoryChart() }
     </div>
   </section>
 `;
 mountSankey();
 mountLineChart();
 mountScatter();
-mountTransmissionChart();
+mountTransmissionBarChart();
 mountCityBrandChart();
 mountModelSalesChart();
 mountEngineCategoryChart();
