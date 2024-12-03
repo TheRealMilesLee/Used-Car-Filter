@@ -1,4 +1,7 @@
 import { SankeyDiagram, LineChart, BarChart, mountSankey, mountLineChart, mountScatter } from "./src/Diagrams";
+import { CityBrandChart, mountCityBrandChart } from "./src/Diagrams.js"
+import { ModelSalesChart, mountModelSalesChart } from "./src/Diagrams.js"
+import { EngineCategoryChart, mountEngineCategoryChart } from "./src/Diagrams.js"
 import './src/Behavior.js';
 import "./style.css";
 
@@ -11,6 +14,9 @@ document.querySelector("#Header").innerHTML = `
         <li><a href="#GetStarted">Get Started</a></li>
         <li><a href="#LineChart">Age & Price Trend</a></li>
         <li><a href="#BarChart">Mileage & Price Trend</a></li>
+        <li><a href="#CityBrandChart">City Brand Distribution</a></li>
+        <li><a href="#ModelSalesChart">Model Sales Distribution</a></li>
+        <li><a href="#EngineCategoryChart">Engine Capacity Distribution</a></li>
       </ul>
     </nav>
   </header>
@@ -44,29 +50,31 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-  <section id="LineChart" style="display: none;">
+  <!--delete two charts to see following faster>
+  
+  </section>
+  <section id="CityBrandChart" >
     <div>
-    ${ LineChart() }
-      <p id="AfterAgePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-      <div id="FilterTable2" style="display: none;">
-        <!-- Create a table to show after filtered data -->
-      </div>
+      ${CityBrandChart()}
     </div>
   </section>
-
-  <section id="BarChart" style="display: none;">
+  <section id="ModelSalesChart">
     <div>
-      ${ BarChart() }
-      <p id="AfterMileagePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-      <div id="FilterTable3" style="display: none;">
-        <!-- Create a table to show after filtered data -->
-      </div>
+      ${ModelSalesChart()}
+    </div>
+  </section>
+  <section id="EngineCategoryChart">
+    <div>
+      ${EngineCategoryChart()}
     </div>
   </section>
 `;
 mountSankey();
 mountLineChart();
 mountScatter();
+mountCityBrandChart();
+mountModelSalesChart();
+mountEngineCategoryChart();
 
 
 
