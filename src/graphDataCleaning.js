@@ -351,3 +351,54 @@ export function Step4CarFilter()
     return filteredData;
   }
 }
+
+export function Step5CarFilter()
+{
+  let currentData = Step4CarFilter();
+  if (SelectedBrand)
+  {
+    // Filter out the data that is above the selected BRAND
+    const filteredData = currentData.filter(d => d['brand'] === SelectedBrand);
+    // Only return the first 30 entries for performance reasons
+    if (filteredData.length === 0)
+    {
+      alert("We don't have a car that matches your needs. Please try again.");
+      return;
+    }
+    return filteredData;
+  }
+}
+
+export function Step6CarFilter()
+{
+  let currentData = Step5CarFilter();
+  if (SelectedModel)
+  {
+    // Filter out the data that is above the selected BRAND
+    const filteredData = currentData.filter(d => d['model'] === SelectedModel);
+    // Only return the first 30 entries for performance reasons
+    if (filteredData.length === 0)
+    {
+      alert("We don't have a car that matches your needs. Please try again.");
+      return;
+    }
+    return filteredData;
+  }
+}
+
+export function Step7CarFilter()
+{
+  let currentData = Step6CarFilter();
+  if (SelectedEngine)
+  {
+    // Filter out the data that is above the selected BRAND
+    const filteredData = currentData.filter(d => d['engine_capacity'] === SelectedEngine);
+    // Only return the first 30 entries for performance reasons
+    if (filteredData.length === 0)
+    {
+      alert("We don't have a car that matches your needs. Please try again.");
+      return;
+    }
+    return filteredData;
+  }
+}

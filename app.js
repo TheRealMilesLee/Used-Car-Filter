@@ -99,7 +99,7 @@ document.querySelector("#MainBody").innerHTML = `
   <section id="ModelSalesChart">
     <div>
       ${ ModelSalesChart() }
-      <p id="AfterModelnPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
+      <p id="AfterModelPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
       <div id="FilterTable6" style="display: none;">
         <!-- Create a table to show after filtered data -->
       </div>

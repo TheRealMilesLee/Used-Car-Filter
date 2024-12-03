@@ -1,5 +1,16 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
+import { getGraph5Data } from './Graph4.js';
+import { Step4CarFilter } from './graphDataCleaning.js';
+import { createFilteredTable } from './ChartMaker.js';
+import { Graph6_data_cleaning } from './graphDataCleaning.js';
+import { budget } from './Behavior.js';
+import { SelectedAge } from './Graph2.js';
+import { MileageSelected } from './Graph3.js';
+import { TransmissionSelected} from './Graph4.js';
+
+export let BrandSelected;
+export let getGraph6Data;
 
 // Static data for demonstration
 const cityData = {
@@ -141,6 +152,7 @@ export function HorizontalBarChart_CityBrandDistribution() {
         .attr("fill", "white")
         .text(`Car Sales by Brand in ${selectedCity}`);
     }
+
 
     // Initial chart render
     updateChart();
