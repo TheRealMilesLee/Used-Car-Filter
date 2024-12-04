@@ -4,7 +4,7 @@ import { SankeyDiagram_Overview } from './Graph1.js';
 import { LineChart_AgePriceCorrelation } from './Graph2.js';
 import { BarChart_MileagePriceCorrelation } from './Graph3.js';
 import { BarChart_TransmissionDistribution } from './Graph4.js';
-import { finalCarList} from './FinalCars.js';
+import { GenerateFinalCarList} from './FinalCars.js';
 import { column_from_csv } from './csvReadIn.js';
 
 export let size = { width: 0, height: 0 };
@@ -22,7 +22,7 @@ const onResize = (targets) =>
       'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
       'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
       'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
-      'FinalCarList': { selector: '#FinalCarList', redraw: finalCarList },
+      'FinalCarList': { selector: '#FinalCarList', redraw: GenerateFinalCarList },
     };
     d3.select(graphMap[targetId].selector).selectAll('*').remove();
     graphMap[targetId].redraw();

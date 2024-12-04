@@ -38,5 +38,9 @@ function createFinalTable(data)
         .text(d => d.value);
 }
 
-// Call the function to create the table
-createFinalTable(carData);
+export function GenerateFinalCarList(){
+    // Call the function to create the table
+    createFinalTable(carData);
+}
+
+
