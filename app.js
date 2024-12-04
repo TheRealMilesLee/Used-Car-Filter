@@ -1,3 +1,5 @@
+import { SankeyDiagram } from "./src/Diagrams";
+import './src/Behavior.js';
 import
 {
   SankeyDiagram, LineChart, BarChart, TransmissionBarChart, FinalCarChoices,
@@ -6,6 +8,8 @@ import
 import { DropDownMenu } from "./src/SelectBrandModel.js";
 import './src/Behavior.js';
 import "./style.css";
+import { displayFinalComponent } from './src/FinalCars.js';
+import './src/SelectBrandModel.js';
 
 document.querySelector("#Header").innerHTML = `
   <header>
@@ -86,10 +90,30 @@ document.querySelector("#MainBody").innerHTML = `
   </section id="BrandModel"  style="display: none;">
     <div>
       <h2> Choose Brand and Model </h2>
-      ${ DropDownMenu() }
+      <div class="dropdown-Brand-Model">
+        <select name="Brand" id="Brand">
+        </select>
+        <p> With the model of </p>
+        <select name="Model" id="Model">
+        </select>
+      </div>
     </div>
   </section>
-  
+
+  <section id="FinalCarChoices">
+    <div class="final-content">
+      <h2>Congratulations! Here are your ideal car choices:</h2>
+      <div id="FinalTable"></div>
+    </div>
+  </section>
+
+  <section id="FinalCarChoices">
+    <div class="final-content">
+      <h2>Congratulations! Here are your ideal car choices:</h2>
+      ${ finalcarlist() }
+    </div>
+  </section>
+
   <section id="FinalCarChoices">
     <div class="final-content">
       <h2>Congratulations! Here are your ideal car choices:</h2>

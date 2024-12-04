@@ -3,19 +3,6 @@ import { DropDownMenu_data_cleaning } from "./graphDataCleaning.js";
 export let selectedBrand;
 export let selectedModel;
 
-export const DropDownMenu = () =>
-{
-  document.querySelector("#BrandModel").innerHTML = `
-    <div class="dropdown-Brand-Model">
-      <select name="Brand" id="Brand">
-      </select>
-      <p> With the model of </p>
-      <select name="Model" id="Model">
-      </select>
-    </div>
-  `;
-};
-
 if (document.querySelector("#BrandModel") !== null)
 {
   const BrandModel = DropDownMenu_data_cleaning();
