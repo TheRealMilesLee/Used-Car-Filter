@@ -1,10 +1,5 @@
 import * as d3 from 'd3';
-const carData = [
-    { Brand: 'Toyota', Transmission: 'Automatic', 'Engine capacity': '2.0L', Mileage: '50000', Age: '3', Price: '25000' },
-    { Brand: 'Honda', Transmission: 'Manual', 'Engine capacity': '1.8L', Mileage: '30000', Age: '2', Price: '22000' },
-    { Brand: 'Ford', Transmission: 'Automatic', 'Engine capacity': '2.5L', Mileage: '40000', Age: '4', Price: '28000' },
-];
-
+import { finalData } from './SelectBrandModel.js';
 // Create table using D3.js
 function createFinalTable(data)
 {
@@ -38,9 +33,10 @@ function createFinalTable(data)
         .text(d => d.value);
 }
 
-export function GenerateFinalCarList(){
+export function GenerateFinalCarList()
+{
     // Call the function to create the table
-    createFinalTable(carData);
+    createFinalTable(finalData);
 }
 
 

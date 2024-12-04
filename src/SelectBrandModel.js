@@ -1,26 +1,52 @@
+import { Step5CarFilter } from "./graphDataCleaning";
 import { getGraph5Data } from "./Graph4";
+import { GenerateFinalCarList } from "./FinalCars";
 
 export let selectedBrand;
 export let selectedModel;
-
-window.onchange = function ()
+export let finalData;
+export function updateBrandModelDropdown()
 {
   const BrandModel = getGraph5Data;
   const DropDownBrand = document.querySelector("#Brand");
   const DropDownModel = document.querySelector("#Model");
 
-  if (DropDownBrand && DropDownModel)
+  // Clear existing options
+  DropDownBrand.innerHTML = "";
+  DropDownModel.innerHTML = "";
+  DropDownBrand.style.display = "block";
+  DropDownModel.style.display = "block";
+  // Populate options
+  BrandModel.forEach(item =>
   {
-    for (let i = 0; i < BrandModel.length; i++)
-    {
-      DropDownBrand.appendChild(new Option(BrandModel[i], BrandModel[i]));
-      DropDownModel.appendChild(new Option(BrandModel[i], BrandModel[i]));
-    }
+    const optionBrand = document.createElement("option");
+    optionBrand.value = item.brand;
+    optionBrand.text = item.brand;
+    DropDownBrand.appendChild(optionBrand);
 
-    document.querySelector('#BrandModel').onchange = function ()
-    {
-      selectedBrand = DropDownBrand.options[DropDownBrand.selectedIndex].text;
-      selectedModel = DropDownModel.options[DropDownModel.selectedIndex].text;
-    };
-  }
-};
+    const optionModel = document.createElement("option");
+    optionModel.value = item.model;
+    optionModel.text = item.model;
+    DropDownModel.appendChild(optionModel);
+  });
+
+  let submitbuttom = document.querySelector("#ConfirmSelection");
+
+  submitbuttom.onclick = () =>
+  {
+    selectedBrand = DropDownBrand.value;
+    selectedModel = DropDownModel.value;
+  };
+
+  document.getElementById('BrandModel').addEventListener('submit', function (event)
+  {
+    event.preventDefault();
+    document.querySelector("#FinalCarChoices").style.display = "block";
+    document.querySelector(".final-content").style.display = "block";
+    document.querySelector("#FinalTable").style.display = "block";
+    finalData = Step5CarFilter();
+    GenerateFinalCarList();
+  });
+}
+
+

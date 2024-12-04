@@ -88,17 +88,16 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-
-  </section id="BrandModel"  style="display: none;">
-    <div class="DropDownBrandModel" style="display: none;">
+  <section id="DropDownBrandModel" style="display: none;">
+    <div>
       <h2> Choose Brand and Model </h2>
-      <div class="dropdown-Brand-Model">
-        <select name="Brand" id="Brand-select">
-        </select>
-        <p> With the model of </p>
-        <select name="Model" id="Model">
-        </select>
-      </div>
+      <form id="BrandModel">
+        <label for="Brand">Brand:</label>
+        <select id="Brand"></select>
+        <label for="Model">Model:</label>
+        <select id="Model"></select>
+        <button id="ConfirmSelection">Submit</button>
+      </form>
     </div>
   </section>
 
