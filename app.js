@@ -1,16 +1,18 @@
+import * as d3 from "d3";
 import
 {
   SankeyDiagram, LineChart, BarChart, TransmissionBarChart, BrandPieChart,
-  mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart, mountFinalCarList, mountBrandPieChart
-} from "./src/Diagrams";
+  mountSankey, mountLineChart} from "./src/Diagrams";
 import "./style.css";
 import './src/SelectBrandModel.js';
 import { Graph2_data_cleaning, Step1CarFilter } from "./src/graphDataCleaning";
 import { createFilteredTable } from "./src/ChartMaker";
+import { LineChart_AgePriceCorrelation } from './src/Graph2.js';
+import { BarChart_MileagePriceCorrelation } from './src/Graph3.js';
+import { BarChart_TransmissionDistribution } from './src/Graph4.js';
+import { PieChart_BrandDistribution } from './src/Graph5.js';
 export let budget;
 export let getGraph2Data;
-
-
 document.querySelector("#Header").innerHTML = `
   <header>
     <nav class="navigationbar">
@@ -20,7 +22,7 @@ document.querySelector("#Header").innerHTML = `
         <li><a href="#GetStarted">Get Started</a></li>
         <li><a href="#LineChart">Age & Price Trend</a></li>
         <li><a href="#BarChart">Mileage & Price Trend</a></li>
-        <li><a href="#TransmissionChart">Transmission Distribution</a></li>
+        <li><a href="#TransmissionBarChart">Transmission Distribution</a></li>
         <li><a href="#DropDownBrandModel">Brand & Model</a></li>
       </ul>
     </nav>
@@ -62,8 +64,8 @@ document.querySelector("#MainBody").innerHTML = `
       <div id="FilterTable2" style="display: none;">
         <!-- Create a table to show after filtered data -->
       </div>
-    </div>
-  </section>
+    </div >
+  </section >
 
   <section id="BarChart" style="display: none;">
     <div>
@@ -105,82 +107,76 @@ document.querySelector("#MainBody").innerHTML = `
     <div id="FilterTable5" style="display: none;">
       <!-- Create a table to show after filtered data -->
     </div>
-  </section>
+  </section>;
 `;
+
 mountSankey();
-mountLineChart();
-mountScatter();
-mountTransmissionBarChart();
-mountFinalCarList();
-mountBrandPieChart();
 
 window.addEventListener('load', () =>
 {
+  let firstLoad = true;
   // Get input button and input box
   const budgetInputBox = document.getElementById("BudgetInputBox");
   const startButton = document.getElementById("StartButton");
-
-  if (startButton && budgetInputBox)
+  startButton.onclick = () =>
   {
-    startButton.onclick = () =>
+    budget = budgetInputBox.value;
+    if (budget < 30000)
     {
-      budget = budgetInputBox.value;
-      if (budget < 30000)
+      alert("We don't have a car that matches your needs.");
+      budgetInputBox.value = "";
+      return;
+    }
+    else
+    {
+      document.querySelector("#AfterBudgetPrompt").style.display = "block";
+      document.querySelector("#FilterTable1").style.display = "block";
+      let filteredData = Step1CarFilter();
+      // Clear previous table if exists
+      const filterTableDiv = document.querySelector("#FilterTable1");
+      filterTableDiv.innerHTML = "";
+      createFilteredTable(filterTableDiv, filteredData);
+      // Scroll to the LineChart section
+      document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
+      getGraph2Data = Graph2_data_cleaning(budget);
+      if (budget && !isNaN(budget))
       {
-        alert("We don't have a car that matches your needs.");
-        budgetInputBox.value = "";
-        return;
-      } else
-      {
-        document.querySelector("#AfterBudgetPrompt").style.display = "block";
-        document.querySelector("#FilterTable1").style.display = "block";
-        let filteredData = Step1CarFilter();
-        // Clear previous table if exists
-        const filterTableDiv = document.querySelector("#FilterTable1");
-        filterTableDiv.innerHTML = "";
-        createFilteredTable(filterTableDiv, filteredData);
-        // Scroll to the LineChart section
-        document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
-        getGraph2Data = Graph2_data_cleaning();
-        if (budget && !isNaN(budget))
-        {
-          document.querySelector("#LineChart").style.display = "block";
-        }
+        document.querySelector("#LineChart").style.display = "block";
+        mountLineChart();
       }
+    }
+    firstLoad = false;
+  };
 
-      budgetInputBox.onchange = () =>
-      {
-        if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
-        const graphMap = {
-          'Sankey-Graph1': { selector: '#Graph1', redraw: SankeyDiagram_Overview },
-          'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
-          'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
-          'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
-          'BrandPieChart-Graph5': { selector: '#Graph5', redraw: PieChart_BrandDistribution }
-        };
-        d3.select(graphMap['Sankey-Graph1'].selector).selectAll('*').remove();
-        d3.select(graphMap['LineChart-Graph2'].selector).selectAll('*').remove();
-        d3.select(graphMap['BarChart-Graph3'].selector).selectAll('*').remove();
-        d3.select(graphMap['TransmissionBarChart-Graph4'].selector).selectAll('*').remove();
-        d3.select(graphMap['BrandPieChart-Graph5'].selector).selectAll('*').remove();
-        graphMap['Sankey-Graph1'].redraw();
-        graphMap['LineChart-Graph2'].redraw();
-        graphMap['BarChart-Graph3'].redraw();
-        graphMap['TransmissionBarChart-Graph4'].redraw();
-        graphMap['BrandPieChart-Graph5'].redraw();
-      };
-
-    };
-  }
 
   budgetInputBox.oninput = () =>
   {
     if (budgetInputBox.value === "")
     {
+      document.querySelector("#AfterBudgetPrompt").style.display = "none";
+      document.querySelector("#FilterTable1").style.display = "none";
       document.querySelector("#LineChart").style.display = "none";
       document.querySelector("#BarChart").style.display = "none";
       document.querySelector("#TransmissionBarChart").style.display = "none";
+      document.querySelector("#DropDownBrandModel").style.display = "none";
+      document.querySelector("#FinalCarChoices").style.display = "none";
     }
+    if (!firstLoad)
+    {
+      if (budgetInputBox.value !== budget)
+      {
+        const graphs = [
+          { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
+          { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
+          { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
+          { selector: '#Graph5', redraw: PieChart_BrandDistribution }
+        ];
+        graphs.forEach(graph =>
+        {
+          d3.select(graph.selector).selectAll('*').remove();
+          graph.redraw();
+        });
+      }
+    };
   };
 });
-

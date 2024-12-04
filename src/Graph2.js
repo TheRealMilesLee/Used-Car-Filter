@@ -3,6 +3,7 @@ import { size } from "./Diagrams.js";
 import { getGraph2Data, budget } from '../app.js';
 import { Step2CarFilter, Graph3_data_cleaning } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
+import { mountBarChart } from "./Diagrams";
 export let SelectedAge;
 export let getGraph3Data;
 
@@ -40,10 +41,8 @@ export function LineChart_AgePriceCorrelation()
     .domain([0, d3.max(data_cleaned, d => d.price)]) // Start y-axis from 0
     .range([height, 0]);
 
-
   const xAxis = d3.axisBottom(x)
     .ticks(data_cleaned.length / 2)
-    .tickSize(0)
     .tickPadding(10);
 
   const yAxis = d3.axisLeft(y)
@@ -74,7 +73,6 @@ export function LineChart_AgePriceCorrelation()
     .attr("stroke-linecap", "round")
     .attr("stroke-opacity", 0.8);
 
-
   // Animate the line chart
   const totalLength = path.node().getTotalLength();
 
@@ -84,7 +82,6 @@ export function LineChart_AgePriceCorrelation()
     .duration(1000)
     .ease(d3.easeLinear)
     .attr("stroke-dashoffset", 0);
-
 
   // Create the x-axis label
   chartContainer_graph2.append("text")
@@ -148,8 +145,9 @@ export function LineChart_AgePriceCorrelation()
       createFilteredTable(filterTable2, filteredData);
       if (SelectedAge && !isNaN(SelectedAge))
       {
-        getGraph3Data = Graph3_data_cleaning(budget, SelectedAge);
+        getGraph3Data = Graph3_data_cleaning();
         document.querySelector("#BarChart").style.display = "block";
+        mountBarChart();
       }
       // Scroll to the BarChart section
       document.querySelector("#BarChart").scrollIntoView({ behavior: "smooth" });

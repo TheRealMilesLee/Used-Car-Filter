@@ -8,7 +8,7 @@ import { SelectedAge } from './Graph2.js';
 import { budget } from '../app.js';
 import { MileageSelected } from './Graph3.js';
 import { updateBrandModelDropdown } from './SelectBrandModel.js';
-
+import { mountFinalCarList, mountBrandPieChart } from "./Diagrams";
 export let TransmissionSelected;
 export let getGraph5Data;
 
@@ -141,6 +141,8 @@ export function BarChart_TransmissionDistribution()
       {
         getGraph5Data = DropDownMenu_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
         document.querySelector("#DropDownBrandModel").style.display = "block";
+        mountFinalCarList();
+        mountBrandPieChart();
         // Scroll to the BarChart section
         document.querySelector("#DropDownBrandModel").scrollIntoView({ behavior: "smooth" });
         updateBrandModelDropdown();

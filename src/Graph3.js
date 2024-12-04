@@ -6,6 +6,7 @@ import { createFilteredTable } from './ChartMaker.js';
 import { Graph4_data_cleaning } from './graphDataCleaning.js';
 import { SelectedAge } from './Graph2.js';
 import { budget } from '../app.js';
+import { mountTransmissionBarChart } from "./Diagrams";
 
 export let MileageSelected;
 export let getGraph4Data;
@@ -132,6 +133,7 @@ export function BarChart_MileagePriceCorrelation()
       {
         getGraph4Data = Graph4_data_cleaning(budget, SelectedAge, MileageSelected);
         document.querySelector("#TransmissionBarChart").style.display = "block";
+        mountTransmissionBarChart();
       }
       // Scroll to the BarChart section
       document.querySelector("#TransmissionBarChart").scrollIntoView({ behavior: "smooth" });

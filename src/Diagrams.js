@@ -28,26 +28,6 @@ const onResize = (targets) =>
   });
 };
 
-const onStateChange = (mutations) =>
-{
-  mutations.forEach(mutation =>
-  {
-    const targetId = mutation.target.getAttribute('id');
-    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4', 'BrandPieChart-Graph5'].includes(targetId)) return;
-    if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
-    const graphMap = {
-      'Sankey-Graph1': { selector: '#Graph1', redraw: SankeyDiagram_Overview },
-      'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
-      'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
-      'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
-      'BrandPieChart-Graph5': { selector: '#Graph5', redraw: PieChart_BrandDistribution }
-    };
-    d3.select(graphMap[targetId].selector).selectAll('*').remove();
-    graphMap[targetId].redraw();
-  });
-};
-
-
 export const SankeyDiagram = () => (
   `<div id='Sankey-Graph1'>
         <h3 class="SankeyTitle"> Used Car Market Trend</h3>
@@ -86,7 +66,6 @@ export const BrandPieChart = () => (
 
 
 const chartObserver = new ResizeObserver(debounce(onResize, 100));
-const stateObserver = new MutationObserver(debounce(onStateChange, 100));
 
 export function mountSankey()
 {
@@ -94,7 +73,6 @@ export function mountSankey()
   if (Graph1Container)
   {
     chartObserver.observe(Graph1Container);
-    stateObserver.observe(Graph1Container, { attributes: true });
   }
 }
 
@@ -104,17 +82,15 @@ export function mountLineChart()
   if (Graph2Container)
   {
     chartObserver.observe(Graph2Container);
-    stateObserver.observe(Graph2Container, { attributes: true });
   }
 }
 
-export function mountScatter()
+export function mountBarChart()
 {
   let Graph3Container = document.querySelector('#BarChart-Graph3');
   if (Graph3Container)
   {
     chartObserver.observe(Graph3Container);
-    stateObserver.observe(Graph3Container, { attributes: true });
   }
 }
 
@@ -124,7 +100,6 @@ export function mountTransmissionBarChart()
   if (Graph4Container)
   {
     chartObserver.observe(Graph4Container);
-    stateObserver.observe(Graph4Container, { attributes: true });
   }
 }
 
@@ -134,7 +109,6 @@ export function mountFinalCarList()
   if (GraphFinalContainer)
   {
     chartObserver.observe(GraphFinalContainer);
-    stateObserver.observe(GraphFinalContainer, { attributes: true });
   }
 }
 
@@ -144,6 +118,5 @@ export function mountBrandPieChart()
   if (Graph5Container)
   {
     chartObserver.observe(Graph5Container);
-    stateObserver.observe(Graph5Container, { attributes: true });
   }
 }
