@@ -120,7 +120,6 @@ export function BarChart_MileagePriceCorrelation()
       MileageSelected = d.mileage;
 
       alert("You have selected the mileage of " + MileageSelected + " miles. Here's what we found for you.");
-
       document.querySelector("#AfterMileagePrompt").style.display = "block";
       document.querySelector("#FilterTable3").style.display = "block";
       // Clear previous table if exists

@@ -4,8 +4,8 @@ import { SankeyDiagram_Overview } from './Graph1.js';
 import { LineChart_AgePriceCorrelation } from './Graph2.js';
 import { BarChart_MileagePriceCorrelation } from './Graph3.js';
 import { BarChart_TransmissionDistribution } from './Graph4.js';
+import { PieChart_BrandDistribution } from './Graph5.js';
 import { column_from_csv } from './csvReadIn.js';
-
 export let size = { width: 0, height: 0 };
 
 const onResize = (targets) =>
@@ -13,7 +13,7 @@ const onResize = (targets) =>
   targets.forEach(target =>
   {
     const targetId = target.target.getAttribute('id');
-    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4'].includes(targetId)) return;
+    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4', 'BrandPieChart-Graph5'].includes(targetId)) return;
     size = { width: target.contentRect.width, height: target.contentRect.height };
     if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
     const graphMap = {
@@ -21,6 +21,26 @@ const onResize = (targets) =>
       'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
       'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
       'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
+      'BrandPieChart-Graph5': { selector: '#Graph5', redraw: PieChart_BrandDistribution }
+    };
+    d3.select(graphMap[targetId].selector).selectAll('*').remove();
+    graphMap[targetId].redraw();
+  });
+};
+
+const onStateChange = (mutations) =>
+{
+  mutations.forEach(mutation =>
+  {
+    const targetId = mutation.target.getAttribute('id');
+    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4', 'BrandPieChart-Graph5'].includes(targetId)) return;
+    if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
+    const graphMap = {
+      'Sankey-Graph1': { selector: '#Graph1', redraw: SankeyDiagram_Overview },
+      'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
+      'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
+      'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
+      'BrandPieChart-Graph5': { selector: '#Graph5', redraw: PieChart_BrandDistribution }
     };
     d3.select(graphMap[targetId].selector).selectAll('*').remove();
     graphMap[targetId].redraw();
@@ -57,15 +77,16 @@ export const TransmissionBarChart = () => (
   </div>`
 );
 
-export const FinalCarChoices = () => (
-  `<div id='FinalCarList'>
-    <svg id='Graph_final'></svg>
-    <i>  <b> Table 5. </b> Users Final Car Choices List. </i>
+export const BrandPieChart = () => (
+  `<div id='BrandPieChart-Graph5'>
+    <svg id='Graph5'></svg>
+    <i>  <b> Graph 5. </b> Distribution of Brands. </i>
   </div>`
 );
 
 
 const chartObserver = new ResizeObserver(debounce(onResize, 100));
+const stateObserver = new MutationObserver(debounce(onStateChange, 100));
 
 export function mountSankey()
 {
@@ -73,6 +94,7 @@ export function mountSankey()
   if (Graph1Container)
   {
     chartObserver.observe(Graph1Container);
+    stateObserver.observe(Graph1Container, { attributes: true });
   }
 }
 
@@ -82,6 +104,7 @@ export function mountLineChart()
   if (Graph2Container)
   {
     chartObserver.observe(Graph2Container);
+    stateObserver.observe(Graph2Container, { attributes: true });
   }
 }
 
@@ -91,6 +114,7 @@ export function mountScatter()
   if (Graph3Container)
   {
     chartObserver.observe(Graph3Container);
+    stateObserver.observe(Graph3Container, { attributes: true });
   }
 }
 
@@ -100,6 +124,7 @@ export function mountTransmissionBarChart()
   if (Graph4Container)
   {
     chartObserver.observe(Graph4Container);
+    stateObserver.observe(Graph4Container, { attributes: true });
   }
 }
 
@@ -109,5 +134,16 @@ export function mountFinalCarList()
   if (GraphFinalContainer)
   {
     chartObserver.observe(GraphFinalContainer);
+    stateObserver.observe(GraphFinalContainer, { attributes: true });
+  }
+}
+
+export function mountBrandPieChart()
+{
+  let Graph5Container = document.querySelector('#BrandPieChart-Graph5');
+  if (Graph5Container)
+  {
+    chartObserver.observe(Graph5Container);
+    stateObserver.observe(Graph5Container, { attributes: true });
   }
 }

@@ -6,6 +6,7 @@ import "../style.css";
 export let selectedBrand;
 export let selectedModel;
 export let finalData;
+
 export function updateBrandModelDropdown()
 {
   const BrandModel = getGraph5Data;
@@ -21,11 +22,12 @@ export function updateBrandModelDropdown()
   const uniqueBrands = new Set();
   // Create a Map to keep track of models for each brand
   const brandModelMap = new Map();
-
   // Populate options
-  BrandModel.forEach(item => {
+  BrandModel.forEach(item =>
+  {
     // Check if the brand is already in the Set
-    if (!uniqueBrands.has(item.brand)) {
+    if (!uniqueBrands.has(item.brand))
+    {
       const optionBrand = document.createElement("option");
       optionBrand.value = item.brand;
       optionBrand.text = item.brand;
@@ -36,14 +38,16 @@ export function updateBrandModelDropdown()
     }
 
     // Add the model to the corresponding brand in the Map
-    if (!brandModelMap.has(item.brand)) {
+    if (!brandModelMap.has(item.brand))
+    {
       brandModelMap.set(item.brand, new Set());
     }
     brandModelMap.get(item.brand).add(item.model);
   });
 
   // Update models dropdown based on selected brand
-  DropDownBrand.addEventListener("change", () => {
+  DropDownBrand.addEventListener("change", () =>
+  {
     const selectedBrand = DropDownBrand.value;
     const models = brandModelMap.get(selectedBrand) || new Set();
 
@@ -51,7 +55,8 @@ export function updateBrandModelDropdown()
     DropDownModel.innerHTML = "";
 
     // Populate model dropdown
-    models.forEach(model => {
+    models.forEach(model =>
+    {
       const optionModel = document.createElement("option");
       optionModel.value = model;
       optionModel.text = model;

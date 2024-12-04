@@ -1,7 +1,7 @@
 import
 {
-  SankeyDiagram, LineChart, BarChart, TransmissionBarChart, FinalCarChoices,
-  mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart, mountFinalCarList
+  SankeyDiagram, LineChart, BarChart, TransmissionBarChart, BrandPieChart,
+  mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart, mountFinalCarList, mountBrandPieChart
 } from "./src/Diagrams";
 import "./style.css";
 import './src/SelectBrandModel.js';
@@ -96,6 +96,7 @@ document.querySelector("#MainBody").innerHTML = `
         <button id="ConfirmSelection">Submit</button>
       </form>
     </div>
+    ${ BrandPieChart() }
   </section>
 
   <section id="FinalCarChoices" style="display: none;">
@@ -111,7 +112,7 @@ mountLineChart();
 mountScatter();
 mountTransmissionBarChart();
 mountFinalCarList();
-
+mountBrandPieChart();
 
 window.addEventListener('load', () =>
 {
@@ -146,6 +147,29 @@ window.addEventListener('load', () =>
           document.querySelector("#LineChart").style.display = "block";
         }
       }
+
+      budgetInputBox.onchange = () =>
+      {
+        if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
+        const graphMap = {
+          'Sankey-Graph1': { selector: '#Graph1', redraw: SankeyDiagram_Overview },
+          'LineChart-Graph2': { selector: '#Graph2', redraw: LineChart_AgePriceCorrelation },
+          'BarChart-Graph3': { selector: '#Graph3', redraw: BarChart_MileagePriceCorrelation },
+          'TransmissionBarChart-Graph4': { selector: '#Graph4', redraw: BarChart_TransmissionDistribution },
+          'BrandPieChart-Graph5': { selector: '#Graph5', redraw: PieChart_BrandDistribution }
+        };
+        d3.select(graphMap['Sankey-Graph1'].selector).selectAll('*').remove();
+        d3.select(graphMap['LineChart-Graph2'].selector).selectAll('*').remove();
+        d3.select(graphMap['BarChart-Graph3'].selector).selectAll('*').remove();
+        d3.select(graphMap['TransmissionBarChart-Graph4'].selector).selectAll('*').remove();
+        d3.select(graphMap['BrandPieChart-Graph5'].selector).selectAll('*').remove();
+        graphMap['Sankey-Graph1'].redraw();
+        graphMap['LineChart-Graph2'].redraw();
+        graphMap['BarChart-Graph3'].redraw();
+        graphMap['TransmissionBarChart-Graph4'].redraw();
+        graphMap['BrandPieChart-Graph5'].redraw();
+      };
+
     };
   }
 
@@ -159,3 +183,4 @@ window.addEventListener('load', () =>
     }
   };
 });
+

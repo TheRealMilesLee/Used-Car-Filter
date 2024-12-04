@@ -144,7 +144,6 @@ export function LineChart_AgePriceCorrelation()
       const filterTable2 = document.querySelector("#FilterTable2");
       filterTable2.innerHTML = "";
       let filteredData = Step2CarFilter();
-
       // Call the function to create and display the table
       createFilteredTable(filterTable2, filteredData);
       if (SelectedAge && !isNaN(SelectedAge))

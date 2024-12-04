@@ -282,7 +282,7 @@ export function Step3CarFilter()
       alert("We don't have a car that matches your needs. Please try again.");
       return;
     }
-    return filteredData.slice(0, 60);
+    return filteredData;
   }
 }
 
@@ -331,7 +331,7 @@ export function Step4CarFilter()
       alert("We don't have a car that matches your needs. Please try again.");
       return;
     }
-    return filteredData.slice(0, 60);
+    return filteredData;
   }
 }
 
