@@ -139,10 +139,11 @@ export function BarChart_TransmissionDistribution()
       if (TransmissionSelected !== null)
       {
         getGraph5Data = DropDownMenu_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
+        document.querySelector("#BrandModel").style.display = "block";
         document.querySelector("#DropDownBrandModel").style.display = "block";
       }
       // Scroll to the BarChart section
-      document.querySelector("#DropDownBrandModel").scrollIntoView({ behavior: "smooth" });
+      document.querySelector("#BrandModel").scrollIntoView({ behavior: "smooth" });
     });
 
   // Add a group for the tooltip and dashed line

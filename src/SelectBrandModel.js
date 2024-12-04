@@ -1,11 +1,11 @@
-import { DropDownMenu_data_cleaning } from "./graphDataCleaning.js";
+import { getGraph5Data } from "./Graph4";
 
 export let selectedBrand;
 export let selectedModel;
 
 window.onchange = function ()
 {
-  const BrandModel = DropDownMenu_data_cleaning();
+  const BrandModel = getGraph5Data;
   const DropDownBrand = document.querySelector("#Brand");
   const DropDownModel = document.querySelector("#Model");
 

@@ -3,11 +3,11 @@ import
   SankeyDiagram, LineChart, BarChart, TransmissionBarChart, FinalCarChoices,
   mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart, mountFinalCarList
 } from "./src/Diagrams";
-import "./src/SelectBrandModel.js";
-import './src/Behavior.js';
 import "./style.css";
 import './src/FinalCars.js';
+import './src/Behavior.js';
 import './src/SelectBrandModel.js';
+
 
 document.querySelector("#Header").innerHTML = `
   <header>
