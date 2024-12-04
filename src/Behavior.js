@@ -6,39 +6,42 @@ import { createFilteredTable } from "./ChartMaker";
 export let budget;
 export let getGraph2Data;
 
-
-window.onload = () =>
+window.onload = (() =>
 {
   // Get input button and input box
   const budgetInputBox = document.getElementById("BudgetInputBox");
   const startButton = document.getElementById("StartButton");
-  startButton.onclick = () =>
+
+  if (startButton && budgetInputBox)
   {
-    budget = budgetInputBox.value;
-    if (budget < 30000)
+    startButton.onclick = () =>
     {
-      alert("We don't have a car that matches your needs.");
-      budgetInputBox.value = "";
-      return;
-    }
-    else
-    {
-      document.querySelector("#AfterBudgetPrompt").style.display = "block";
-      document.querySelector("#FilterTable1").style.display = "block";
-      let filteredData = Step1CarFilter();
-      // Clear previous table if exists
-      const filterTableDiv = document.querySelector("#FilterTable1");
-      filterTableDiv.innerHTML = "";
-      createFilteredTable(filterTableDiv, filteredData);
-      // Scroll to the LineChart section
-      document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
-      getGraph2Data = Graph2_data_cleaning(budget);
-      if (budget && !isNaN(budget))
+      budget = budgetInputBox.value;
+      if (budget < 30000)
       {
-        document.querySelector("#LineChart").style.display = "block";
+        alert("We don't have a car that matches your needs.");
+        budgetInputBox.value = "";
+        return;
       }
-    }
-  };
+      else
+      {
+        document.querySelector("#AfterBudgetPrompt").style.display = "block";
+        document.querySelector("#FilterTable1").style.display = "block";
+        let filteredData = Step1CarFilter();
+        // Clear previous table if exists
+        const filterTableDiv = document.querySelector("#FilterTable1");
+        filterTableDiv.innerHTML = "";
+        createFilteredTable(filterTableDiv, filteredData);
+        // Scroll to the LineChart section
+        document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
+        getGraph2Data = Graph2_data_cleaning(budget);
+        if (budget && !isNaN(budget))
+        {
+          document.querySelector("#LineChart").style.display = "block";
+        }
+      }
+    };
+  }
 
   budgetInputBox.oninput = () =>
   {
@@ -49,4 +52,4 @@ window.onload = () =>
       document.querySelector("#TransmissionBarChart").style.display = "none";
     }
   };
-};
+});
