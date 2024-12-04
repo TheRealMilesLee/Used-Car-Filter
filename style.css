@@ -18,6 +18,7 @@
 .GreetingPage,
 #SankeyOverview,
 #GetStarted,
+#DropDownBrandModel,
 #LineChart,
 #ScatterPlot {
   animation: fadeIn 1s ease-in-out forwards;
@@ -37,7 +38,7 @@
 
 .GreetingPage,
 #GetStarted,
-#BrandModel,
+#DropDownBrandModel,
 #LineChart-Graph2,
 #BarChart-Graph3,
 #TransmissionBarChart-Graph4,
@@ -66,10 +67,12 @@
   font-family: 'Times New Roman', Times, serif;
 }
 
-#GetStarted {
+#GetStarted,
+#DropDownBrandModel {
   color: #cccac6;
   animation-delay: 3s;
 }
+
 
 #BudgetInputBox {
   color: #cccac6;

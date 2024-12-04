@@ -87,10 +87,10 @@ document.querySelector("#MainBody").innerHTML = `
 
 
   </section id="BrandModel"  style="display: none;">
-    <div>
+    <div class="DropDownBrandModel" style="display: none;">
       <h2> Choose Brand and Model </h2>
       <div class="dropdown-Brand-Model">
-        <select name="Brand" id="Brand">
+        <select name="Brand" id="Brand-select">
         </select>
         <p> With the model of </p>
         <select name="Model" id="Model">
