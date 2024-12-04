@@ -1,5 +1,3 @@
-import { SankeyDiagram } from "./src/Diagrams";
-import './src/Behavior.js';
 import
 {
   SankeyDiagram, LineChart, BarChart, TransmissionBarChart, FinalCarChoices,
@@ -87,6 +85,7 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
+  
   </section id="BrandModel"  style="display: none;">
     <div>
       <h2> Choose Brand and Model </h2>
@@ -97,20 +96,6 @@ document.querySelector("#MainBody").innerHTML = `
         <select name="Model" id="Model">
         </select>
       </div>
-    </div>
-  </section>
-
-  <section id="FinalCarChoices">
-    <div class="final-content">
-      <h2>Congratulations! Here are your ideal car choices:</h2>
-      <div id="FinalTable"></div>
-    </div>
-  </section>
-
-  <section id="FinalCarChoices">
-    <div class="final-content">
-      <h2>Congratulations! Here are your ideal car choices:</h2>
-      ${ finalcarlist() }
     </div>
   </section>
 
