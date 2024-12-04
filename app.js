@@ -79,7 +79,7 @@ document.querySelector("#MainBody").innerHTML = `
     <div>
       ${ TransmissionBarChart() }
       <p id="AfterTransmissionPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-      <div id="FilterTable3" style="display: none;">
+      <div id="FilterTable4" style="display: none;">
         <!-- Create a table to show after filtered data -->
       </div>
     </div>
@@ -96,7 +96,7 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-  <section id="ModelSalesChart">
+  <section id="ModelSalesChart" style="display: none;">
     <div>
       ${ ModelSalesChart() }
       <p id="AfterModelPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
@@ -105,7 +105,7 @@ document.querySelector("#MainBody").innerHTML = `
       </div>
     </div>
   </section>
-  <section id="EngineCategoryChart">
+  <section id="EngineCategoryChart" style="display: none;">
     <div>
       ${ EngineCategoryChart() }
       <p id="AfterEnginePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>

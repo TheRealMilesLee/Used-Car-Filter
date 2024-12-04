@@ -46,7 +46,10 @@ window.onload = () =>
     {
       document.querySelector("#LineChart").style.display = "none";
       document.querySelector("#BarChart").style.display = "none";
-      document.querySelector("#BarChart2").style.display = "none";
+      document.querySelector("#TransmissionBarChart").style.display = "none";
+      document.querySelector("#CityBrandChart").style.display = "none";
+      document.querySelector("#ModelSalesChart").style.display = "none";
+      document.querySelector("#EngineCategoryChart").style.display = "none";
     }
   };
 };

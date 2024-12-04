@@ -136,7 +136,7 @@ export function BarChart_TransmissionDistribution()
       let filteredData = Step4CarFilter();
       // Call the function to create and display the table
       createFilteredTable(filterTable4, filteredData);
-      if (MileageSelected !== null)
+      if (TransmissionSelected !== null)
       {
         getGraph5Data = Graph5_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
         document.querySelector("#CityBrandChart").style.display = "block";

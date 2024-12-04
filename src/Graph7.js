@@ -1,5 +1,18 @@
 import * as d3 from 'd3';
 import { size } from './Diagrams.js';
+import { getGraph7Data } from './Graph6.js';
+import { Step7CarFilter } from './graphDataCleaning.js';
+import { createFilteredTable } from './ChartMaker.js';
+import { Graph8_data_cleaning } from './graphDataCleaning.js';
+import { budget } from './Behavior.js';
+import { SelectedAge } from './Graph2.js';
+import { MileageSelected } from './Graph3.js';
+import { TransmissionSelected} from './Graph4.js';
+import { BrandSelected} from './Graph5.js';
+import { ModelSelected} from './Graph6.js';
+
+export let EngineSelected;
+export let getGraph8Data;
 
 const data = [
   { capacity: "1.5L", count: 2500 },
@@ -25,11 +38,14 @@ export function EngineCategoryDistribution() {
     .append('g')
     .attr('transform', `translate(${width / 2 + margin.left},${height / 2 + margin.top})`);
 
+  // Get the data from cleaning
+  const Graph7_data_cleaning_result = getGraph7Data;
+
   const pie = d3.pie().value(d => d.count);
   const arc = d3.arc().innerRadius(radius * 0.6).outerRadius(radius);
 
   const arcs = svg.selectAll('arc')
-    .data(pie(data))
+    .data(pie(Graph7_data_cleaning_result))
     .enter()
     .append('g')
     .attr('class', 'arc');
@@ -44,7 +60,7 @@ export function EngineCategoryDistribution() {
   arcs.append('text')
     .attr('transform', d => `translate(${labelArc.centroid(d)})`)
     .attr('text-anchor', 'middle')
-    .text(d => d.data.capacity)
+    .text(d => d.Graph7_data_cleaning_result.capacity)
     .attr('class', 'donut-label')
     .style('font-size', '12px')
     .style('font-weight', 'bold');
@@ -54,7 +70,7 @@ export function EngineCategoryDistribution() {
     .attr('transform', `translate(${-width / 2 + 20}, ${-height / 2 + 20})`);
 
   const legendItems = legend.selectAll('.legend-item')
-    .data(data)
+    .data(Graph7_data_cleaning_result)
     .enter()
     .append('g')
     .attr('class', 'legend-item')
@@ -105,5 +121,28 @@ export function EngineCategoryDistribution() {
   }
 
   d3.select(window).on('resize.graph7', resize);
+
+    // Make on hover effect
+  chartContainer_graph7.selectAll("arc")
+    .on("click", function (event, d)
+    {
+        EngineSelected = d.engine;
+        alert(`You have selected ${ EngineSelected } engine capacity`);
+        document.getElementById("AfterEnginePrompt").style.display = "block";
+        document.getElementById("FilterTable7").style.display = "block";
+  
+        // Clear Previous Table if exists
+        const filterTable7 = document.querySelector("#FilterTable7");
+        filterTable7.innerHTML = "";
+        let filteredData = Step7CarFilter();
+        // Call the function to create and display the table
+        createFilteredTable(filterTable7, filteredData);
+        if (AfterEnginePrompt !== null)
+        {
+            getGraph8Data = Graph8_data_cleaning(budget, SelectedAge, MileageSelected, 
+                TransmissionSelected, BrandSelected, ModelSelected, EngineSelected);
+        }
+        // to the end
+    });
 }
 

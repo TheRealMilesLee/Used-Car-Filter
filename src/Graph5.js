@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph5Data } from './Graph4.js';
-/*import { Step4CarFilter } from './graphDataCleaning.js';
+import { Step5CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 import { Graph6_data_cleaning } from './graphDataCleaning.js';
 import { budget } from './Behavior.js';
@@ -10,32 +10,8 @@ import { MileageSelected } from './Graph3.js';
 import { TransmissionSelected} from './Graph4.js';
 
 export let BrandSelected;
-export let getGraph6Data;*/
+export let getGraph6Data;
 
-// Static data for demonstration
-const cityData = {
-    "Moscow": [
-        { brand: "Toyota", count: 1200 },
-        { brand: "Volkswagen", count: 1000 },
-        { brand: "Ford", count: 800 },
-        { brand: "BMW", count: 600 },
-        { brand: "Mercedes", count: 500 },
-    ],
-    "Saint Petersburg": [
-        { brand: "Volkswagen", count: 900 },
-        { brand: "Toyota", count: 850 },
-        { brand: "Ford", count: 700 },
-        { brand: "Audi", count: 550 },
-        { brand: "BMW", count: 500 },
-    ],
-    "Novosibirsk": [
-        { brand: "Lada", count: 700 },
-        { brand: "Toyota", count: 600 },
-        { brand: "Hyundai", count: 500 },
-        { brand: "Kia", count: 450 },
-        { brand: "Volkswagen", count: 400 },
-    ]
-};
 
 export function HorizontalBarChart_CityBrandDistribution() {
     // Set up the margin for the chart
@@ -46,36 +22,12 @@ export function HorizontalBarChart_CityBrandDistribution() {
     // Clear previous chart
     d3.select("#Graph5").selectAll("*").remove();
 
-    // Create city selector
-    const selectorContainer = d3.select("#CityBrandChart-Graph5")
-        .insert("div", "svg")
-        .attr("class", "selector-container");
-
-    const citySelector = selectorContainer.append("select")
-        .attr("id", "citySelector")
-        .on("change", updateChart);
-
-    citySelector.selectAll("option")
-        .data(Object.keys(cityData))
-        .enter()
-        .append("option")
-        .text(d => d)
-        .attr("value", d => d);
-
     // Set up the SVG container
     const svg = d3.select("#Graph5")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-
-    function updateChart() {
-    const selectedCity = citySelector.property("value");
-    const data = cityData[selectedCity].sort((a, b) => b.count - a.count);
-
-    const svg = d3.select("#Graph5 g");
-    svg.selectAll("*").remove();
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Get the data from cleaning
     const Graph5_data_cleaning_result = getGraph5Data;
@@ -154,10 +106,49 @@ export function HorizontalBarChart_CityBrandDistribution() {
         .attr("font-size", "18px")
         .attr("fill", "white")
         .text(`Car Sales by Brand in ${selectedCity}`);
-    }
 
+    // Make on hover effect
+    chartContainer_graph5.selectAll("rect")
+    .on("mouseover", function (event, d)
+    {
+        d3.select(this)
+        .attr("fill", "#B0E0E6");
 
-    // Initial chart render
-    updateChart();
-    }
+        // Show the tooltip
+        tooltipGroup.style("display", null)
+        .attr("transform", `translate(${ xScale(d.brand) + xScale.bandwidth() / 2 }, ${ yScale(d.count) - 20 })`); // Centered tooltip
+
+        // Update the tooltip text
+        tooltipGroup.select(".tooltip-text")
+        .text(`${ d.count }`);
+    })
+    .on("mouseout", function (event, d)
+    {
+        d3.select(this)
+        .attr("fill", "#E5F9FF");
+        tooltipGroup.style("display", "none");
+    })
+    .on("click", function (event, d)
+    {
+        BrandSelected = d.brand;
+        alert(`You have selected ${ BrandSelected } brand`);
+        document.getElementById("AfterCityBrandPrompt").style.display = "block";
+        document.getElementById("FilterTable5").style.display = "block";
+
+        // Clear Previous Table if exists
+        const filterTable5 = document.querySelector("#FilterTable5");
+        filterTable5.innerHTML = "";
+        let filteredData = Step5CarFilter();
+        // Call the function to create and display the table
+        createFilteredTable(filterTable5, filteredData);
+        if (BrandSelected !== null)
+        {
+            getGraph6Data = Graph6_data_cleaning(budget, SelectedAge, MileageSelected, 
+                TransmissionSelected, BrandSelected);
+            document.querySelector("#ModelSalesChart").style.display = "block";
+        }
+        // Scroll to the BarChart section
+        document.querySelector("#ModelSalesChart").scrollIntoView({ behavior: "smooth" });
+    });
+}
 

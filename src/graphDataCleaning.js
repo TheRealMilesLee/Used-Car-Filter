@@ -275,11 +275,60 @@ export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
   return transmissionCountsArray;
 };
 
-export const Graph5_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected) =>
-{
+export const Graph5_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected) => {
+  let MileageSelected_lowBound = parseInt(MileageSelected.split("-")[0]);
+  let MileageSelected_highBound = parseInt(MileageSelected.split("-")[1]) || Infinity;
+
+  let returnValue = column_from_csv.map(d => {
+    const mileage = d['mileage'];
+    const price = parseInt(d['price']);
+    const transmission = d['transmission'];
+
+    // Apply all conditions, including the new transmission filter
+    if (
+      price <= budget &&
+      SelectedAge <= parseInt(d['age']) &&
+      mileage >= MileageSelected_lowBound &&
+      mileage <= MileageSelected_highBound &&
+      transmission === TransmissionSelected
+    ) {
+      return {
+        transmission: transmission,
+      };
+    }
+    return null;
+  }).filter(d => d !== null || d != undefined); // Filter out null entries
+
+  // Count the number of cars in each transmission type
+  let transmissionCounts = {};
+  returnValue.forEach(d => {
+    if (transmissionCounts[d.transmission]) {
+      transmissionCounts[d.transmission]++;
+    } else {
+      transmissionCounts[d.transmission] = 1;
+    }
+  });
+
+  // Convert to key-value pair array
+  let transmissionCountsArray = Object.keys(transmissionCounts).map(key => {
+    return { transmission: key, count: transmissionCounts[key] };
+  });
+
+  return transmissionCountsArray;
 };
 
 
+export const Graph6_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected, BrandSelected) =>
+{
+};
+
+export const Graph7_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected, BrandSelected, ModelSelected) =>
+{
+};
+
+export const Graph8_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected, BrandSelected, ModelSelected, EngineSelected) =>
+{
+};
 
 export function Step1CarFilter()
 {
@@ -345,10 +394,11 @@ export function Step3CarFilter()
 export function Step4CarFilter()
 {
   let currentData = Step3CarFilter();
-  if (SelectedTransmission)
+  if (TransmissionSelected)
   {
     // Filter out the data that is above the selected transmission
-    const filteredData = currentData.filter(d => d['transmission'] === SelectedTransmission);
+    const filteredData = currentData.filter(d => d['transmission'] === TransmissionSelected);
+    console.log(filteredData);
     // Only return the first 30 entries for performance reasons
     if (filteredData.length === 0)
     {
@@ -362,10 +412,10 @@ export function Step4CarFilter()
 export function Step5CarFilter()
 {
   let currentData = Step4CarFilter();
-  if (SelectedBrand)
+  if (BrandSelected)
   {
     // Filter out the data that is above the selected BRAND
-    const filteredData = currentData.filter(d => d['brand'] === SelectedBrand);
+    const filteredData = currentData.filter(d => d['brand'] === BrandSelected);
     // Only return the first 30 entries for performance reasons
     if (filteredData.length === 0)
     {
@@ -379,10 +429,10 @@ export function Step5CarFilter()
 export function Step6CarFilter()
 {
   let currentData = Step5CarFilter();
-  if (SelectedModel)
+  if (ModelSelected)
   {
     // Filter out the data that is above the selected BRAND
-    const filteredData = currentData.filter(d => d['model'] === SelectedModel);
+    const filteredData = currentData.filter(d => d['model'] === ModelSelected);
     // Only return the first 30 entries for performance reasons
     if (filteredData.length === 0)
     {
@@ -396,10 +446,10 @@ export function Step6CarFilter()
 export function Step7CarFilter()
 {
   let currentData = Step6CarFilter();
-  if (SelectedEngine)
+  if (EngineSelected)
   {
     // Filter out the data that is above the selected BRAND
-    const filteredData = currentData.filter(d => d['engine_capacity'] === SelectedEngine);
+    const filteredData = currentData.filter(d => d['engine_capacity'] === EngineSelected);
     // Only return the first 30 entries for performance reasons
     if (filteredData.length === 0)
     {

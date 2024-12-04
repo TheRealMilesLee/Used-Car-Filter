@@ -1,21 +1,17 @@
 import * as d3 from 'd3';
 import { size } from './Diagrams.js';
-/*import { getGraph6Data } from './Graph5.js';
-import { Step5CarFilter } from './graphDataCleaning.js';
+import { getGraph6Data } from './Graph5.js';
+import { Step6CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
-import { Graph6_data_cleaning } from './graphDataCleaning.js';
+import { Graph7_data_cleaning } from './graphDataCleaning.js';
 import { budget } from './Behavior.js';
 import { SelectedAge } from './Graph2.js';
 import { MileageSelected } from './Graph3.js';
-import { TransmissionSelected} from './Graph4.js';*/
+import { TransmissionSelected} from './Graph4.js';
+import { BrandSelected} from './Graph5.js';
 
-const data = [
-  { model: "Sedan X", sold: 4000 },
-  { model: "SUV Y", sold: 3000 },
-  { model: "Hatchback Z", sold: 2000 },
-  { model: "Coupe W", sold: 1500 },
-  { model: "Electric V", sold: 2500 },
-];
+export let ModelSelected;
+export let getGraph7Data;
 
 const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
 
@@ -33,11 +29,14 @@ export function ModelSalesChart_Distribution() {
     .append('g')
     .attr('transform', `translate(${width / 2 + margin.left},${height / 2 + margin.top})`);
 
+  // Get the data from cleaning
+  const Graph6_data_cleaning_result = getGraph6Data;
+
   const pie = d3.pie().value(d => d.sold);
   const arc = d3.arc().innerRadius(0).outerRadius(radius);
 
   const arcs = svg.selectAll('arc')
-    .data(pie(data))
+    .data(pie(Graph6_data_cleaning_result))
     .enter()
     .append('g')
     .attr('class', 'arc');
@@ -50,7 +49,7 @@ export function ModelSalesChart_Distribution() {
   arcs.append('text')
     .attr('transform', d => `translate(${arc.centroid(d)})`)
     .attr('text-anchor', 'middle')
-    .text(d => d.data.model)
+    .text(d => d.Graph6_data_cleaning_result.model)
     .style('font-size', '12px')
     .style('fill', 'white')
     .style('font-weight', 'bold');
@@ -60,7 +59,7 @@ export function ModelSalesChart_Distribution() {
     .attr('transform', `translate(${radius + 20}, ${-radius})`);
 
   const legendItems = legend.selectAll('.legend-item')
-    .data(data)
+    .data(Graph6_data_cleaning_result)
     .enter()
     .append('g')
     .attr('class', 'legend-item')
@@ -111,5 +110,30 @@ export function ModelSalesChart_Distribution() {
   }
 
   d3.select(window).on('resize', resize);
+
+  // Make on hover effect
+  chartContainer_graph6.selectAll("arc")
+  .on("click", function (event, d)
+  {
+      ModelSelected = d.model;
+      alert(`You have selected ${ ModelSelected } model`);
+      document.getElementById("AfterModelPrompt").style.display = "block";
+      document.getElementById("FilterTable6").style.display = "block";
+
+      // Clear Previous Table if exists
+      const filterTable6 = document.querySelector("#FilterTable6");
+      filterTable6.innerHTML = "";
+      let filteredData = Step6CarFilter();
+      // Call the function to create and display the table
+      createFilteredTable(filterTable6, filteredData);
+      if (ModelSelected !== null)
+      {
+          getGraph7Data = Graph7_data_cleaning(budget, SelectedAge, MileageSelected, 
+              TransmissionSelected, BrandSelected, ModelSelected);
+          document.querySelector("#EngineCategoryChart").style.display = "block";
+      }
+      // Scroll to the BarChart section
+      document.querySelector("#EngineCategoryChart").scrollIntoView({ behavior: "smooth" });
+  });
 }
 
