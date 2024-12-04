@@ -8,6 +8,7 @@ import { ModelSalesChart, mountModelSalesChart } from "./src/Diagrams.js";
 import { EngineCategoryChart, mountEngineCategoryChart } from "./src/Diagrams.js";
 import './src/Behavior.js';
 import "./style.css";
+import { displayFinalComponent } from './src/FinalCars.js';
 
 document.querySelector("#Header").innerHTML = `
   <header>
@@ -114,6 +115,13 @@ document.querySelector("#MainBody").innerHTML = `
       </div>
     </div>
   </section>
+  
+  <section id="FinalCarChoices">
+    <div class="final-content">
+      <h2>Congratulations! Here are your ideal car choices:</h2>
+      <div id="FinalTable"></div>
+    </div>
+  </section>
 `;
 mountSankey();
 mountLineChart();
@@ -122,6 +130,4 @@ mountTransmissionBarChart();
 mountCityBrandChart();
 mountModelSalesChart();
 mountEngineCategoryChart();
-
-
 
