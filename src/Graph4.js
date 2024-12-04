@@ -3,7 +3,7 @@ import { size } from "./Diagrams.js";
 import { getGraph4Data } from './Graph3.js';
 import { Step4CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
-import { Graph5_data_cleaning } from './graphDataCleaning.js';
+import { DropDownMenu_data_cleaning } from './graphDataCleaning.js';
 import { SelectedAge } from './Graph2.js';
 import { budget } from './Behavior.js';
 import { MileageSelected } from './Graph3.js';
@@ -138,7 +138,7 @@ export function BarChart_TransmissionDistribution()
       createFilteredTable(filterTable4, filteredData);
       if (TransmissionSelected !== null)
       {
-        getGraph5Data = Graph5_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
+        getGraph5Data = DropDownMenu_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
         document.querySelector("#CityBrandChart").style.display = "block";
       }
       // Scroll to the BarChart section
