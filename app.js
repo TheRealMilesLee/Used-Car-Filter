@@ -3,10 +3,10 @@ import
   SankeyDiagram, LineChart, BarChart, TransmissionBarChart, FinalCarChoices,
   mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart, mountFinalCarList
 } from "./src/Diagrams";
-import { DropDownMenu } from "./src/SelectBrandModel.js";
+import "./src/SelectBrandModel.js";
 import './src/Behavior.js';
 import "./style.css";
-import { displayFinalComponent } from './src/FinalCars.js';
+import './src/FinalCars.js';
 import './src/SelectBrandModel.js';
 
 document.querySelector("#Header").innerHTML = `
@@ -85,7 +85,7 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-  
+
   </section id="BrandModel"  style="display: none;">
     <div>
       <h2> Choose Brand and Model </h2>
@@ -99,10 +99,10 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-  <section id="FinalCarChoices">
+  <section id="FinalCarChoices" style="display: none;">
     <div class="final-content">
       <h2>Congratulations! Here are your ideal car choices:</h2>
-      ${ finalcarlist() }
+      <div id="FinalTable"></div>
     </div>
   </section>
 `;

@@ -139,7 +139,6 @@ export function BarChart_TransmissionDistribution()
       if (TransmissionSelected !== null)
       {
         getGraph5Data = DropDownMenu_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
-        document.querySelector("#CityBrandChart").style.display = "block";
         document.querySelector("#FinalCarChoices").style.display = "block";
       }
       // Scroll to the BarChart section

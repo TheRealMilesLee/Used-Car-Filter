@@ -282,6 +282,7 @@ export const DropDownMenu_data_cleaning = (budget, SelectedAge, MileageSelected,
     const brand = d['brand'];
     const model = d['model'];
     const price = parseInt(d['price']);
+    const age = parseInt(d['age']);
     const mileage = categoriesOdometer(d['mileage']);
     const transmission = d['transmission'];
     const uniqueEntries = new Set();

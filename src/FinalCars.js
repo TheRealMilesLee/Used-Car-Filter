@@ -1,11 +1,13 @@
+import * as d3 from 'd3';
 const carData = [
-{ Brand: 'Toyota', Transmission: 'Automatic', 'Engine capacity': '2.0L', Mileage: '50000', Age: '3', Price: '25000' },
-{ Brand: 'Honda', Transmission: 'Manual', 'Engine capacity': '1.8L', Mileage: '30000', Age: '2', Price: '22000' },
-{ Brand: 'Ford', Transmission: 'Automatic', 'Engine capacity': '2.5L', Mileage: '40000', Age: '4', Price: '28000' },
+    { Brand: 'Toyota', Transmission: 'Automatic', 'Engine capacity': '2.0L', Mileage: '50000', Age: '3', Price: '25000' },
+    { Brand: 'Honda', Transmission: 'Manual', 'Engine capacity': '1.8L', Mileage: '30000', Age: '2', Price: '22000' },
+    { Brand: 'Ford', Transmission: 'Automatic', 'Engine capacity': '2.5L', Mileage: '40000', Age: '4', Price: '28000' },
 ];
 
 // Create table using D3.js
-function createFinalTable(data) {
+function createFinalTable(data)
+{
     const columns = ['Brand', 'Transmission', 'Engine capacity', 'Mileage', 'Age', 'Price'];
 
     const table = d3.select('#FinalTable')
@@ -37,6 +39,4 @@ function createFinalTable(data) {
 }
 
 // Call the function to create the table
-export function finalCarList(){
-    createFinalTable(carData);
-}
+createFinalTable(carData);
