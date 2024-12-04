@@ -3,9 +3,7 @@ import
   SankeyDiagram, LineChart, BarChart, TransmissionBarChart,
   mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart
 } from "./src/Diagrams";
-import { CityBrandChart, mountCityBrandChart } from "./src/Diagrams.js";
-import { ModelSalesChart, mountModelSalesChart } from "./src/Diagrams.js";
-import { EngineCategoryChart, mountEngineCategoryChart } from "./src/Diagrams.js";
+import { DropDownMenu } from "./src/SelectBrandModel.js";
 import './src/Behavior.js';
 import "./style.css";
 import { displayFinalComponent } from './src/FinalCars.js';
@@ -86,33 +84,10 @@ document.querySelector("#MainBody").innerHTML = `
     </div>
   </section>
 
-  </section>
-  <section id="CityBrandChart" style="display: none;" >
+  </section id="BrandModel"  style="display: none;">
     <div>
-      ${ CityBrandChart() }
-      <p id="AfterCityBrandPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-      <div id="FilterTable5" style="display: none;">
-        <!-- Create a table to show after filtered data -->
-      </div>
-    </div>
-  </section>
-
-  <section id="ModelSalesChart" style="display: none;">
-    <div>
-      ${ ModelSalesChart() }
-      <p id="AfterModelPrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-      <div id="FilterTable6" style="display: none;">
-        <!-- Create a table to show after filtered data -->
-      </div>
-    </div>
-  </section>
-  <section id="EngineCategoryChart" style="display: none;">
-    <div>
-      ${ EngineCategoryChart() }
-      <p id="AfterEnginePrompt" style="display: none;"> This is what we have so far, scroll to see more </p>
-      <div id="FilterTable7" style="display: none;">
-        <!-- Create a table to show after filtered data -->
-      </div>
+      <h2> Choose Brand and Model </h2>
+      ${ DropDownMenu() }
     </div>
   </section>
   
@@ -127,7 +102,5 @@ mountSankey();
 mountLineChart();
 mountScatter();
 mountTransmissionBarChart();
-mountCityBrandChart();
-mountModelSalesChart();
-mountEngineCategoryChart();
+
 

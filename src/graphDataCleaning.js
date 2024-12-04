@@ -275,59 +275,28 @@ export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
   return transmissionCountsArray;
 };
 
-export const Graph5_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected) => {
-  let MileageSelected_lowBound = parseInt(MileageSelected.split("-")[0]);
-  let MileageSelected_highBound = parseInt(MileageSelected.split("-")[1]) || Infinity;
-
-  let returnValue = column_from_csv.map(d => {
-    const mileage = d['mileage'];
+export const DropDownMenu_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected) =>
+{
+  let returnValue = column_from_csv.map(d =>
+  {
+    const brand = d['brand'];
+    const model = d['model'];
     const price = parseInt(d['price']);
+    const mileage = categoriesOdometer(d['mileage']);
     const transmission = d['transmission'];
-
-    // Apply all conditions, including the new transmission filter
-    if (
-      price <= budget &&
-      SelectedAge <= parseInt(d['age']) &&
-      mileage >= MileageSelected_lowBound &&
-      mileage <= MileageSelected_highBound &&
-      transmission === TransmissionSelected
-    ) {
+    const uniqueEntries = new Set();
+    const uniqueKey = `${ brand }-${ model }`;
+    if (!uniqueEntries.has(uniqueKey) && price <= budget && age <= SelectedAge && mileage === MileageSelected && transmission === TransmissionSelected)
+    {
       return {
-        transmission: transmission,
+        brand: brand,
+        model: model
       };
     }
     return null;
-  }).filter(d => d !== null || d != undefined); // Filter out null entries
+  }).filter(d => d !== null || d != undefined);  // Filter out null entries
 
-  // Count the number of cars in each transmission type
-  let transmissionCounts = {};
-  returnValue.forEach(d => {
-    if (transmissionCounts[d.transmission]) {
-      transmissionCounts[d.transmission]++;
-    } else {
-      transmissionCounts[d.transmission] = 1;
-    }
-  });
-
-  // Convert to key-value pair array
-  let transmissionCountsArray = Object.keys(transmissionCounts).map(key => {
-    return { transmission: key, count: transmissionCounts[key] };
-  });
-
-  return transmissionCountsArray;
-};
-
-
-export const Graph6_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected, BrandSelected) =>
-{
-};
-
-export const Graph7_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected, BrandSelected, ModelSelected) =>
-{
-};
-
-export const Graph8_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected, BrandSelected, ModelSelected, EngineSelected) =>
-{
+  return returnValue;
 };
 
 export function Step1CarFilter()
