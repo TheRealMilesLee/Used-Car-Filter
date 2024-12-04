@@ -37,4 +37,6 @@ function createFinalTable(data) {
 }
 
 // Call the function to create the table
-createFinalTable(carData);
+export function finalCarList(){
+    createFinalTable(carData);
+}

@@ -1,12 +1,11 @@
 import
 {
-  SankeyDiagram, LineChart, BarChart, TransmissionBarChart,
-  mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart
+  SankeyDiagram, LineChart, BarChart, TransmissionBarChart, FinalCarChoices,
+  mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart, mountFinalCarList
 } from "./src/Diagrams";
 import { DropDownMenu } from "./src/SelectBrandModel.js";
 import './src/Behavior.js';
 import "./style.css";
-import { displayFinalComponent } from './src/FinalCars.js';
 
 document.querySelector("#Header").innerHTML = `
   <header>
@@ -94,7 +93,7 @@ document.querySelector("#MainBody").innerHTML = `
   <section id="FinalCarChoices">
     <div class="final-content">
       <h2>Congratulations! Here are your ideal car choices:</h2>
-      <div id="FinalTable"></div>
+      ${ finalcarlist() }
     </div>
   </section>
 `;
@@ -102,5 +101,4 @@ mountSankey();
 mountLineChart();
 mountScatter();
 mountTransmissionBarChart();
-
-
+mountFinalCarList();
