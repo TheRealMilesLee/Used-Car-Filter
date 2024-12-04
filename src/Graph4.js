@@ -142,7 +142,7 @@ export function BarChart_TransmissionDistribution()
         document.querySelector("#FinalCarChoices").style.display = "block";
       }
       // Scroll to the BarChart section
-      document.querySelector("#CityBrandChart").scrollIntoView({ behavior: "smooth" });
+      document.querySelector("#FinalCarChoices").scrollIntoView({ behavior: "smooth" });
     });
 
   // Add a group for the tooltip and dashed line
