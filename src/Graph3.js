@@ -5,7 +5,7 @@ import { Step3CarFilter } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 import { Graph4_data_cleaning } from './graphDataCleaning.js';
 import { SelectedAge } from './Graph2.js';
-import { budget } from './Behavior.js';
+import { budget } from '../app.js';
 
 export let MileageSelected;
 export let getGraph4Data;

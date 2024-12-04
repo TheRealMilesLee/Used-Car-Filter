@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { getGraph2Data, budget } from './Behavior.js';
+import { getGraph2Data, budget } from '../app.js';
 import { Step2CarFilter, Graph3_data_cleaning } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 export let SelectedAge;

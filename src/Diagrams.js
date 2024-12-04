@@ -4,7 +4,6 @@ import { SankeyDiagram_Overview } from './Graph1.js';
 import { LineChart_AgePriceCorrelation } from './Graph2.js';
 import { BarChart_MileagePriceCorrelation } from './Graph3.js';
 import { BarChart_TransmissionDistribution } from './Graph4.js';
-import { GenerateFinalCarList} from './FinalCars.js';
 import { column_from_csv } from './csvReadIn.js';
 
 export let size = { width: 0, height: 0 };
@@ -14,7 +13,7 @@ const onResize = (targets) =>
   targets.forEach(target =>
   {
     const targetId = target.target.getAttribute('id');
-    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4',].includes(targetId)) return;
+    if (!['Sankey-Graph1', 'LineChart-Graph2', 'BarChart-Graph3', 'TransmissionBarChart-Graph4'].includes(targetId)) return;
     size = { width: target.contentRect.width, height: target.contentRect.height };
     if (isEmpty(size) || !column_from_csv || isEmpty(column_from_csv)) return;
     const graphMap = {

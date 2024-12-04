@@ -2,7 +2,7 @@
  * @brief This file is to perform the data cleaning for each graph.
  */
 import { column_from_csv } from './csvReadIn.js';
-import { budget } from './Behavior.js';
+import { budget } from '../app.js';
 import { SelectedAge } from './Graph2.js';
 import { MileageSelected } from './Graph3.js';
 import { TransmissionSelected } from './Graph4.js';
@@ -139,6 +139,7 @@ function categoriesPrice(price)
   }
 }
 
+
 /**
  *
  * @returns The brand, transmission, engine capacity, mileage, age, and price of the car
@@ -173,28 +174,40 @@ export function graph1_data_cleaning()
   cleaned_data.sort((a, b) => a.age - b.age);
   return cleaned_data;
 }
+export function Step1CarFilter()
+{
+  if (budget < 30000)
+  {
+    alert("We don't have a car that matches your needs.");
+    return;
+  }
+  else
+  {
+    // Filter out the data that is above the selected budget
+    const filteredData = column_from_csv.filter(d => parseInt(d['price']) <= budget && parseInt(d['price']) >= 1000);
+    filteredData.sort((a, b) => a.price - b.price);
+    // Only return the first 60 entries for performance reasons
+    return filteredData;
+  }
+}
 
 /**
  *
- * @param {number} budget is the incoming user budget
  * @returns the age and price of the car
  */
-export const Graph2_data_cleaning = (budget) =>
+export const Graph2_data_cleaning = () =>
 {
   const uniqueEntries = new Set();
-  return column_from_csv.map(d =>
+  const AfterBudgetData = Step1CarFilter();
+  return AfterBudgetData.map(d =>
   {
     const age = parseInt(d['age']);
     const price = parseInt(d['price']);
     const uniqueKey = `${ age }`;
-    if (!uniqueEntries.has(uniqueKey) && price <= budget && price >= 1000)
+    if (!uniqueEntries.has(uniqueKey))
     {
       uniqueEntries.add(uniqueKey);
       return {
-        brand: d['brand'],
-        transmission: d['transmission'],
-        engine_capacity: d['engine_capacity'],
-        mileage: categoriesOdometer(d['mileage']),
         age: age,
         price: price
       };
@@ -203,29 +216,35 @@ export const Graph2_data_cleaning = (budget) =>
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
 };
 
+export function Step2CarFilter()
+{
+  let currentData = Step1CarFilter();
+  if (SelectedAge)
+  {
+    // Filter out the data that is above the selected age
+    const filteredData = currentData.filter(d => parseInt(d['age']) <= SelectedAge);
+    return filteredData;
+  }
+}
+
 /**
  *
- * @param {number} budget is the budget of the user
- * @param {number} SelectedAge is the age of the car selected by the user
  * @returns the mileage and price of the car
  */
-export const Graph3_data_cleaning = (budget, SelectedAge) =>
+export const Graph3_data_cleaning = () =>
 {
+  const AfterAgeData = Step2CarFilter();
   const uniqueEntries = new Set();
-  let returnValue = column_from_csv.map(d =>
+  let returnValue = AfterAgeData.map(d =>
   {
     const mileage = categoriesOdometer(d['mileage']);
     const price = parseInt(d['price']);
     const uniqueKey = `${ mileage }`;
-    if (!uniqueEntries.has(uniqueKey) && price <= budget && SelectedAge <= parseInt(d['age']))
+    if (!uniqueEntries.has(uniqueKey))
     {
       uniqueEntries.add(uniqueKey);
       return {
-        brand: d['brand'],
-        transmission: d['transmission'],
-        engine_capacity: d['engine_capacity'],
         mileage: mileage,
-        age: parseInt(d['age']),
         price: price
       };
     }
@@ -235,22 +254,51 @@ export const Graph3_data_cleaning = (budget, SelectedAge) =>
   return returnValue;
 };
 
+export function Step3CarFilter()
+{
+  let currentData = Step2CarFilter();
+  if (MileageSelected)
+  {
+    let mileageRange = MileageSelected.split("-");
+    let lowBound = parseInt(mileageRange[0]);
+    let highBound;
+    if (mileageRange[1])
+    {
+      highBound = parseInt(mileageRange[1]);
+    }
+    else
+    {
+      highBound = Infinity;
+    }
+    if (MileageSelected.includes("+"))
+    {
+      highBound = Infinity;
+    }
 
-export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
+    console.log(lowBound, highBound);
+    // Filter out the data that is above the selected mileage
+    const filteredData = currentData.filter(d => parseInt(d['mileage']) <= highBound && parseInt(d['mileage']) >= lowBound);
+    // Only return the first 30 entries for performance reasons
+    if (filteredData.length === 0)
+    {
+      alert("We don't have a car that matches your needs. Please try again.");
+      return;
+    }
+    return filteredData;
+  }
+}
+
+export const Graph4_data_cleaning = () =>
 {
   let MileageSelected_lowBound = parseInt(MileageSelected.split("-")[0]);
   let MileageSelected_highBound = parseInt(MileageSelected.split("-")[1]) || Infinity;
-  let returnValue = column_from_csv.map(d =>
+  console.log(MileageSelected_lowBound, MileageSelected_highBound);
+  const AfterMileageData = Step3CarFilter();
+  let returnValue = AfterMileageData.map(d =>
   {
-    const mileage = d['mileage'];
-    const price = parseInt(d['price']);
-    if (price <= budget && SelectedAge <= parseInt(d['age']) && mileage >= MileageSelected_lowBound && mileage <= MileageSelected_highBound)
-    {
-      return {
-        transmission: d['transmission'],
-      };
-    }
-    return null;
+    return {
+      transmission: d['transmission'],
+    };
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
   // Count the number of cars in each transmission type
   let transmissionCounts = {};
@@ -275,92 +323,6 @@ export const Graph4_data_cleaning = (budget, SelectedAge, MileageSelected) =>
   return transmissionCountsArray;
 };
 
-export const DropDownMenu_data_cleaning = (budget, SelectedAge, MileageSelected, TransmissionSelected) =>
-{
-  let returnValue = column_from_csv.map(d =>
-  {
-    const brand = d['brand'];
-    const model = d['model'];
-    const price = parseInt(d['price']);
-    const age = parseInt(d['age']);
-    const mileage = categoriesOdometer(d['mileage']);
-    const transmission = d['transmission'];
-    const uniqueEntries = new Set();
-    const uniqueKey = `${ brand }-${ model }`;
-    if (!uniqueEntries.has(uniqueKey) && price <= budget && age <= SelectedAge && mileage === MileageSelected && transmission === TransmissionSelected)
-    {
-      return {
-        brand: brand,
-        model: model
-      };
-    }
-    return null;
-  }).filter(d => d !== null || d != undefined);  // Filter out null entries
-
-  return returnValue;
-};
-
-export function Step1CarFilter()
-{
-  if (budget < 30000)
-  {
-    alert("We don't have a car that matches your needs.");
-    return;
-  }
-  else
-  {
-    // Filter out the data that is above the selected budget
-    const filteredData = column_from_csv.filter(d => parseInt(d['price']) <= budget && parseInt(d['price']) >= 1000);
-    filteredData.sort((a, b) => a.price - b.price);
-    // Only return the first 30 entries for performance reasons
-    return filteredData.slice(0, 30);
-  }
-}
-
-export function Step2CarFilter()
-{
-  let currentData = Graph2_data_cleaning(budget);
-  if (SelectedAge)
-  {
-    // Filter out the data that is above the selected age
-    const filteredData = currentData.filter(d => parseInt(d['age']) <= SelectedAge);
-    // Only return the first 30 entries for performance reasons
-    return filteredData;
-  }
-}
-
-export function Step3CarFilter()
-{
-  let currentData = Step2CarFilter();
-  if (MileageSelected)
-  {
-    let mileageRange = MileageSelected.split("-");
-    let lowBound = parseInt(mileageRange[0]);
-    let highBound;
-    if (mileageRange[1])
-    {
-      highBound = parseInt(mileageRange[1]);
-    }
-    else
-    {
-      highBound = Infinity;
-    }
-    if (MileageSelected.includes("+"))
-    {
-      highBound = Infinity;
-    }
-    // Filter out the data that is above the selected mileage
-    const filteredData = currentData.filter(d => parseInt(d['mileage']) <= highBound && parseInt(d['mileage']) >= lowBound);
-    // Only return the first 30 entries for performance reasons
-    if (filteredData.length === 0)
-    {
-      alert("We don't have a car that matches your needs. Please try again.");
-      return;
-    }
-    return filteredData;
-  }
-}
-
 export function Step4CarFilter()
 {
   let currentData = Step3CarFilter();
@@ -379,47 +341,35 @@ export function Step4CarFilter()
   }
 }
 
+export const DropDownMenu_data_cleaning = () =>
+{
+  const AfterTransmissionData = Step4CarFilter();
+  let returnValue = AfterTransmissionData.map(d =>
+  {
+    const brand = d['brand'];
+    const model = d['model'];
+    const uniqueEntries = new Set();
+    const uniqueKey = `${ brand }-${ model }`;
+    if (!uniqueEntries.has(uniqueKey))
+    {
+      return {
+        brand: brand,
+        model: model
+      };
+    }
+    return null;
+  }).filter(d => d !== null || d != undefined);  // Filter out null entries
+  return returnValue;
+};
+
 export function Step5CarFilter()
 {
   let currentData = Step4CarFilter();
-  if (BrandSelected)
+  if (TransmissionSelected)
   {
-    // Filter out the data that is above the selected BRAND
-    const filteredData = currentData.filter(d => d['brand'] === BrandSelected);
-    // Only return the first 30 entries for performance reasons
-    if (filteredData.length === 0)
-    {
-      alert("We don't have a car that matches your needs. Please try again.");
-      return;
-    }
-    return filteredData;
-  }
-}
-
-export function Step6CarFilter()
-{
-  let currentData = Step5CarFilter();
-  if (ModelSelected)
-  {
-    // Filter out the data that is above the selected BRAND
-    const filteredData = currentData.filter(d => d['model'] === ModelSelected);
-    // Only return the first 30 entries for performance reasons
-    if (filteredData.length === 0)
-    {
-      alert("We don't have a car that matches your needs. Please try again.");
-      return;
-    }
-    return filteredData;
-  }
-}
-
-export function Step7CarFilter()
-{
-  let currentData = Step6CarFilter();
-  if (EngineSelected)
-  {
-    // Filter out the data that is above the selected BRAND
-    const filteredData = currentData.filter(d => d['engine_capacity'] === EngineSelected);
+    // Filter out the data that is above the selected transmission
+    const filteredData = currentData.filter(d => d['transmission'] === TransmissionSelected);
+    console.log(filteredData);
     // Only return the first 30 entries for performance reasons
     if (filteredData.length === 0)
     {

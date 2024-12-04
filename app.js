@@ -5,8 +5,11 @@ import
 } from "./src/Diagrams";
 import "./style.css";
 import './src/FinalCars.js';
-import './src/Behavior.js';
 import './src/SelectBrandModel.js';
+import { Graph2_data_cleaning, Step1CarFilter } from "./src/graphDataCleaning";
+import { createFilteredTable } from "./src/ChartMaker";
+export let budget;
+export let getGraph2Data;
 
 
 document.querySelector("#Header").innerHTML = `
@@ -111,3 +114,52 @@ mountLineChart();
 mountScatter();
 mountTransmissionBarChart();
 mountFinalCarList();
+
+
+window.onload = (() =>
+{
+  // Get input button and input box
+  const budgetInputBox = document.getElementById("BudgetInputBox");
+  const startButton = document.getElementById("StartButton");
+
+  if (startButton && budgetInputBox)
+  {
+    startButton.onclick = () =>
+    {
+      budget = budgetInputBox.value;
+      if (budget < 30000)
+      {
+        alert("We don't have a car that matches your needs.");
+        budgetInputBox.value = "";
+        return;
+      }
+      else
+      {
+        document.querySelector("#AfterBudgetPrompt").style.display = "block";
+        document.querySelector("#FilterTable1").style.display = "block";
+        let filteredData = Step1CarFilter();
+        // Clear previous table if exists
+        const filterTableDiv = document.querySelector("#FilterTable1");
+        filterTableDiv.innerHTML = "";
+        createFilteredTable(filterTableDiv, filteredData);
+        // Scroll to the LineChart section
+        document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
+        getGraph2Data = Graph2_data_cleaning(budget);
+        if (budget && !isNaN(budget))
+        {
+          document.querySelector("#LineChart").style.display = "block";
+        }
+      }
+    };
+  }
+
+  budgetInputBox.oninput = () =>
+  {
+    if (budgetInputBox.value === "")
+    {
+      document.querySelector("#LineChart").style.display = "none";
+      document.querySelector("#BarChart").style.display = "none";
+      document.querySelector("#TransmissionBarChart").style.display = "none";
+    }
+  };
+});
