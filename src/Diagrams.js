@@ -8,7 +8,7 @@ import { PieChart_BrandDistribution } from './Graph5.js';
 import { column_from_csv } from './csvReadIn.js';
 export let size = { width: 0, height: 0 };
 
-const onResize = (targets) =>
+export const onResize = (targets) =>
 {
   targets.forEach(target =>
   {
@@ -24,7 +24,7 @@ const onResize = (targets) =>
       'BrandPieChart-Graph5': { selector: '#Graph5', redraw: PieChart_BrandDistribution }
     };
     d3.select(graphMap[targetId].selector).selectAll('*').remove();
-    graphMap[targetId].redraw();
+    graphMap[targetId].redraw(column_from_csv);
   });
 };
 

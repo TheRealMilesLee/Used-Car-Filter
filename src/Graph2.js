@@ -1,9 +1,10 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
-import { getGraph2Data, budget } from '../app.js';
+import { getGraph2Data } from '../app.js';
 import { Step2CarFilter, Graph3_data_cleaning } from './graphDataCleaning.js';
 import { createFilteredTable } from './ChartMaker.js';
 import { mountBarChart } from "./Diagrams";
+import { onResize } from './Diagrams.js';
 export let SelectedAge;
 export let getGraph3Data;
 
@@ -148,7 +149,10 @@ export function LineChart_AgePriceCorrelation()
         getGraph3Data = Graph3_data_cleaning();
         document.querySelector("#BarChart").style.display = "block";
         mountBarChart();
+        const customEventG3 = new Event('customRedrawG3');
+        window.dispatchEvent(customEventG3);
       }
+
       // Scroll to the BarChart section
       document.querySelector("#BarChart").scrollIntoView({ behavior: "smooth" });
     });
@@ -165,3 +169,22 @@ export function LineChart_AgePriceCorrelation()
     .attr("fill", "white")
     .style("font-weight", "bold");
 }
+
+
+// 监听自定义事件
+window.addEventListener('customRedrawG3', redrawG3, false);
+
+function redrawG3()
+{
+  console.log("Redrawing Graphs 3 - LineChart");
+  if (SelectedAge && !isNaN(SelectedAge))
+  {
+    console.log("Redrawing Graphs 3");
+    const targets = [
+      { target: document.querySelector('#BarChart-Graph3'), contentRect: document.querySelector('#BarChart-Graph3').getBoundingClientRect() },
+    ];
+    onResize(targets);
+  }
+}
+
+

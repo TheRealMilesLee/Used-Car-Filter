@@ -7,7 +7,7 @@ import { Graph4_data_cleaning } from './graphDataCleaning.js';
 import { SelectedAge } from './Graph2.js';
 import { budget } from '../app.js';
 import { mountTransmissionBarChart } from "./Diagrams";
-
+import { onResize } from './Diagrams.js';
 export let MileageSelected;
 export let getGraph4Data;
 export function BarChart_MileagePriceCorrelation()
@@ -119,7 +119,6 @@ export function BarChart_MileagePriceCorrelation()
     .on("click", function (event, d)
     {
       MileageSelected = d.mileage;
-
       alert("You have selected the mileage of " + MileageSelected + " miles. Here's what we found for you.");
       document.querySelector("#AfterMileagePrompt").style.display = "block";
       document.querySelector("#FilterTable3").style.display = "block";
@@ -134,6 +133,8 @@ export function BarChart_MileagePriceCorrelation()
         getGraph4Data = Graph4_data_cleaning(budget, SelectedAge, MileageSelected);
         document.querySelector("#TransmissionBarChart").style.display = "block";
         mountTransmissionBarChart();
+        const customEventRedrawG4 = new Event('customRedrawG4');
+        window.dispatchEvent(customEventRedrawG4);
       }
       // Scroll to the BarChart section
       document.querySelector("#TransmissionBarChart").scrollIntoView({ behavior: "smooth" });
@@ -149,4 +150,20 @@ export function BarChart_MileagePriceCorrelation()
     .attr("font-size", "12px")
     .attr("fill", "white")
     .style("font-weight", "bold");
+}
+
+// 监听自定义事件
+window.addEventListener('customRedrawG4', redrawG4, false);
+
+function redrawG4()
+{
+  console.log("Redrawing Graphs 4 - BarChart");
+  if (MileageSelected && !isNaN(MileageSelected))
+  {
+    console.log("Redrawing Graphs 4");
+    const targets = [
+      { target: document.querySelector('#TransmissionBarChart-Graph4'), contentRect: document.querySelector('#TransmissionBarChart-Graph4').getBoundingClientRect() },
+    ];
+    onResize(targets);
+  }
 }

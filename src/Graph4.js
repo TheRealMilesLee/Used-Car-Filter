@@ -9,6 +9,7 @@ import { budget } from '../app.js';
 import { MileageSelected } from './Graph3.js';
 import { updateBrandModelDropdown } from './SelectBrandModel.js';
 import { mountFinalCarList, mountBrandPieChart } from "./Diagrams";
+import { onResize } from './Diagrams.js';
 export let TransmissionSelected;
 export let getGraph5Data;
 
@@ -146,6 +147,8 @@ export function BarChart_TransmissionDistribution()
         // Scroll to the BarChart section
         document.querySelector("#DropDownBrandModel").scrollIntoView({ behavior: "smooth" });
         updateBrandModelDropdown();
+        const customEventG5 = new Event('customRedrawG5');
+        window.dispatchEvent(customEventG5);
       }
     });
 
@@ -160,4 +163,20 @@ export function BarChart_TransmissionDistribution()
     .attr("font-size", "12px")
     .attr("fill", "white")
     .style("font-weight", "bold");
+}
+
+// 监听自定义事件
+window.addEventListener('customRedrawG5', redrawG5, false);
+
+function redrawG5()
+{
+  console.log("Redrawing Graphs 5 - BrandPieChart");
+  if (TransmissionSelected && !isNaN(TransmissionSelected))
+  {
+    console.log("Redrawing Graphs 5");
+    const targets = [
+      { target: document.querySelector('#BrandPieChart-Graph5'), contentRect: document.querySelector('#BrandPieChart-Graph5').getBoundingClientRect() },
+    ];
+    onResize(targets);
+  }
 }
