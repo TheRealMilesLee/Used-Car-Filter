@@ -7,7 +7,7 @@ export function createFilteredTable(filterTable, filteredData)
 
   // Create header row
   const headerRow = document.createElement('tr');
-  ["Brand", "Transmission", "Engine capacity", "Mileage", "Age", "Price"].forEach(text =>
+  ["Brand", "Model", "Transmission", "city", "Engine capacity", "Mileage", "Age", "Price"].forEach(text =>
   {
     const th = document.createElement('th');
     th.textContent = text;
@@ -19,7 +19,7 @@ export function createFilteredTable(filterTable, filteredData)
   filteredData.forEach(rowData =>
   {
     const row = document.createElement('tr');
-    ["brand", "transmission", "engine_capacity", "mileage", "age", "price"].forEach(key =>
+    ["brand", "model", "transmission", "city_sold", "engine_capacity", "mileage", "age", "price"].forEach(key =>
     {
       const td = document.createElement('td');
       td.textContent = rowData[key];

@@ -4,7 +4,6 @@ import
   mountSankey, mountLineChart, mountScatter, mountTransmissionBarChart, mountFinalCarList
 } from "./src/Diagrams";
 import "./style.css";
-import './src/FinalCars.js';
 import './src/SelectBrandModel.js';
 import { Graph2_data_cleaning, Step1CarFilter } from "./src/graphDataCleaning";
 import { createFilteredTable } from "./src/ChartMaker";
@@ -22,9 +21,7 @@ document.querySelector("#Header").innerHTML = `
         <li><a href="#LineChart">Age & Price Trend</a></li>
         <li><a href="#BarChart">Mileage & Price Trend</a></li>
         <li><a href="#TransmissionChart">Transmission Distribution</a></li>
-        <li><a href="#CityBrandChart">City Brand Distribution</a></li>
-        <li><a href="#ModelSalesChart">Model Sales Distribution</a></li>
-        <li><a href="#EngineCategoryChart">Engine Capacity Distribution</a></li>
+        <li><a href="#DropDownBrandModel">Brand & Model</a></li>
       </ul>
     </nav>
   </header>
@@ -91,7 +88,7 @@ document.querySelector("#MainBody").innerHTML = `
   <section id="DropDownBrandModel" style="display: none;">
     <div>
       <h2> Choose Brand and Model </h2>
-      <form id="BrandModel">
+      <form id="BrandModel" class="dropdown-container">
         <label for="Brand">Brand:</label>
         <select id="Brand"></select>
         <label for="Model">Model:</label>
@@ -102,9 +99,10 @@ document.querySelector("#MainBody").innerHTML = `
   </section>
 
   <section id="FinalCarChoices" style="display: none;">
-    <div class="final-content">
-      <h2>Congratulations! Here are your ideal car choices:</h2>
-      <div id="FinalTable"></div>
+    <h2> This is the car you choose:  </h2>
+    <tr>
+    <div id="FilterTable5" style="display: none;">
+      <!-- Create a table to show after filtered data -->
     </div>
   </section>
 `;
@@ -115,7 +113,7 @@ mountTransmissionBarChart();
 mountFinalCarList();
 
 
-window.onload = (() =>
+window.addEventListener('load', () =>
 {
   // Get input button and input box
   const budgetInputBox = document.getElementById("BudgetInputBox");
@@ -131,8 +129,7 @@ window.onload = (() =>
         alert("We don't have a car that matches your needs.");
         budgetInputBox.value = "";
         return;
-      }
-      else
+      } else
       {
         document.querySelector("#AfterBudgetPrompt").style.display = "block";
         document.querySelector("#FilterTable1").style.display = "block";
@@ -143,7 +140,7 @@ window.onload = (() =>
         createFilteredTable(filterTableDiv, filteredData);
         // Scroll to the LineChart section
         document.querySelector("#LineChart").scrollIntoView({ behavior: "smooth" });
-        getGraph2Data = Graph2_data_cleaning(budget);
+        getGraph2Data = Graph2_data_cleaning();
         if (budget && !isNaN(budget))
         {
           document.querySelector("#LineChart").style.display = "block";

@@ -144,7 +144,6 @@ export function BarChart_TransmissionDistribution()
         // Scroll to the BarChart section
         document.querySelector("#DropDownBrandModel").scrollIntoView({ behavior: "smooth" });
         updateBrandModelDropdown();
-        
       }
     });
 

@@ -343,7 +343,7 @@ export const DropDownMenu_data_cleaning = () =>
     const brand = d['brand'];
     const model = d['model'];
     const uniqueEntries = new Set();
-    const uniqueKey = `${ brand }-${ model }`;
+    const uniqueKey = `${ brand }`;
     if (!uniqueEntries.has(uniqueKey))
     {
       return {
@@ -363,12 +363,24 @@ export function Step5CarFilter()
   {
     // Filter out the data that is above the selected transmission
     const filteredData = currentData.filter(d => d['transmission'] === TransmissionSelected && d['brand'] === selectedBrand && d['model'] === selectedModel);
-    // Only return the first 30 entries for performance reasons
-    if (filteredData.length === 0)
+    const uniqueEntries = new Set();
+    filteredData.map(d =>
     {
-      alert("We don't have a car that matches your needs. Please try again.");
-      return;
-    }
-    return filteredData.slice(0, 60);
+      const uniqueKey = `${ d['brand'] }-${ d['model'] }`;
+      if (!uniqueEntries.has(uniqueKey))
+      {
+        uniqueEntries.add(uniqueKey);
+        return {
+          brand: d['brand'],
+          transmission: d['transmission'],
+          engine_capacity: d['engine_capacity'],
+          mileage: d['mileage'],
+          age: d['age'],
+          price: d['price']
+        };
+      }
+      return null;
+    }).filter(d => d !== null || d != undefined);  // Filter out null entries
+    return filteredData;
   }
 }

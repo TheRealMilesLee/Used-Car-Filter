@@ -1,6 +1,7 @@
 import { Step5CarFilter } from "./graphDataCleaning";
 import { getGraph5Data } from "./Graph4";
-import { GenerateFinalCarList } from "./FinalCars";
+import { createFilteredTable } from "./ChartMaker";
+import "../style.css";
 
 export let selectedBrand;
 export let selectedModel;
@@ -16,19 +17,50 @@ export function updateBrandModelDropdown()
   DropDownModel.innerHTML = "";
   DropDownBrand.style.display = "block";
   DropDownModel.style.display = "block";
-  // Populate options
-  BrandModel.forEach(item =>
-  {
-    const optionBrand = document.createElement("option");
-    optionBrand.value = item.brand;
-    optionBrand.text = item.brand;
-    DropDownBrand.appendChild(optionBrand);
+  // Create a Set to keep track of unique brands
+  const uniqueBrands = new Set();
+  // Create a Map to keep track of models for each brand
+  const brandModelMap = new Map();
 
-    const optionModel = document.createElement("option");
-    optionModel.value = item.model;
-    optionModel.text = item.model;
-    DropDownModel.appendChild(optionModel);
+  // Populate options
+  BrandModel.forEach(item => {
+    // Check if the brand is already in the Set
+    if (!uniqueBrands.has(item.brand)) {
+      const optionBrand = document.createElement("option");
+      optionBrand.value = item.brand;
+      optionBrand.text = item.brand;
+      DropDownBrand.appendChild(optionBrand);
+
+      // Add the brand to the Set
+      uniqueBrands.add(item.brand);
+    }
+
+    // Add the model to the corresponding brand in the Map
+    if (!brandModelMap.has(item.brand)) {
+      brandModelMap.set(item.brand, new Set());
+    }
+    brandModelMap.get(item.brand).add(item.model);
   });
+
+  // Update models dropdown based on selected brand
+  DropDownBrand.addEventListener("change", () => {
+    const selectedBrand = DropDownBrand.value;
+    const models = brandModelMap.get(selectedBrand) || new Set();
+
+    // Clear existing options
+    DropDownModel.innerHTML = "";
+
+    // Populate model dropdown
+    models.forEach(model => {
+      const optionModel = document.createElement("option");
+      optionModel.value = model;
+      optionModel.text = model;
+      DropDownModel.appendChild(optionModel);
+    });
+  });
+
+  // Trigger change event to populate models for the initial brand selection
+  DropDownBrand.dispatchEvent(new Event("change"));
 
   let submitbuttom = document.querySelector("#ConfirmSelection");
 
@@ -42,10 +74,13 @@ export function updateBrandModelDropdown()
   {
     event.preventDefault();
     document.querySelector("#FinalCarChoices").style.display = "block";
-    document.querySelector(".final-content").style.display = "block";
-    document.querySelector("#FinalTable").style.display = "block";
+    document.querySelector("#FilterTable5").style.display = "block";
     finalData = Step5CarFilter();
-    GenerateFinalCarList();
+    console.log(finalData);
+    const filterTable5 = document.querySelector("#FilterTable5");
+    filterTable5.innerHTML = "";
+    createFilteredTable(filterTable5, finalData);
+    document.querySelector("#FinalCarChoices").scrollIntoView({ behavior: "smooth" });
   });
 }
 

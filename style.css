@@ -9,23 +9,6 @@
   background: url('./Resources/Background/Warp.png') center/cover fixed;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.navigationbar,
-.GreetingPage,
-#SankeyOverview,
-#GetStarted,
-#DropDownBrandModel,
-#LineChart,
-#ScatterPlot,
-#CityBrandChart-Graph5,
-#FinalCarChoices {
-  animation: fadeIn 1s ease-in-out forwards;
-}
-
 .navigationbar {
   position: sticky;
   top: 0;
@@ -87,7 +70,7 @@
 #FilterTable2,
 #FilterTable3,
 #FilterTable4,
-#FinalTable {
+#FilterTable5 {
   width: 100%;
   overflow: auto;
   border: 2px solid white;
@@ -99,7 +82,7 @@
 #FilterTable2 table,
 #FilterTable3 table,
 #FilterTable4 table,
-#FinalTable table {
+#FilterTable5 table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -113,8 +96,8 @@
 #FilterTable3 table th,
 #FilterTable4 table td,
 #FilterTable4 table th,
-#FinalTable table td,
-#FinalTable table th {
+#FilterTable5 table td,
+#FilterTable5 table th {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -127,7 +110,7 @@
 #FilterTable2 table tbody,
 #FilterTable3 table tbody,
 #FilterTable4 table tbody,
-#FinalTable table tbody {
+#FilterTable5 table tbody {
   display: block;
   max-height: 80vh;
   overflow-y: auto;
@@ -137,7 +120,7 @@
 #FilterTable2 table tbody::-webkit-scrollbar,
 #FilterTable3 table tbody::-webkit-scrollbar,
 #FilterTable4 table tbody::-webkit-scrollbar,
-#FinalTable table tbody::-webkit-scrollbar {
+#FilterTable5 table tbody::-webkit-scrollbar {
   width: 12px;
 }
 
@@ -145,7 +128,7 @@
 #FilterTable2 table tbody::-webkit-scrollbar-track,
 #FilterTable3 table tbody::-webkit-scrollbar-track,
 #FilterTable4 table tbody::-webkit-scrollbar-track,
-#FinalTable table tbody::-webkit-scrollbar-track {
+#FilterTable5 table tbody::-webkit-scrollbar-track {
   background: white;
 }
 
@@ -153,7 +136,7 @@
 #FilterTable2 table tbody::-webkit-scrollbar-thumb,
 #FilterTable3 table tbody::-webkit-scrollbar-thumb,
 #FilterTable4 table tbody::-webkit-scrollbar-thumb,
-#FinalTable table tbody::-webkit-scrollbar-thumb {
+#FilterTable5 table tbody::-webkit-scrollbar-thumb {
   background: white;
   border-radius: 6px;
   border: 3px solid #cccac6;
@@ -167,8 +150,8 @@
 #FilterTable3 table tbody tr,
 #FilterTable4 table thead,
 #FilterTable4 table tbody tr,
-#FinalTable table thead,
-#FinalTable table tbody tr {
+#FilterTable5 table thead,
+#FilterTable5 table tbody tr {
   display: table;
   width: 100%;
   table-layout: fixed;
@@ -191,6 +174,19 @@
 
 #Model {
   margin-left: 10px;
+}
+
+.dropdown-container {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-container label {
+  margin-right: 10px;
+}
+
+.dropdown-container select {
+  margin-right: 10px;
 }
 
 #ConfirmSelection {
