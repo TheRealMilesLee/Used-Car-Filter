@@ -2,7 +2,8 @@ import * as d3 from "d3";
 import
 {
   SankeyDiagram, LineChart, BarChart, TransmissionBarChart, BrandPieChart,
-  mountSankey, mountLineChart} from "./src/Diagrams";
+  mountSankey, mountLineChart
+} from "./src/Diagrams";
 import "./style.css";
 import './src/SelectBrandModel.js';
 import { Graph2_data_cleaning, Step1CarFilter } from "./src/graphDataCleaning";
@@ -98,16 +99,31 @@ document.querySelector("#MainBody").innerHTML = `
         <button id="ConfirmSelection">Submit</button>
       </form>
     </div>
-    ${ BrandPieChart() }
+    <div>
+      ${ BrandPieChart() }
+    </div>
   </section>
 
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
   <section id="FinalCarChoices" style="display: none;">
-    <h2> This is the car you choose:  </h2>
-    <tr>
+    <div>
+      <h2> Finished! </h2>
+      <p> Congratulations! You have finally completed the filtering process. </p>
+      <i> Here is the list of car that we think would be a good fit for you. </i>
+    </div>
     <div id="FilterTable5" style="display: none;">
       <!-- Create a table to show after filtered data -->
     </div>
-  </section>;
+    <div>
+      <h2> Not happy with the result? Click the button to start over </h2>
+      <button id="StartOverButton">Start Over</button>
+    </div>
+  </section>
 `;
 
 mountSankey();
@@ -160,6 +176,7 @@ window.addEventListener('load', () =>
       document.querySelector("#TransmissionBarChart").style.display = "none";
       document.querySelector("#DropDownBrandModel").style.display = "none";
       document.querySelector("#FinalCarChoices").style.display = "none";
+      document.querySelector("#BrandModel").reset();
     }
     if (!firstLoad)
     {

@@ -1,16 +1,17 @@
 import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph5Data } from "./Graph4";
+
 export function PieChart_BrandDistribution()
 {
   // First, clear any existing content
   d3.select('#Graph5').selectAll("*").remove();
 
   // Set up SVG dimensions
-  const margin = { top: 10, right: 10, bottom: 30, left: 60 };
+  const margin = { top: 10, right: 10, bottom: 10, left: 10 };
   const width = size.width - margin.left - margin.right;
   const height = size.height - margin.top - margin.bottom;
-  const radius = (Math.min(width, height) / 3.1415926) + 50;
+  const radius = Math.min(width, height) / 2 - 20;
 
   // Create the main SVG container
   const chartContainer_pie = d3.select('#Graph5')
@@ -90,7 +91,7 @@ function drawChart(brandPercentages, pie, arc, color, chartContainer_pie, arcHov
     .append("text")
     .attr("dy", ".35em")
     .attr("text-anchor", "middle")
-    .style("font-size", "15px")
+    .style("font-size", "12px")
     .style("font-weight", "bold")
     .style("fill", "lightgray")
     .text(d =>
@@ -144,7 +145,7 @@ function drawChart(brandPercentages, pie, arc, color, chartContainer_pie, arcHov
   colorLegend.append("text")
     .attr("x", 15)
     .attr("y", 10)
-    .style("font-size", "15px")
+    .style("font-size", "12px")
     .text(d => d.brand)
     .style("fill", "lightgray");
 }

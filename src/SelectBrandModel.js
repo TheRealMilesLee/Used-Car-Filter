@@ -86,7 +86,21 @@ export function updateBrandModelDropdown()
     filterTable5.innerHTML = "";
     createFilteredTable(filterTable5, finalData);
     document.querySelector("#FinalCarChoices").scrollIntoView({ behavior: "smooth" });
+    document.getElementById('StartOverButton').addEventListener('click', function (event)
+    {
+      document.querySelector("#GetStarted").scrollIntoView({ behavior: "smooth" });
+      document.getElementById('BudgetInputBox').value = "";
+      document.querySelector("#AfterBudgetPrompt").style.display = "none";
+      document.querySelector("#FilterTable1").style.display = "none";
+      document.querySelector("#LineChart").style.display = "none";
+      document.querySelector("#BarChart").style.display = "none";
+      document.querySelector("#TransmissionBarChart").style.display = "none";
+      document.querySelector("#DropDownBrandModel").style.display = "none";
+      document.querySelector("#FinalCarChoices").style.display = "none";
+      document.querySelector("#BrandModel").reset();
+    });
   });
+
 }
 
 

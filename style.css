@@ -26,7 +26,8 @@
 #TransmissionBarChart-Graph4,
 #BrandPieChart-Graph5,
 #FilterTable1,
-#FinalCarChoices {
+#FinalCarChoices,
+#StartOverSection {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,7 +54,8 @@
 }
 
 #GetStarted,
-#DropDownBrandModel {
+#DropDownBrandModel,
+#FinalCarChoices {
   color: #cccac6;
   animation-delay: 3s;
 }
@@ -62,7 +64,8 @@
   color: #cccac6;
 }
 
-#StartButton {
+#StartButton,
+#StartOverButton {
   color: #1a1a1a;
   border-radius: 25px;
 }
@@ -192,4 +195,9 @@
 
 #ConfirmSelection {
   margin-left: 10px;
+}
+
+#FinalCarChoices > div {
+  text-align: center;
+  color: #cccac6;
 }
