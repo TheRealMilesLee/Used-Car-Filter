@@ -9,8 +9,8 @@ export let SelectedAge;
 export let getGraph3Data;
 
 /**
- * For this graph, we would like to show the correlation under the user's budget between the age of the car and the price of the car.
- * We will use a line chart to show the correlation between the age of the car and the price of the car.
+ * @brief For this graph, we would like to show the correlation under the user's budget between the age of the car and the price of the car.
+ * @return {void}
  */
 export function LineChart_AgePriceCorrelation()
 {
@@ -146,9 +146,11 @@ export function LineChart_AgePriceCorrelation()
       createFilteredTable(filterTable2, filteredData);
       if (SelectedAge && !isNaN(SelectedAge))
       {
+        // Mount for the next BarChart
         getGraph3Data = Graph3_data_cleaning();
         document.querySelector("#BarChart").style.display = "block";
         mountBarChart();
+        // Dispatch a custom event to redraw the BarChart
         const customEventG3 = new Event('customRedrawG3');
         window.dispatchEvent(customEventG3);
       }
@@ -171,7 +173,7 @@ export function LineChart_AgePriceCorrelation()
 }
 
 
-// 监听自定义事件
+// Monitor the SelectAge value onChange event
 window.addEventListener('customRedrawG3', redrawG3, false);
 
 function redrawG3()

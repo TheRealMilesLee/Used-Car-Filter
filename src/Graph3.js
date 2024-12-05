@@ -10,10 +10,15 @@ import { mountTransmissionBarChart } from "./Diagrams";
 import { onResize } from './Diagrams.js';
 export let MileageSelected;
 export let getGraph4Data;
+
+/**
+ * @brief For this graph, we would like to show the correlation under the user's budget between the mileage of the car and the price of the car.
+ * @return {void}
+ */
 export function BarChart_MileagePriceCorrelation()
 {
   // Set up the margin for the chart
-  const margin = { top: 50, right: 55, bottom: 25, left: 105 }; // Increased left margin to move the chart to the right
+  const margin = { top: 50, right: 55, bottom: 25, left: 105 };
   const width = size.width - margin.left - margin.right - 40;
   const height = size.height - margin.top - margin.bottom - 60;
 
@@ -35,7 +40,7 @@ export function BarChart_MileagePriceCorrelation()
   const xScale = d3.scaleBand()
     .domain(Graph3_data_cleaning_result.map(d => d.mileage))
     .range([0, width])
-    .padding(0.3); // Increased padding to make rectangles thinner
+    .padding(0.3);
 
   const yScale = d3.scaleLinear()
     .domain([0, d3.max(Graph3_data_cleaning_result, d => d.price)])
@@ -61,7 +66,7 @@ export function BarChart_MileagePriceCorrelation()
     .attr("x", d => xScale(d.mileage))
     .attr("y", d => yScale(d.price))
     .attr("width", xScale.bandwidth())
-    .attr("height", d => height - yScale(d.price) - 10) // Reduced height to make rectangles smaller
+    .attr("height", d => height - yScale(d.price) - 10)
     .attr("fill", "#E5F9FF");
 
   // Draw the labels
@@ -130,9 +135,11 @@ export function BarChart_MileagePriceCorrelation()
       createFilteredTable(filterTable3, filteredData);
       if (MileageSelected !== undefined && MileageSelected !== null)
       {
+        // Mount for the next Bar Chart
         getGraph4Data = Graph4_data_cleaning(budget, SelectedAge, MileageSelected);
         document.querySelector("#TransmissionBarChart").style.display = "block";
         mountTransmissionBarChart();
+        // Dispatch a custom event to redraw the BarChart
         const customEventRedrawG4 = new Event('customRedrawG4');
         window.dispatchEvent(customEventRedrawG4);
       }
@@ -152,7 +159,7 @@ export function BarChart_MileagePriceCorrelation()
     .style("font-weight", "bold");
 }
 
-// 监听自定义事件
+// Monitor the MileageSelected variable and redraw the graph when it changes
 window.addEventListener('customRedrawG4', redrawG4, false);
 
 function redrawG4()

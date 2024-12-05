@@ -13,6 +13,10 @@ import { onResize } from './Diagrams.js';
 export let TransmissionSelected;
 export let getGraph5Data;
 
+/**
+ * @brief For this graph, we would like to show the distribution of the transmission of the cars.
+ * @return {void}
+ */
 export function BarChart_TransmissionDistribution()
 {
   // Set up the margin for the chart
@@ -140,6 +144,7 @@ export function BarChart_TransmissionDistribution()
       createFilteredTable(filterTable4, filteredData);
       if (TransmissionSelected !== undefined && TransmissionSelected !== null)
       {
+        // Mount the next pie chart
         getGraph5Data = DropDownMenu_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
         document.querySelector("#DropDownBrandModel").style.display = "block";
         mountFinalCarList();
@@ -147,6 +152,7 @@ export function BarChart_TransmissionDistribution()
         // Scroll to the BarChart section
         document.querySelector("#DropDownBrandModel").scrollIntoView({ behavior: "smooth" });
         updateBrandModelDropdown();
+        // Dispatch a custom event to redraw the BrandPieChart
         const customEventG5 = new Event('customRedrawG5');
         window.dispatchEvent(customEventG5);
       }
@@ -165,7 +171,7 @@ export function BarChart_TransmissionDistribution()
     .style("font-weight", "bold");
 }
 
-// 监听自定义事件
+// Monitor the TransmissionSelected variable and redraw the graph when it changes
 window.addEventListener('customRedrawG5', redrawG5, false);
 
 function redrawG5()

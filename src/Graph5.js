@@ -2,6 +2,10 @@ import * as d3 from 'd3';
 import { size } from "./Diagrams.js";
 import { getGraph5Data } from "./Graph4";
 
+/**
+ * @brief For this graph, we would like to show the distribution of the brands of the cars.
+ * @return {void}
+ */
 export function PieChart_BrandDistribution()
 {
   // First, clear any existing content
@@ -50,14 +54,12 @@ export function PieChart_BrandDistribution()
 
   // Create the arc generator
   const arc = d3.arc().innerRadius(5).outerRadius(radius);
-  // Create the hover arc generator
-  const arcHover = d3.arc().innerRadius(5).outerRadius(radius * 1.15);
 
   // Draw the pie chart
-  drawChart(brandPercentages, pie, arc, color, chartContainer_pie, arcHover, radius, true);
+  drawChart(brandPercentages, pie, arc, color, chartContainer_pie, radius, true);
 }
 
-function drawChart(brandPercentages, pie, arc, color, chartContainer_pie, arcHover, radius, makeAnimation)
+function drawChart(brandPercentages, pie, arc, color, chartContainer_pie, radius, makeAnimation)
 {
   // Clear existing content
   chartContainer_pie.selectAll("*").remove();

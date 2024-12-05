@@ -3,6 +3,10 @@ import { size } from './Diagrams.js';
 import { graph1_data_cleaning } from './graphDataCleaning.js';
 import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 
+/**
+ * @brief Create a Sankey diagram to visualize the relationship between car attributes. We want to give user a tease on the overall situation of the car market.
+ * @returns {void}
+ */
 export function SankeyDiagram_Overview()
 {
   const margin = { top: 20, right: 10, bottom: 30, left: 10 };
@@ -96,8 +100,7 @@ export function SankeyDiagram_Overview()
     .append("g")
     .attr("transform", `translate(${ margin.left },${ margin.top })`);
 
-  // 定义颜色过渡方案
-  // 修改颜色过渡方案
+  // Color settings
   const colorTransitions = {
     "brand": ["#2d85c4", "#ae1aed"],
     "transmission": ["#1ae843", "#ff8800"],
@@ -107,12 +110,7 @@ export function SankeyDiagram_Overview()
     "price": ["#de0b5f", "#ff8800"]
   };
 
-
-
-
   const defs = svg.append("defs");
-
-
   const createGradient = (id, colors) =>
   {
     const gradient = defs.append("linearGradient")
@@ -125,25 +123,17 @@ export function SankeyDiagram_Overview()
     gradient.append("stop").attr("offset", "0%").attr("stop-color", colors[0]);
     gradient.append("stop").attr("offset", "100%").attr("stop-color", colors[1]);
   };
-
-
   const getColor = (source) =>
   {
-
     const category = source.split('-')[0];
     const gradientId = `${ category }-gradient`;
-
-
     if (!defs.select(`#${ gradientId }`).node())
     {
       const colors = colorTransitions[category];
       if (colors) createGradient(gradientId, colors);
     }
-
     return `url(#${ gradientId })`;
   };
-
-
 
   // Connect links
   svg.append("g")
