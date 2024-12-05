@@ -138,7 +138,7 @@ export function BarChart_TransmissionDistribution()
       let filteredData = Step4CarFilter();
       // Call the function to create and display the table
       createFilteredTable(filterTable4, filteredData);
-      if (TransmissionSelected !== null)
+      if (TransmissionSelected !== undefined && TransmissionSelected !== null)
       {
         getGraph5Data = DropDownMenu_data_cleaning(budget, SelectedAge, MileageSelected, TransmissionSelected);
         document.querySelector("#DropDownBrandModel").style.display = "block";
@@ -171,7 +171,7 @@ window.addEventListener('customRedrawG5', redrawG5, false);
 function redrawG5()
 {
   console.log("Redrawing Graphs 5 - BrandPieChart");
-  if (TransmissionSelected && !isNaN(TransmissionSelected))
+  if (TransmissionSelected !== undefined && TransmissionSelected !== null)
   {
     console.log("Redrawing Graphs 5");
     const targets = [

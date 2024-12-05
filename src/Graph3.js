@@ -128,7 +128,7 @@ export function BarChart_MileagePriceCorrelation()
       let filteredData = Step3CarFilter();
       // Call the function to create and display the table
       createFilteredTable(filterTable3, filteredData);
-      if (MileageSelected !== null)
+      if (MileageSelected !== undefined && MileageSelected !== null)
       {
         getGraph4Data = Graph4_data_cleaning(budget, SelectedAge, MileageSelected);
         document.querySelector("#TransmissionBarChart").style.display = "block";
@@ -158,7 +158,7 @@ window.addEventListener('customRedrawG4', redrawG4, false);
 function redrawG4()
 {
   console.log("Redrawing Graphs 4 - BarChart");
-  if (MileageSelected && !isNaN(MileageSelected))
+  if (MileageSelected !== undefined && MileageSelected !== null)
   {
     console.log("Redrawing Graphs 4");
     const targets = [
