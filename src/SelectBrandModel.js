@@ -1,3 +1,6 @@
+/**
+ * This file contains the code for the dropdowns for selecting the brand and model of the car.
+ */
 import { Step5CarFilter } from "./graphDataCleaning";
 import { getGraph5Data } from "./Graph4";
 import { createFilteredTable } from "./ChartMaker";
@@ -9,6 +12,7 @@ export let finalData;
 
 export function updateBrandModelDropdown()
 {
+  // Get the data
   const BrandModel = getGraph5Data;
   const DropDownBrand = document.querySelector("#Brand");
   const DropDownModel = document.querySelector("#Model");
@@ -67,7 +71,7 @@ export function updateBrandModelDropdown()
   // Trigger change event to populate models for the initial brand selection
   DropDownBrand.dispatchEvent(new Event("change"));
 
-  let submitbuttom = document.querySelector("#ConfirmSelection");
+  const submitbuttom = document.querySelector("#ConfirmSelection");
 
   submitbuttom.onclick = () =>
   {
@@ -77,17 +81,21 @@ export function updateBrandModelDropdown()
 
   document.getElementById('BrandModel').addEventListener('submit', function (event)
   {
+    // Prevent the page reload on submission
     event.preventDefault();
+    // Display the final car choices
     document.querySelector("#FinalCarChoices").style.display = "block";
     document.querySelector("#FilterTable5").style.display = "block";
+    // Draw the final table
     finalData = Step5CarFilter();
-    console.log(finalData);
     const filterTable5 = document.querySelector("#FilterTable5");
     filterTable5.innerHTML = "";
     createFilteredTable(filterTable5, finalData);
     document.querySelector("#FinalCarChoices").scrollIntoView({ behavior: "smooth" });
+    // Display the start over button
     document.getElementById('StartOverButton').addEventListener('click', function (event)
     {
+      // Nuke everything and start over
       document.querySelector("#GetStarted").scrollIntoView({ behavior: "smooth" });
       document.getElementById('BudgetInputBox').value = "";
       document.querySelector("#AfterBudgetPrompt").style.display = "none";

@@ -140,9 +140,24 @@ function categoriesPrice(price)
 }
 
 
+
 /**
+ * @brief Cleans and processes graph data for visualization.
  *
- * @returns The brand, transmission, engine capacity, mileage, age, and price of the car
+ * This function takes a column of CSV data and processes it to remove duplicate entries based on a unique key
+ * composed of brand and price. It also categorizes and parses various fields such as brand, mileage, and price.
+ * The cleaned data is then sorted by age.
+ *
+ * @returns {Array<Object>} An array of cleaned and sorted data objects.
+ *
+ * @details
+ * Each data object in the returned array has the following structure:
+ * - brand: The categorized brand of the vehicle.
+ * - transmission: The transmission type of the vehicle.
+ * - engine_capacity: The engine capacity of the vehicle.
+ * - mileage: The categorized mileage of the vehicle.
+ * - age: The age of the vehicle as an integer.
+ * - price: The categorized price of the vehicle.
  */
 export function graph1_data_cleaning()
 {
@@ -174,6 +189,18 @@ export function graph1_data_cleaning()
   cleaned_data.sort((a, b) => a.age - b.age);
   return cleaned_data;
 }
+
+/**
+ * @brief Filters car data based on the given budget.
+ *
+ * This function filters out car data that is above the selected budget and below $1000.
+ * If the budget is less than $30,000, an alert is shown indicating that no car matches the needs.
+ * The filtered data is sorted by price in ascending order and only the first 60 entries are returned for performance reasons.
+ *
+ * @param {number} budget - The maximum budget for filtering cars.
+ * @param {Array<Object>} column_from_csv - The array of car data objects from the CSV file.
+ * @returns {Array<Object>} The filtered and sorted array of car data objects within the budget, limited to 60 entries.
+ */
 export function Step1CarFilter()
 {
   if (budget < 30000)
@@ -191,9 +218,15 @@ export function Step1CarFilter()
   }
 }
 
+
 /**
+ * @brief Cleans and filters graph data by removing duplicate entries based on age.
  *
- * @returns the age and price of the car
+ * This function processes the data returned by Step1CarFilter, ensuring that each age
+ * value appears only once in the resulting array. It converts the 'age' and 'price'
+ * fields to integers and filters out any duplicate age entries.
+ *
+ * @return {Array<Object>} An array of objects, each containing unique 'age' and 'price' fields.
  */
 export const Graph2_data_cleaning = () =>
 {
@@ -216,6 +249,16 @@ export const Graph2_data_cleaning = () =>
   }).filter(d => d !== null || d != undefined);  // Filter out null entries
 };
 
+/**
+ * Filters car data based on the selected age and returns the first 60 entries.
+ *
+ * This function first retrieves the current data by calling `Step1CarFilter()`.
+ * If a `SelectedAge` is specified, it filters out the data entries where the age
+ * is greater than the `SelectedAge`. Finally, it returns the first 60 entries
+ * from the filtered data.
+ *
+ * @returns {Array<Object>} The filtered car data, limited to the first 60 entries.
+ */
 export function Step2CarFilter()
 {
   let currentData = Step1CarFilter();
@@ -228,8 +271,15 @@ export function Step2CarFilter()
 }
 
 /**
+ * @brief Cleans and processes data for Graph 3.
  *
- * @returns the mileage and price of the car
+ * This function filters and processes car data based on mileage and price.
+ * It ensures that only unique mileage entries are included in the final result.
+ * The resulting data is sorted by mileage in ascending order.
+ *
+ * @return {Array<Object>} An array of objects containing unique mileage and corresponding price.
+ *
+ * @note The function relies on external functions `Step2CarFilter` and `categoriesOdometer`.
  */
 export const Graph3_data_cleaning = () =>
 {
@@ -254,6 +304,12 @@ export const Graph3_data_cleaning = () =>
   return returnValue;
 };
 
+/**
+ * @function Step3CarFilter
+ * @description Filters car data based on the selected mileage range.
+ * @returns {Array|undefined} An array of filtered car data based on mileage or undefined if no cars match the criteria.
+ * @throws Will alert the user if no cars match the selected mileage range.
+ */
 export function Step3CarFilter()
 {
   let currentData = Step2CarFilter();
@@ -286,6 +342,16 @@ export function Step3CarFilter()
   }
 }
 
+/**
+ * @brief Cleans and processes car data to count the number of cars for each transmission type.
+ *
+ * This function filters car data obtained from Step3CarFilter to include only the transmission type.
+ * It then counts the number of cars for each transmission type and returns the counts as an array of objects.
+ *
+ * @returns {Array<Object>} An array of objects where each object represents a transmission type and its count.
+ * @returns {string} return[].transmission - The transmission type.
+ * @returns {number} return[].count - The count of cars with the specified transmission type.
+ */
 export const Graph4_data_cleaning = () =>
 {
   const AfterMileageData = Step3CarFilter();
@@ -318,6 +384,16 @@ export const Graph4_data_cleaning = () =>
   return transmissionCountsArray;
 };
 
+/**
+ * Filters the car data based on the selected transmission type.
+ *
+ * This function retrieves the current car data from `Step3CarFilter` and filters it
+ * based on the `TransmissionSelected` variable. If no cars match the selected transmission,
+ * an alert is shown to the user. For performance reasons, only the first 30 entries are returned.
+ *
+ * @returns {Array|undefined} The filtered car data based on the selected transmission type,
+ *                            or `undefined` if no cars match the selected transmission.
+ */
 export function Step4CarFilter()
 {
   let currentData = Step3CarFilter();
@@ -335,6 +411,11 @@ export function Step4CarFilter()
   }
 }
 
+/**
+ * @function DropDownMenu_data_cleaning
+ * @description Cleans and filters car data for use in a dropdown menu.
+ * @returns {Array<Object>} An array of objects containing unique car brands and models.
+ */
 export const DropDownMenu_data_cleaning = () =>
 {
   const AfterTransmissionData = Step4CarFilter();
@@ -356,6 +437,24 @@ export const DropDownMenu_data_cleaning = () =>
   return returnValue;
 };
 
+/**
+ * Filters car data based on selected transmission, brand, and model.
+ *
+ * @function Step5CarFilter
+ * @returns {Array<Object>} Filtered car data with unique entries.
+ *
+ * @description
+ * This function filters the car data obtained from `Step4CarFilter` based on the selected transmission, brand, and model.
+ * It ensures that only unique entries are returned, where uniqueness is determined by the combination of brand and model.
+ *
+ * @typedef {Object} CarData
+ * @property {string} brand - The brand of the car.
+ * @property {string} transmission - The transmission type of the car.
+ * @property {number} engine_capacity - The engine capacity of the car.
+ * @property {number} mileage - The mileage of the car.
+ * @property {number} age - The age of the car.
+ * @property {number} price - The price of the car.
+ */
 export function Step5CarFilter()
 {
   let currentData = Step4CarFilter();
