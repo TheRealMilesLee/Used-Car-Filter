@@ -102,7 +102,7 @@ export function SankeyDiagram_Overview()
 
   // Color settings
   const colorTransitions = {
-    "brand": ["#2d85c4", "#ae1aed"],
+    "brand": ["#2d85c4", "#1ae843"],
     "transmission": ["#1ae843", "#ff8800"],
     "engine_capacity": ["#ff8800", "#de0b5f"],
     "mileage": ["#de0b5f", "#ff8800"],
@@ -166,7 +166,8 @@ export function SankeyDiagram_Overview()
 
   // Add node labels
   nodeGroup.append("g")
-    .style("font", "12px sans-serif")
+    .style("font", "14px sans-serif")
+    .style("font-weight", "bold")
     .selectAll("text")
     .data(sankeyData.nodes)
     .enter()
@@ -186,10 +187,10 @@ export function SankeyDiagram_Overview()
         return d.name.split('-')[1];
       }
     })
-    .attr("stroke", "#E0E0E5");
+    .attr("stroke", "#3f4145");
   // Add color legend
   const legend = svg.append("g")
-    .attr("transform", `translate(0, ${ height + 10 })`);
+    .attr("transform", `translate(${ (width - 225 * 3) / 2 }, ${ height + 10 })`);
 
   // 修改图例数据
   const legendData = [
@@ -217,6 +218,7 @@ export function SankeyDiagram_Overview()
     .attr("dy", "0.35em")
     .style("font", "12px sans-serif")
     .style("font-weight", "bold")
+    .style("fill", "#3f4145")
     .text(d => d.category.charAt(0).toUpperCase() + d.category.slice(1));
 
   // Add filter functionality
@@ -240,10 +242,18 @@ export function SankeyDiagram_Overview()
         .attr("stroke", d => (d.source === selectedNode || d.target === selectedNode) ? getColor(d.source.name) : "#bab5af")
         .attr("opacity", d => (d.source === selectedNode || d.target === selectedNode) ? 0.6 : 0.1);
       nodeRects.attr("opacity", d => (d === selectedNode || sankeyData.links.some(link => link.source === selectedNode && link.target === d || link.source === d && link.target === selectedNode)) ? 1 : 0.1);
-
-      // Send selected node data to another JS file
-      const event = new CustomEvent('nodeSelected', { detail: { category: selectedNode.name.split('-')[0], value: selectedNode.name.split('-')[1] } });
-      window.dispatchEvent(event);
     }
-  });
+    else
+    {
+      // Ensure all nodes and links are reset to default state
+      nodeRects.attr("opacity", 1);
+      svg.selectAll("path").attr("opacity", 0.6);
+    }
+  })
+    .on("dblclick", function ()
+    {
+      // Reset all nodes and links to default state on double click
+      nodeRects.classed("active", false).attr("opacity", 1);
+      svg.selectAll("path").attr("stroke", d => getColor(d.source.name)).attr("opacity", 0.6);
+    });
 }

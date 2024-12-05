@@ -42,10 +42,14 @@
 
 #Sankey-Graph1 {
   color: #1C1C1E;
-  background: rgba(249, 250, 251, 0.5);
-  backdrop-filter: blur(10px);
+  background: rgba(249, 250, 251, 0.55);
+  backdrop-filter: blur(15px);
   border-radius: 25px;
   animation-delay: 2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .SanketTitle {
