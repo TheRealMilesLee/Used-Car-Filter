@@ -1,3 +1,15 @@
+
+/**
+ * @brief Creates a table element populated with filtered data and appends it to the specified container.
+ *
+ * @param {HTMLElement} filterTable - The container element where the table will be appended.
+ * @param {Array<Object>} filteredData - The array of objects containing the filtered data to be displayed in the table.
+ *
+ * @details
+ * This function dynamically creates a table with a header row and body rows based on the provided filtered data.
+ * The table headers are ["Brand", "Model", "Transmission", "city", "Engine capacity", "Mileage", "Age", "Price"].
+ * The corresponding keys in the filtered data objects are ["brand", "model", "transmission", "city_sold", "engine_capacity", "mileage", "age", "price"].
+ */
 export function createFilteredTable(filterTable, filteredData)
 {
   // Create a table to show after filtered data

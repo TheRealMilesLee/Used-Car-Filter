@@ -1,3 +1,6 @@
+/**
+ * @fileoverview This file contains the functions to render the diagrams on the page.
+ */
 import * as d3 from 'd3';
 import { isEmpty, debounce } from 'lodash';
 import { SankeyDiagram_Overview } from './Graph1.js';
@@ -8,6 +11,17 @@ import { PieChart_BrandDistribution } from './Graph5.js';
 import { column_from_csv } from './csvReadIn.js';
 export let size = { width: 0, height: 0 };
 
+/**
+ * @brief Handles the resize event for specified target elements and redraws the corresponding graphs.
+ *
+ * This function is triggered on resize events and iterates over the provided targets. It checks if the target's ID
+ * matches one of the predefined graph IDs. If it does, it updates the size of the graph and redraws it using the
+ * appropriate function.
+ *
+ * @param {Array} targets - An array of resize observer entries, each containing information about the resized element.
+ *
+ * @returns {void}
+ */
 export const onResize = (targets) =>
 {
   targets.forEach(target =>
@@ -28,6 +42,11 @@ export const onResize = (targets) =>
   });
 };
 
+/**
+ * @function SankeyDiagram
+ * @brief Renders a Sankey diagram for the used car market trend.
+ * @returns {string} HTML string representing the Sankey diagram.
+ */
 export const SankeyDiagram = () => (
   `<div id='Sankey-Graph1'>
         <h3 class="SankeyTitle"> Used Car Market Trend</h3>
@@ -36,6 +55,11 @@ export const SankeyDiagram = () => (
     </div>`
 );
 
+/**
+ * @function LineChart
+ * @brief Renders a line chart for the relationship between age and price.
+ * @returns {string} HTML string representing the line chart.
+ */
 export const LineChart = () => (
   `<div id='LineChart-Graph2'>
       <svg id='Graph2'></svg>
@@ -43,6 +67,11 @@ export const LineChart = () => (
     </div>`
 );
 
+/**
+ * @function BarChart
+ * @brief Renders a bar chart for the relationship between mileage and price.
+ * @returns {string} HTML string representing the bar chart.
+ */
 export const BarChart = () => (
   `<div id='BarChart-Graph3'>
         <svg id='Graph3'></svg>
@@ -50,6 +79,11 @@ export const BarChart = () => (
     </div>`
 );
 
+/**
+ * @function TransmissionBarChart
+ * @brief Renders a bar chart for the distribution of transmission types.
+ * @returns {string} HTML string representing the bar chart.
+ */
 export const TransmissionBarChart = () => (
   `<div id='TransmissionBarChart-Graph4'>
     <svg id='Graph4'></svg>
@@ -57,6 +91,11 @@ export const TransmissionBarChart = () => (
   </div>`
 );
 
+/**
+ * @function BrandPieChart
+ * @brief Renders a pie chart for the distribution of car brands.
+ * @returns {string} HTML string representing the pie chart.
+ */
 export const BrandPieChart = () => (
   `<div id='BrandPieChart-Graph5'>
     <svg id='Graph5'></svg>
@@ -64,9 +103,14 @@ export const BrandPieChart = () => (
   </div>`
 );
 
-
+// Create a ResizeObserver instance
 const chartObserver = new ResizeObserver(debounce(onResize, 100));
 
+/**
+ * @function mountSankey
+ * @brief Mounts the Sankey diagram to the DOM.
+ * @returns {void}
+ */
 export function mountSankey()
 {
   let Graph1Container = document.querySelector('#Sankey-Graph1');
@@ -76,6 +120,11 @@ export function mountSankey()
   }
 }
 
+/**
+ * @function mountLineChart
+ * @brief Mounts the line chart to the DOM.
+ * @returns {void}
+ */
 export function mountLineChart()
 {
   let Graph2Container = document.querySelector('#LineChart-Graph2');
@@ -85,6 +134,11 @@ export function mountLineChart()
   }
 }
 
+/**
+ * @function mountBarChart
+ * @brief Mounts the bar chart to the DOM.
+ * @returns {void}
+ */
 export function mountBarChart()
 {
   let Graph3Container = document.querySelector('#BarChart-Graph3');
@@ -94,6 +148,11 @@ export function mountBarChart()
   }
 }
 
+/**
+ * @function mountTransmissionBarChart
+ * @brief Mounts the transmission bar chart to the DOM.
+ * @returns {void}
+ */
 export function mountTransmissionBarChart()
 {
   let Graph4Container = document.querySelector('#TransmissionBarChart-Graph4');
@@ -103,6 +162,11 @@ export function mountTransmissionBarChart()
   }
 }
 
+/**
+ * @function mountBrandPieChart
+ * @brief Mounts the brand pie chart to the DOM.
+ * @returns {void}
+ */
 export function mountFinalCarList()
 {
   let GraphFinalContainer = document.querySelector('#FinalCarList');
@@ -112,6 +176,11 @@ export function mountFinalCarList()
   }
 }
 
+/**
+ * @function mountBrandPieChart
+ * @brief Mounts the brand pie chart to the DOM.
+ * @returns {void}
+ */
 export function mountBrandPieChart()
 {
   let Graph5Container = document.querySelector('#BrandPieChart-Graph5');
