@@ -94,3 +94,96 @@ We use the following tools to help us build this project
 ### Contributors
 This project was completed by [Hengyi Li](https://github.com/TheRealMilesLee) and [Shu Zhang](https://github.com/shuzhang0).
 
+---
+## 🔍 Architecture Overview
+| Layer | Purpose | Key Files |
+|-------|---------|-----------|
+| Data | Raw CSV ingestion & cleaning | `Resources/car_data.csv`, `src/csvReadIn.js`, `src/graphDataCleaning.js` |
+| Processing | Transform grouped metrics, derive brand/model aggregates | `src/Graph*.js`, `src/SelectBrandModel.js` |
+| Visualization | Interactive D3 charts (drill-down) | `src/ChartMaker.js`, `src/Diagrams.js` |
+| UI Shell | Page layout, entry HTML/CSS | `index.html`, `style.css` |
+| Runtime | Dev server & bundling (Vite) | `vite.config.js`, `package.json` |
+
+Data flows: CSV → Clean/Filter → Aggregated arrays → Chart components → User interactions (click) → State updates → Final filtered result list.
+
+## ⚙️ Configuration & Scripts
+Available npm scripts (see `package.json`):
+```bash
+npm run dev      # 启动本地开发服务器 (Vite)
+npm run build    # 生产构建（压缩与优化）
+npm run preview  # 预览生产构建
+```
+
+## 📊 Data Schema (Simplified)
+| Field | Description |
+|-------|-------------|
+| `brand` | 品牌名称 |
+| `model` | 车型 |
+| `price_rubles` | 价格（卢布） |
+| `mileage` | 里程数 |
+| `fuel_type` | 油种 |
+| `transmission` | 变速箱类型 |
+| `drive` | 驱动形式 |
+| `engine_capacity` | 排量 |
+| `horsepower` | 马力 |
+| `age_years` | 车龄 |
+| `city` | 销售城市 |
+
+## 🧪 Quality & Validation
+建议后续添加：
+- 数据 schema 校验（如使用 Zod / TypeScript）
+- 空值与异常值过滤（极端价格点）
+- 交互测试（通过 Cypress 针对图表点击流程）
+
+## 🛡 Performance Tips
+- 大数据集渲染前进行分组与预聚合，减少每次点击重新扫描。
+- 使用 requestAnimationFrame 控制大量元素更新节奏。
+- 仅在图表视图内挂载事件监听，卸载离开页面的对象。
+
+## ♿ Accessibility / 可访问性
+- 为交互元素添加 `aria-label`。
+- 图表颜色对比度遵循 WCAG 建议。
+- 提供文本摘要：最终结果列表可导出纯文本。
+
+## 🌐 Internationalization / 国际化
+当前为英文界面，可扩展：
+1. 添加 `i18n.js` 配置映射。
+2. 以 `data-lang` 属性标记可替换节点。
+3. 用户选择语言后动态替换文案。
+
+## 🔄 Drill-Down Interaction (细化说明)
+1. 初始页面：展示总览入口。
+2. 价格选择 → 车型/品牌过滤 → 里程/年龄 → 传动 / 驱动 → 最终候选集合。
+3. 点击节点记录选定条件；滚动回溯重新调整过滤。
+
+伪代码示例：
+```js
+function applyFilters(baseData, state) {
+	return baseData
+		.filter(car => car.price_rubles >= state.price.min && car.price_rubles <= state.price.max)
+		.filter(car => !state.brand || car.brand === state.brand)
+		.filter(car => !state.model || car.model === state.model)
+		.filter(car => !state.mileage || car.mileage <= state.mileage)
+		.filter(car => !state.age || car.age_years <= state.age);
+}
+```
+
+## 🧩 Future Ideas / 后续规划
+- [ ] 添加收藏/对比功能
+- [ ] 增加统计卡片（均价/中位价/车龄分布）
+- [ ] 支持导出结果为 CSV
+- [ ] 引入 TypeScript 强化类型安全
+- [ ] 增加单元 + 端到端测试
+
+## 📄 License & Citation
+License: MIT (见 `LICENSE`)
+Dataset Citation: Kaggle 数据集引用于上方链接。
+
+## 🤝 Contribution / 贡献
+欢迎提交：性能优化、图表类型扩展（箱线图、散点矩阵）、改进数据清洗逻辑。
+PR 前建议：
+```bash
+npm run build || echo "Build check done"
+```
+
+
